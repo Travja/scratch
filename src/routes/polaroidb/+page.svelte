@@ -92,9 +92,15 @@
         transform-style: preserve-3d;
         position: relative;
         perspective: 1000px;
-        padding: 1rem 5rem;
+        padding: 0.5rem;
 
         user-select: none;
+    }
+
+    @media screen and (min-width: 600px){
+        .card-container {
+            padding: 1rem 5rem;
+        }
     }
 
 

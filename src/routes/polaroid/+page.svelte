@@ -88,9 +88,15 @@
         transform-style: preserve-3d;
         position: relative;
         perspective: 1000px;
-        padding: 1rem 5rem;
+        padding: 0.5rem;
 
         user-select: none;
+    }
+
+    @media screen and (min-width: 600px){
+        .card-container {
+            padding: 1rem 5rem;
+        }
     }
 
 
@@ -151,8 +157,9 @@
 
     .card img {
         max-height: 90vh;
-        max-width: 80vw;
+        max-width: 90vw;
         height: 100%;
+        width: 100%;
         /*object-fit: contain;*/
     }
 
