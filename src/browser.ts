@@ -26,10 +26,10 @@ export const detectBrowser = (): BROWSER_ENUM => {
       return BROWSER_ENUM.UC_BROWSER;
     case testUserAgent(/samsungbrowser/i):
       return BROWSER_ENUM.SAMSUNG_BROWSER;
-    case testUserAgent(/chrome|chromium|crios/i):
-      return BROWSER_ENUM.CHROME;
     case testUserAgent(/safari/i):
       return BROWSER_ENUM.SAFARI;
+    case testUserAgent(/chrome|chromium|crios/i):
+      return BROWSER_ENUM.CHROME;
     default:
       return BROWSER_ENUM.UNKNOWN;
   }

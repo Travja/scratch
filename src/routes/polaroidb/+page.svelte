@@ -5,7 +5,7 @@
 
   let card: HTMLElement;
 
-  let shadow   = true;
+  let shadow   = false;
   let active   = false;
   let distance = 50;
 
@@ -97,18 +97,13 @@
         user-select: none;
     }
 
-    @media screen and (min-width: 600px){
-        .card-container {
-            padding: 1rem 5rem;
-        }
-    }
 
 
     .card {
         --border-thickness: 2.5vmin;
 
-        max-width: 80vw;
-        max-height: 90vh;
+        max-width: 80%;
+        max-height: 90%;
         position: relative;
         flex: 0;
 
@@ -119,6 +114,19 @@
 
         transition: transform 0.5s ease;
         transform-style: preserve-3d;
+    }
+
+    @media screen and (min-width: 600px) {
+        .card-container {
+            padding: 1rem 5rem;
+        }
+    }
+
+    @media screen and (min-height: 400px) {
+        .card {
+            max-width: unset;
+            max-height: unset;
+        }
     }
 
     .content {
@@ -191,10 +199,11 @@
     }
 
     .card img {
-        max-height: 90vh;
-        max-width: 80vw;
+        max-height: calc(90vh - var(--border-thickness) * 2 - calc(var(--border-thickness) * 3.3333));
+        max-width: calc(80vw - var(--border-thickness) * 2);
         height: 100%;
-        /*object-fit: contain;*/
+        width: 100%;
+        object-fit: cover;
     }
 
     .card.shadow::before {
@@ -206,8 +215,7 @@
         inset: -6%;
 
         transform: translateZ(-100px);
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
+        -webkit-transform: translateZ(-100px);
         border-radius: 10px;
         filter: blur(10px);
         background-color: rgba(0, 0, 0, 0.5);
