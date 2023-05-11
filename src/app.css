@@ -1,0 +1,16 @@
+html {
+    height: -webkit-fill-available;
+}
+
+body {
+    background-color: #222;
+    overflow: hidden;
+    margin: 0;
+    height: 50vh;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
