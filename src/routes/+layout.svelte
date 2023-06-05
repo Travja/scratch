@@ -53,4 +53,10 @@
         padding: 1rem;
         flex-grow: 1;
     }
+
+    @media (min-width: 750px) {
+        main {
+            padding: 1rem 2rem;
+        }
+    }
 </style>
