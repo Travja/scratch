@@ -1,6 +1,7 @@
 <script lang="ts">
   import "../app.css";
   import { page } from "$app/stores";
+  import Logo     from "../ui/Logo.svelte";
 
   let pageName = "Home";
 
@@ -20,6 +21,7 @@
 </svelte.head>
 
 <nav>
+  <Logo/>
   <a href="/" class:active={$page.url.pathname === '/'}>Home</a>
   <a href="/rsvp" class:active={$page.url.pathname === '/rsvp'}>RSVP</a>
   <a href="/gallery" class:active={$page.url.pathname === '/gallery'}>Gallery</a>
@@ -36,17 +38,23 @@
 <style>
     nav {
         display: flex;
-        justify-content: space-around;
-        align-items: center;
+        justify-content: flex-start;
+        align-items: stretch;
         background-color: #333;
+        gap: 1rem;
     }
 
-    nav a {
-        text-decoration: none;
+    nav > :global(*) {
         flex-basis: 10%;
+    }
+
+    nav > a {
+        display: grid;
+        place-items: center;
         text-align: center;
-        padding: 1rem;
         color: #ddd;
+        text-decoration: none;
+        padding: 1rem;
 
         transition: background-color 0.3s ease;
     }
