@@ -1,4 +1,4 @@
-<a href="/">
+<a href="/" class="logo">
   <svg data-v-decfdd8a="" xmlns="http://www.w3.org/2000/svg"
        viewBox="0 0 189 37" preserveAspectRatio="xMidYMid meet" color-interpolation-filters="sRGB">
     <g data-v-decfdd8a="" fill="#00c5fb" class="basesvg">
@@ -24,12 +24,22 @@
 
 <style>
     a {
-        display: grid;
+        display: inline;
+        box-sizing: content-box;
         place-items: center;
         padding: 0.5rem;
+        min-height: 2rem;
+        max-height: 5rem;
     }
 
     svg {
         display: block;
+        height: 100%;
+    }
+
+    @media (min-width: 750px) {
+        a {
+            max-width: 200px;
+        }
     }
 </style>

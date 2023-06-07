@@ -22,9 +22,9 @@
   };
 
   $: {
-    if (info.attending) {
+    if (info.attending && info.numGuests != null) {
       info.numGuests = Math.max(1, info.numGuests);
-    } else {
+    } else if (info.numGuests != null) {
       info.numGuests = 0;
     }
   }
@@ -230,12 +230,12 @@
         flex: 1;
         flex-basis: 40%;
         max-width: 100%;
-        min-width: 600px;
         margin: 0 auto;
     }
 
-    @media screen and (min-width: 750px) {
+    @media (min-width: 750px) {
         #rsvp {
+            min-width: 600px;
             max-width: 70%;
         }
     }

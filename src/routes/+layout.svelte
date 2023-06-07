@@ -1,9 +1,12 @@
 <script lang="ts">
   import "../app.css";
-  import { page } from "$app/stores";
-  import Logo     from "../ui/Logo.svelte";
+  import { page }  from "$app/stores";
+  import Logo      from "../ui/Logo.svelte";
+  import { slide } from "svelte/transition";
 
-  let pageName = "Home";
+  let menuOpen    = false;
+  let pageName    = "Home";
+  let windowWidth = 0;
 
   $: if ($page.url.pathname === '/') {
     pageName = 'Home'
@@ -13,18 +16,45 @@
     pageName = $page.url.pathname.slice(1, 2).toUpperCase() +
       $page.url.pathname.slice(2).toLowerCase();
   }
-
 </script>
 
-<svelte.head>
+<svelte:head>
   <title>StellarMelodies - {pageName}</title>
-</svelte.head>
+</svelte:head>
+
+<svelte:window bind:innerWidth={windowWidth}/>
 
 <nav>
   <Logo/>
-  <a href="/" class:active={$page.url.pathname === '/'}>Home</a>
-  <a href="/rsvp" class:active={$page.url.pathname === '/rsvp'}>RSVP</a>
-  <a href="/gallery" class:active={$page.url.pathname === '/gallery'}>Gallery</a>
+  {#if windowWidth < 750}
+    <div class="menu-button"
+         on:click={() => menuOpen = !menuOpen}
+         on:keypress={() => {
+          if (event.key === 'Enter') {
+            menuOpen = !menuOpen;
+            }
+        }}>
+      Menu
+    </div>
+  {/if}
+  {#if menuOpen || windowWidth >= 750}
+    <div
+            transition:slide
+            class:shown={menuOpen} id="menu-items">
+      <a href="/"
+         on:click={() => menuOpen = false}
+         class:active={$page.url.pathname === '/'}>Home</a>
+      <a href="/rsvp"
+         on:click={() => menuOpen = false}
+         class:active={$page.url.pathname === '/rsvp'}>RSVP</a>
+      <a href="/gallery"
+         on:click={() => menuOpen = false}
+         class:active={$page.url.pathname === '/gallery'}>Gallery</a>
+      <a href="/gallery"
+         on:click={() => menuOpen = false}
+         class:active={$page.url.pathname === '/gallery'}>Gallery</a>
+    </div>
+  {/if}
 </nav>
 
 <main>
@@ -32,23 +62,17 @@
 </main>
 
 <footer>
-  &copy; {new Date().getFullYear()} StellarMelodies
+  &copy;
+  {new Date().getFullYear()} StellarMelodies
 </footer>
 
 <style>
     nav {
-        display: flex;
-        justify-content: flex-start;
-        align-items: stretch;
+        position: relative;
         background-color: #333;
-        gap: 1rem;
     }
 
-    nav > :global(*) {
-        flex-basis: 10%;
-    }
-
-    nav > a {
+    nav a, .menu-button {
         display: grid;
         place-items: center;
         text-align: center;
@@ -59,12 +83,44 @@
         transition: background-color 0.3s ease;
     }
 
+    nav :global(.logo) {
+        background: #222;
+        display: grid;
+    }
+
     nav a:hover {
         background-color: #222;
     }
 
     nav a.active {
         background-color: #3d7ac2;
+    }
+
+
+    @media (min-width: 750px) {
+        nav {
+            display: flex;
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+
+        nav > :global(*) {
+            flex-grow: 1;
+        }
+
+        nav :global(.logo) {
+            background: unset;
+            flex-basis: 20%;
+            flex-grow: 0;
+            display: inline-grid;
+            margin-inline: 0.5rem;
+        }
+
+        #menu-items {
+            display: inline-flex;
+            flex-direction: row;
+            gap: 1rem;
+        }
     }
 
     footer {
@@ -77,6 +133,10 @@
     main {
         padding: 1rem;
         flex-grow: 1;
+    }
+
+    .menu-button:hover {
+        cursor: pointer;
     }
 
     @media (min-width: 750px) {
