@@ -32,7 +32,7 @@
 </main>
 
 <footer>
-  <p>Footer</p>
+  &copy; {new Date().getFullYear()} StellarMelodies
 </footer>
 
 <style>
@@ -71,6 +71,7 @@
         background-color: #333;
         color: #eee;
         padding: 0.5rem;
+        font-size: 0.8rem;
     }
 
     main {
