@@ -78,7 +78,6 @@
 {/if}
 
 {#if !form || !form.success}
-  <div class="material-symbols-outlined">line_curve</div>
   <form id="rsvp" method="post">
     <h1 class="heading">Want an announcement?</h1>
 
@@ -120,9 +119,15 @@
 
     <div class="attending">
       <h2 class="heading">Planning on coming?</h2>
-      <div class="info">To get an accurate head-count, please check the box below and indicate
-        how many people are expected in your party. No need for emailed/texted/called-in RSVPs.
+      <div class="info">To get an accurate head-count, please indicate below if you're planning on coming,
+        and how many people are expected in your party. No need for emailed/texted/called-in RSVPs.
         We'll just catch that info right here!
+      </div>
+
+      <div>
+        Remember, the reception is on <strong>August 5th, 6-9pm</strong> at the
+        <strong><a href="https://goo.gl/maps/EqUCmGdbToYN73fi7" alt="Granite Tabernacle">Granite Tabernacle</a></strong>
+        in Salt Lake.
       </div>
 
       <div class="container">
@@ -224,8 +229,15 @@
     #rsvp {
         flex: 1;
         flex-basis: 40%;
-        max-width: 700px;
+        max-width: 100%;
+        min-width: 600px;
         margin: 0 auto;
+    }
+
+    @media screen and (min-width: 750px) {
+        #rsvp {
+            max-width: 70%;
+        }
     }
 
     .attending {
@@ -249,7 +261,7 @@
         border-radius: 0.5rem;
     }
 
-    input, button, .custom-input {
+    input, button {
         position: relative;
         text-align: left;
         font-family: sans-serif;
@@ -329,13 +341,13 @@
         width: 100%;
     }
 
-    /*.valid:not(:placeholder-shown) {*/
-    /*    border: 2px solid #0f0;*/
-    /*}*/
+    .valid:not(:placeholder-shown) {
+        border: 1px solid #0f0;
+    }
 
-    /*.valid:focus:not(:placeholder-shown) {*/
-    /*    outline: 1px solid #0f0;*/
-    /*}*/
+    .valid:focus:not(:placeholder-shown) {
+        outline: 1px solid #0f0;
+    }
 
     .email:has(.valid:not(:placeholder-shown))::after {
         content: '✓';
@@ -347,7 +359,7 @@
     }
 
     .invalid:not(:placeholder-shown) {
-        border: 2px solid #f00;
+        border: 1px solid #f00;
     }
 
     .invalid:focus:not(:placeholder-shown) {
@@ -363,13 +375,13 @@
         color: #f00;
     }
 
-    /*.checking:valid:not(:placeholder-shown) {*/
-    /*    border: 2px solid #f90;*/
-    /*}*/
+    .checking:valid:not(:placeholder-shown) {
+        border: 1px solid #f90;
+    }
 
-    /*.checking:focus:valid:not(:placeholder-shown) {*/
-    /*    outline: 1px solid #f90;*/
-    /*}*/
+    .checking:focus:valid:not(:placeholder-shown) {
+        outline: 1px solid #f90;
+    }
 
     .email:has(.checking:not(:placeholder-shown))::after {
         animation: rotate 1s linear infinite;

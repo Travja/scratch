@@ -1,7 +1,23 @@
 <script lang="ts">
   import "../app.css";
   import { page } from "$app/stores";
+
+  let pageName = "Home";
+
+  $: if ($page.url.pathname === '/') {
+    pageName = 'Home'
+  } else if ($page.url.pathname === '/rsvp') {
+    pageName = 'RSVP'
+  } else {
+    pageName = $page.url.pathname.slice(1, 2).toUpperCase() +
+      $page.url.pathname.slice(2).toLowerCase();
+  }
+
 </script>
+
+<svelte.head>
+  <title>StellarMelodies - {pageName}</title>
+</svelte.head>
 
 <nav>
   <a href="/" class:active={$page.url.pathname === '/'}>Home</a>
