@@ -147,6 +147,7 @@
         padding: 1rem;
 
         user-select: none;
+        min-height: calc(100vh - 20rem);
     }
 
 

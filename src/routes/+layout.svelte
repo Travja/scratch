@@ -38,18 +38,14 @@
     </div>
   {/if}
   {#if menuOpen || windowWidth >= 750}
-    <div
-            transition:slide
-            class:shown={menuOpen} id="menu-items">
+    <div transition:slide
+         class:shown={menuOpen} id="menu-items">
       <a href="/"
          on:click={() => menuOpen = false}
          class:active={$page.url.pathname === '/'}>Home</a>
       <a href="/rsvp"
          on:click={() => menuOpen = false}
          class:active={$page.url.pathname === '/rsvp'}>RSVP</a>
-      <a href="/gallery"
-         on:click={() => menuOpen = false}
-         class:active={$page.url.pathname === '/gallery'}>Gallery</a>
       <a href="/gallery"
          on:click={() => menuOpen = false}
          class:active={$page.url.pathname === '/gallery'}>Gallery</a>
