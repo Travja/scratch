@@ -1,3 +1,6 @@
+import type { Writable } from "svelte/store";
+import { writable }      from "svelte/store";
+
 class Api {
   private readonly baseUrl: string;
 
@@ -24,3 +27,5 @@ export interface AttendanceInfo {
 }
 
 export const api = new Api('http://localhost:8080');
+
+export const scrollHeight: Writable<number> = writable(0);

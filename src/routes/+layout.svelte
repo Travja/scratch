@@ -1,8 +1,9 @@
 <script lang="ts">
   import "../app.css";
-  import { page }  from "$app/stores";
-  import Logo      from "../ui/Logo.svelte";
-  import { slide } from "svelte/transition";
+  import { page }         from "$app/stores";
+  import Logo             from "$lib/ui/Logo.svelte";
+  import { slide }        from "svelte/transition";
+  import { scrollHeight } from "../api/api";
 
   let menuOpen    = false;
   let pageName    = "Home";
@@ -16,6 +17,12 @@
     pageName = $page.url.pathname.slice(1, 2).toUpperCase() +
       $page.url.pathname.slice(2).toLowerCase();
   }
+
+  let main: HTMLElement;
+
+  let scroll = () => {
+    scrollHeight.set(main.scrollTop);
+  };
 </script>
 
 <svelte:head>
@@ -25,7 +32,7 @@
 <svelte:window bind:innerWidth={windowWidth}/>
 
 <nav>
-  <Logo/>
+  <Logo height="2rem"/>
   {#if windowWidth < 750}
     <div class="menu-button"
          on:click={() => menuOpen = !menuOpen}
@@ -53,14 +60,15 @@
   {/if}
 </nav>
 
-<main>
+<main on:scroll={scroll} bind:this={main}>
   <slot/>
+  <div class="spacer"></div>
+  <footer>
+    &copy;
+    {new Date().getFullYear()} StellarMelodies
+  </footer>
 </main>
 
-<footer>
-  &copy;
-  {new Date().getFullYear()} StellarMelodies
-</footer>
 
 <style>
     nav {
@@ -98,6 +106,10 @@
             display: flex;
             justify-content: flex-start;
             align-items: stretch;
+
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
 
         nav > :global(*) {
@@ -106,7 +118,6 @@
 
         nav :global(.logo) {
             background: unset;
-            flex-basis: 20%;
             flex-grow: 0;
             display: inline-grid;
             margin-inline: 0.5rem;
@@ -127,17 +138,21 @@
     }
 
     main {
-        padding: 1rem;
+        /*max-height: 100dvh;*/
+        /*flex-grow: 1;*/
+        display: flex;
+        flex-direction: column;
+
+        height: 10%;
         flex-grow: 1;
+        overflow: auto;
     }
 
     .menu-button:hover {
         cursor: pointer;
     }
 
-    @media (min-width: 750px) {
-        main {
-            padding: 1rem 2rem;
-        }
+    .spacer {
+        flex: 1;
     }
 </style>

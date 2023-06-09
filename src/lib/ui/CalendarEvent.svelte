@@ -1,25 +1,25 @@
 <script lang="ts">
   import { onDestroy }                      from "svelte";
-  import { makeIcsFile, makeOutlookInvite } from "../api/calendar";
+  import { makeIcsFile, makeOutlookInvite } from "../../api/calendar";
   import { fly }                            from "svelte/transition";
 
   let shown         = false;
   let addEvent: HTMLElement;
-  const venmo       = "dorothy";
-  const registry    = "https://amazon.com"
+  const venmo       = "Dorothy-Wagner-7";
+  const registry    = "https://www.amazon.com/wedding/registry/1JBDUFDS1XSJI"
   const date        = {
     start: new Date("2023/08/06 00:00:00 UTC"),
     end:   new Date("2023/08/06 03:00:00 UTC")
   };
-  const title       = "Dorothy & Travis' Wedding Reception";
+  const title       = "Dorothy + Travis' Wedding Reception";
   const description = `Come celebrate with us!\n\nGift Info\nRegistered on Amazon: ${registry}\nVenmo: @${venmo}\nWebsite: https://stellarmelodies.com`
-  const address     = "2005 S 900 E, Salt Lake City\\, UT\\, United States";
+  const address     = "2005 S 900 E, Salt Lake City, UT, United States";
 
   let icsFile: string = makeIcsFile(
     date,
     title,
-    description.replace("\n", "\\n"),
-    address.replace(",", "\\,")
+    description.replaceAll("\n", "\\n"),
+    address.replaceAll(",", "\\,")
   );
   let outlookLink     = makeOutlookInvite(false, date,
     title,

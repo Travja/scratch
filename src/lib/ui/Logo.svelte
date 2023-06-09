@@ -1,5 +1,12 @@
-<a href="/" class="logo">
+<script lang="ts">
+  export let height = "auto";
+  export let width  = "auto";
+</script>
+
+<a href="/static" class="logo">
   <svg data-v-decfdd8a="" xmlns="http://www.w3.org/2000/svg"
+       height="{height}"
+       width="{width}"
        viewBox="0 0 189 37" preserveAspectRatio="xMidYMid meet" color-interpolation-filters="sRGB">
     <g data-v-decfdd8a="" fill="#00c5fb" class="basesvg">
       <g data-gra="path-name" fill-rule="" class="tp-name" fill="url(#46b075dc-4a67-4012-9017-6f80fd62ced5)">
@@ -24,22 +31,14 @@
 
 <style>
     a {
+        position: relative;
         display: inline;
         box-sizing: content-box;
         place-items: center;
         padding: 0.5rem;
-        min-height: 2rem;
-        max-height: 5rem;
     }
 
     svg {
         display: block;
-        height: 100%;
-    }
-
-    @media (min-width: 750px) {
-        a {
-            max-width: 200px;
-        }
     }
 </style>

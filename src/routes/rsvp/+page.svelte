@@ -2,8 +2,8 @@
   import { slide }               from "svelte/transition";
   import type { AttendanceInfo } from "../../api/api";
   import debounce                from "lodash/debounce";
-  import Toggle                  from "../../ui/Toggle.svelte";
-  import CalendarEvent           from "../../ui/CalendarEvent.svelte";
+  import Toggle                  from "../../lib/ui/Toggle.svelte";
+  import CalendarEvent           from "../../lib/ui/CalendarEvent.svelte";
 
   /** @type {import('./$types').ActionData} */
   export let form: { success?: boolean, message?: string, firstName?: string };
@@ -201,6 +201,10 @@
 {/if}
 
 <style>
+    #rsvp, .message, .thank-you {
+        padding: 1rem;
+    }
+
     .thank-you {
         text-align: center;
     }
