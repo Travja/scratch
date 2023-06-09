@@ -3,6 +3,7 @@
   import type { AttendanceInfo } from "../../api/api";
   import debounce                from "lodash/debounce";
   import Toggle                  from "../../ui/Toggle.svelte";
+  import CalendarEvent           from "../../ui/CalendarEvent.svelte";
 
   /** @type {import('./$types').ActionData} */
   export let form: { success?: boolean, message?: string, firstName?: string };
@@ -124,11 +125,13 @@
         We'll just catch that info right here!
       </div>
 
-      <div>
+      <div class="info">
         Remember, the reception is on <strong>August 5th, 6-9pm</strong> at the
         <strong><a href="https://goo.gl/maps/EqUCmGdbToYN73fi7" alt="Granite Tabernacle">Granite Tabernacle</a></strong>
         in Salt Lake.
       </div>
+
+      <CalendarEvent/>
 
       <div class="container">
         <div class="announcement">
@@ -208,13 +211,12 @@
         text-decoration: underline;
     }
 
-    h2.heading {
-        font-size: 1.5rem;
+    .heading, .info {
+        margin-bottom: 1rem;
     }
 
-    .heading + .info, .heading + div {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+    h2.heading {
+        font-size: 1.5rem;
     }
 
     #rsvp, .attending, .address-info {
@@ -263,6 +265,7 @@
 
     input, button {
         position: relative;
+        min-width: 5rem;
         text-align: left;
         font-family: sans-serif;
         padding: 0.5rem;
@@ -283,6 +286,7 @@
         border: 2px solid #103473;
         padding-inline: 2rem;
         align-self: center;
+        margin-top: 1rem;
 
         transition: background-color 0.5s ease-in-out,
         color 0.5s ease-in-out;
