@@ -1,14 +1,14 @@
 html {
+    height: 100dvh;
     height: -webkit-fill-available;
+    overflow: auto;
 }
 
 body {
     background-color: #222;
     color: #ddd;
     margin: 0;
-    height: 0dvh;
     min-height: 100dvh;
-    max-height: 100dvh;
     min-height: -webkit-fill-available;
 
     display: flex;
@@ -22,6 +22,14 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6, p {
+    all: unset;
+
+    display: block;
+    margin-top: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+p {
     all: unset;
 }
 
@@ -50,7 +58,7 @@ h6 {
 }
 
 a {
-    color: #93d2cb;
+    color: #69ddff;
 }
 
 .centered {
@@ -68,5 +76,5 @@ a {
 }
 
 .cursive {
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Lobster', 'Dancing Script', cursive;
 }

@@ -1,41 +1,41 @@
 <!--suppress CssUnresolvedCustomProperty -->
 <script lang='ts'>
-  export let value: boolean;
-  export let left        = 'True';
-  export let right       = 'False';
-  export let color       = '#666';
-  export let toggleColor = '#1a54af';
-  export let inline      = true;
-  export let name        = "toggle";
+	export let value: boolean;
+	export let left        = 'True';
+	export let right       = 'False';
+	export let color       = '#666';
+	export let toggleColor = '#103473';
+	export let inline      = true;
+	export let name        = 'toggle';
 
-  let clickLeft = (e?: KeyboardEvent | MouseEvent) => {
-    if (e && e instanceof KeyboardEvent && e.key !== 'Enter') return;
+	let clickLeft = (e?: KeyboardEvent | MouseEvent) => {
+		if (e && e instanceof KeyboardEvent && e.key !== 'Enter') return;
 
-    value = false;
-  }
+		value = false;
+	};
 
-  let clickRight = (e?: KeyboardEvent | MouseEvent) => {
-    if (e && e instanceof KeyboardEvent && e.key !== 'Enter') return;
+	let clickRight = (e?: KeyboardEvent | MouseEvent) => {
+		if (e && e instanceof KeyboardEvent && e.key !== 'Enter') return;
 
-    value = true;
-  }
+		value = true;
+	};
 
 </script>
 
-<input type='checkbox' class='hidden' id='permission' name="{name}" bind:checked={value}/>
+<input type='checkbox' class='hidden' id='permission' name='{name}' bind:checked={value} />
 <div class='toggle' class:selected={value} style:--color={color} style:--toggleColor={toggleColor} class:inline>
-  <div
-          class="item"
-          class:active={!value}
-          on:keypress={clickLeft}
-          on:click={clickLeft}>{left}
-  </div>
-  <div
-          class="item"
-          class:active={value}
-          on:keypress={clickRight}
-          on:click={clickRight}>{right}
-  </div>
+	<div
+		class='item'
+		class:active={!value}
+		on:keypress={clickLeft}
+		on:click={clickLeft}>{left}
+	</div>
+	<div
+		class='item'
+		class:active={value}
+		on:keypress={clickRight}
+		on:click={clickRight}>{right}
+	</div>
 </div>
 
 <style>
@@ -58,6 +58,8 @@
         border-radius: var(--radius);
         user-select: none;
         -webkit-user-select: none;
+
+        box-shadow: inset 0 0 0.5rem #111;
     }
 
     .toggle:before {
@@ -66,6 +68,7 @@
         width: 50%;
         border-radius: var(--radius);
         background-color: var(--toggleColor);
+        box-shadow: 0 0 0 2px white;
         position: absolute;
         left: 0;
         transition: left 350ms ease-in-out;
@@ -77,9 +80,7 @@
 
     .toggle > div {
         position: relative;
-        flex: 1;
-        width: 5%;
-        /*padding: 0.2rem;*/
+        width: 100%;
         padding-inline: 1.5rem;
 
         /*display: flex;*/
