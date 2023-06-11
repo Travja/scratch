@@ -1,9 +1,9 @@
 <script lang='ts'>
   import '../app.css';
-  import { page }                      from '$app/stores';
-  import Logo                          from '$lib/ui/Logo.svelte';
-  import { fade, fly, slide }          from 'svelte/transition';
-  import { activeImage, scrollHeight } from '../api/api';
+  import { page }         from '$app/stores';
+  import Logo             from '$lib/ui/Logo.svelte';
+  import { slide }        from 'svelte/transition';
+  import { scrollHeight } from '../api/api';
 
   let menuOpen    = false;
   let pageName    = 'Home';
@@ -22,13 +22,6 @@
 
   let scroll = () => {
     scrollHeight.set(window.scrollY - main.offsetTop);
-  };
-
-  let keypressModal = (e: KeyboardEvent) => {
-    console.log(e.key);
-    if (e.key === 'Escape') {
-      activeImage.set(undefined);
-    }
   };
 </script>
 
@@ -78,28 +71,6 @@
     {new Date().getFullYear()} StellarMelodies
   </footer>
 </main>
-
-{#if $activeImage}
-  <div class='modal'
-       transition:fade={{ duration: 300 }}
-       on:keypress={keypressModal}
-       on:click={() => activeImage.set(undefined)}>
-    <div class='close-button' on:click={() => activeImage.set(undefined)}
-         on:keypress={(e) => {
-           if (e.key === "Enter") {
-             activeImage.set(undefined);
-           }
-         }}>
-      <span class='material-symbols-outlined'>
-        close
-      </span>
-    </div>
-    <div transition:fly={{ y: 100, duration: 300 }}
-         class='modal-content'>
-      <img src={$activeImage.download_url} alt={$activeImage.author} />
-    </div>
-  </div>
-{/if}
 
 <style>
     nav {
@@ -190,71 +161,9 @@
         flex-direction: column;
         position: relative;
         justify-content: space-between;
-        z-index: 1;
     }
 
     .menu-button:hover {
         cursor: pointer;
-    }
-
-    .modal {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        position: fixed;
-        z-index: 200;
-        inset: 0;
-
-        max-width: 100dvw;
-        max-height: 100dvh;
-        padding: 1rem;
-
-        background: rgba(0, 0, 0, 0.6);
-    }
-
-    .modal img {
-        /*display: none;*/
-        object-fit: contain;
-        height: 100%;
-        width: auto;
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-    .modal div:not(.close-button) {
-        position: relative;
-        height: 200px;
-        min-height: 100%;
-        width: 100%;
-        text-align: center;
-    }
-
-    .modal .close-button {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-
-        width: 3.5rem;
-        aspect-ratio: 1;
-
-        display: grid;
-        place-items: center;
-
-        font-size: 2rem;
-        font-weight: bold;
-        background: black;
-        border: 1px solid white;
-        border-radius: 50%;
-    }
-
-    .close-button:hover {
-        cursor: pointer;
-    }
-
-    @media (min-width: 750px) {
-        .modal {
-            padding: 3rem;
-        }
     }
 </style>

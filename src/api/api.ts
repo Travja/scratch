@@ -31,4 +31,3 @@ export const amazonLink    = 'https://www.amazon.com/wedding/share/travisanddoro
 export const venmoUsername = 'Dotwags';
 
 export const scrollHeight: Writable<number>                                              = writable(0);
-export const activeImage: Writable<{ download_url: string, author: string } | undefined> = writable(undefined);
