@@ -7,7 +7,7 @@
   let id = Math.random()* 100000;
 </script>
 
-<a href="/static" class="logo" class:phone class:desktop>
+<a href="/" class="logo" class:phone class:desktop>
   <svg xmlns="http://www.w3.org/2000/svg"
        height="{height}"
        width="{width}"

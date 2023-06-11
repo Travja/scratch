@@ -26,6 +26,15 @@ export interface AttendanceInfo {
 	numGuests: number,
 }
 
+export interface UploadData {
+	fileName: string,
+	author?: string,
+	message?: string,
+	location: string,
+	timestamp: Date,
+	type: 'engagements' | 'bridals' | 'temple' | 'reception';
+}
+
 export const api           = new Api('http://localhost:8080');
 export const amazonLink    = 'https://www.amazon.com/wedding/share/travisanddorothy';
 export const venmoUsername = 'Dotwags';
