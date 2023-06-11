@@ -1,20 +1,19 @@
 <script lang='ts'>
 	import { onDestroy }                      from 'svelte';
 	import { makeIcsFile, makeOutlookInvite } from '../../api/calendar';
-	import { fly }                            from 'svelte/transition';
+	import { fly }                       from 'svelte/transition';
+	import { amazonLink, venmoUsername } from '../../api/api';
 
 	export let centered = false;
 
 	let shown         = false;
 	let addEvent: HTMLElement;
-	const venmo       = 'Dorothy-Wagner-7';
-	const registry    = 'https://www.amazon.com/wedding/registry/1JBDUFDS1XSJI';
 	const date        = {
 		start: new Date('2023/08/06 00:00:00 UTC'),
 		end:   new Date('2023/08/06 02:30:00 UTC')
 	};
 	const title       = 'Dorothy + Travis\' Wedding Reception';
-	const description = `Come celebrate with us!\n\nGift Info\nRegistered on Amazon: ${registry}\nVenmo: @${venmo}\nWebsite: https://stellarmelodies.com`;
+	const description = `Come celebrate with us!\n\nGift Info\nRegistered on Amazon: ${amazonLink}\nVenmo: @${venmoUsername}\nWebsite: https://stellarmelodies.com`;
 	const address     = '2005 S 900 E, Salt Lake City, UT, United States';
 
 	let icsFile: string = makeIcsFile(

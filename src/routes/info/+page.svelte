@@ -1,5 +1,6 @@
 <script>
-	import CalendarEvent from '$lib/ui/CalendarEvent.svelte';
+	import CalendarEvent                 from '$lib/ui/CalendarEvent.svelte';
+	import { amazonLink, venmoUsername } from '../../api/api';
 </script>
 
 <div id='content'>
@@ -22,7 +23,8 @@
 		<h1 class='cursive'>Reception</h1>
 		<p>
 			We will be having a reception on <strong>August 5th from 6-8:30pm</strong> at the
-			<strong><a href='https://goo.gl/maps/EqUCmGdbToYN73fi7' alt='Granite Tabernacle'>Granite Tabernacle</a></strong>.
+			<a href='https://goo.gl/maps/EqUCmGdbToYN73fi7' target='_blank' alt='Granite Tabernacle'>Granite Tabernacle</a>
+			in Salt Lake City.
 		</p>
 		<p>
 			Light refreshments will be served.
@@ -37,20 +39,45 @@
 				<li>Bouquet Toss</li>
 			</ul>
 		</div>
-		<CalendarEvent centered/>
+		<CalendarEvent centered />
+	</div>
+
+	<div class='block'>
+		<h1 class='cursive'>Ohio Open House</h1>
+		<p>
+			We will be having an open house in Ohio on <strong>September 2nd</strong> at the
+			<a href='https://goo.gl/maps/cB3v9wY8yWF8DsDdA'
+				 target='_blank'
+				 alt='Western Hills Building'>
+				Western Hills Building
+			</a>
+			in Cincinnati.
+		</p>
+		<p>
+			Time is TBD. We look forward to seeing you there though!
+		</p>
+	</div>
+
+	<div class='block'>
+		<h1 class='cursive'>Gifts</h1>
+		<p>
+			We are registered on <a href='{amazonLink}'>Amazon</a>.
+		</p>
+		<p>
+			You can also send us a gift through Venmo to <a href='https://venmo.com/{venmoUsername}'>@{venmoUsername}</a>.
+		</p>
 	</div>
 </div>
 
 <style>
     .block {
-				display: flex;
-				flex-direction: column;
-				gap: 0.75rem;
-				place-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        place-items: flex-start;
 
         padding: 0 1.5rem 1rem;
         border-radius: 1rem;
-        overflow: auto;
 
         background: linear-gradient(160deg, #103473 10%, #3d7ac2 70%, #ef626c 90%);
     }

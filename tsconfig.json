@@ -11,16 +11,16 @@
 		"strict": true,
 		"paths": {
 			"$api": [
-				"./src/api"
+				"/src/api"
 			],
 			"$api/*": [
-				"./src/api/*"
+				"/src/api/*"
 			],
 			"$lib": [
-				"./src/lib"
+				"/src/lib"
 			],
 			"$lib/*": [
-				"./src/lib/*"
+				"/src/lib/*"
 			]
 		}
 	}

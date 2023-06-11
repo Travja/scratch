@@ -75,8 +75,8 @@
 			<br />
 			<br />
 			Remember to add the event to your calendar! <strong>Aug 5th, 6-8:30pm</strong>
-			at the <strong><a href='https://goo.gl/maps/EqUCmGdbToYN73fi7' alt='Granite Tabernacle'>Granite
-				Tabernacle</a></strong>
+			at the <a href='https://goo.gl/maps/EqUCmGdbToYN73fi7' alt='Granite Tabernacle'>Granite Tabernacle</a>
+			in Salt Lake City.
 		</div>
 
 		<CalendarEvent />
@@ -134,8 +134,8 @@
 
 			<div class='info'>
 				Remember, the reception is on <strong>August 5th, 6-8:30pm</strong> at the
-				<strong><a href='https://goo.gl/maps/EqUCmGdbToYN73fi7' alt='Granite Tabernacle'>Granite Tabernacle</a></strong>
-				in Salt Lake.
+				<a href='https://goo.gl/maps/EqUCmGdbToYN73fi7' alt='Granite Tabernacle'>Granite Tabernacle</a>
+				in Salt Lake City.
 			</div>
 
 			<CalendarEvent />
