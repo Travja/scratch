@@ -13,6 +13,18 @@ class UploadRepo {
       timestamp: -1
     }) as unknown as UploadData[];
   };
+
+  getAllPhotos = async (): Promise<UploadData[]> => {
+    return Photo.find({}, { _id: 0, __v: 0 }).sort({
+      timestamp: -1
+    }) as unknown as UploadData[];
+  };
+
+  getAllExceptReception = async (): Promise<UploadData[]> => {
+    return Photo.find({ type: { $ne: 'reception' } }, { _id: 0, __v: 0 }).sort({
+      timestamp: -1
+    }) as unknown as UploadData[];
+  };
 }
 
 export const uploadRepo = new UploadRepo();

@@ -40,7 +40,7 @@
     on:click={() => (activeIndex = -1)}
   >
     <div transition:fly={{ y: 100, duration: 300 }} class="modal-content">
-      <img src={imageData[activeIndex]?.location} alt={imageData[activeIndex]?.author} />
+      <img src={'/' + imageData[activeIndex]?.location} alt={imageData[activeIndex]?.author} />
     </div>
 
     <div

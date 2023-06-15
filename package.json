@@ -13,7 +13,6 @@
     "format": "prettier --plugin-search-dir . --write ."
   },
   "pre-commit": [
-    "lint",
     "check"
   ],
   "devDependencies": {

@@ -16,6 +16,6 @@ export async function GET(event: RequestEvent) {
     throw error(404, { message: 'Image not found' });
   }
 
-  const photo = fs.readFileSync(`${image}`);
+  const photo = fs.readFileSync(image);
   return new Response(new Blob([photo]));
 }

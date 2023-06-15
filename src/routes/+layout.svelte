@@ -102,6 +102,7 @@
   }
 
   .menu-button {
+    display: block;
     position: relative;
     z-index: 5;
     background: #ef626c;
@@ -151,6 +152,10 @@
       display: inline-flex;
       flex-direction: row;
       gap: 1rem;
+    }
+
+    .menu-button {
+      display: none;
     }
   }
 

@@ -4,28 +4,28 @@
 </script>
 
 <div id="main-content">
-  <BlockEntry background="url('https://source.unsplash.com/1600x899/?wedding')">
+  <BlockEntry background="url('/api/images/random')">
     <h1>Within each of us is a <span class="cursive">song</span></h1>
   </BlockEntry>
-  <BlockEntry background="#444" shadow="0 0 20px 2px #000">
+  <BlockEntry background="#103473" shadow="0 0 20px 2px #000">
     <h1>A subtle <span class="cursive">melody</span> that only certain few can pick up on</h1>
   </BlockEntry>
-  <BlockEntry background="url('https://source.unsplash.com/1600x900/?wedding')">
+  <BlockEntry background="url('/api/images/random?1')">
     <h1>
       When two of these unique individuals find each other, the <span class="cursive">universe</span
       > opens up
     </h1>
   </BlockEntry>
-  <BlockEntry background="#444" shadow="0 0 20px 2px #000">
+  <BlockEntry background="#ef626c" shadow="0 0 20px 2px #000">
     <h1>Doors&mdash;once closed&mdash;are <span class="cursive">opened</span></h1>
   </BlockEntry>
-  <BlockEntry background="url('https://source.unsplash.com/1600x901/?wedding')">
+  <BlockEntry background="url('/api/images/random?2')">
     <h1>Hearts are <span class="cursive">softened</span></h1>
   </BlockEntry>
-  <BlockEntry background="#444" shadow="0 0 20px 2px #000">
+  <BlockEntry background="#103473" shadow="0 0 20px 2px #000">
     <h1><span class="cursive">Stars</span> shine brighter</h1>
   </BlockEntry>
-  <BlockEntry background="url('https://source.unsplash.com/1600x902/?wedding')">
+  <BlockEntry background="url('/api/images/random?3')">
     <h1>And the <span class="cursive">world</span> is never the same</h1>
   </BlockEntry>
 </div>
@@ -40,11 +40,13 @@
   h1 {
     display: block;
     padding: 1rem;
-    /*backdrop-filter: blur(5px);*/
-    /*background: rgba(0, 0, 0, 0.2);*/
-    text-shadow: -1px -1px 5px #000, 1px -1px 5px #000, -1px 1px 5px #000, 1px 1px 5px #000;
+    padding-inline: 2rem;
+    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 1rem;
+    /*text-shadow: -1px -1px 5px #000, 1px -1px 5px #000, -1px 1px 5px #000, 1px 1px 5px #000;*/
     font-weight: bold;
-    margin-bottom: unset;
+    margin: unset;
   }
 
   .cursive {

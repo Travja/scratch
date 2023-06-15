@@ -11,8 +11,6 @@ export const actions = {
   default: async (event: RequestEvent) => {
     const formData = await event.request.formData();
 
-    console.log(formData);
-
     const author = formData.get('author') as string;
     const message = formData.get('message') as string;
     const files = formData.getAll('photos') as File[];
