@@ -1,18 +1,18 @@
 <!--suppress ALL -->
 <script lang="ts">
-  import { onMount }                     from "svelte";
-  import { BROWSER_ENUM, detectBrowser } from "../../browser";
+  import { onMount } from 'svelte';
+  import { BROWSER_ENUM, detectBrowser } from '../../browser';
 
   let card: HTMLElement;
 
-  let shadow   = false;
-  let active   = false;
+  let shadow = false;
+  let active = false;
   let distance = 50;
 
   onMount(() => {
     const BROWSER = detectBrowser();
-    shadow        = BROWSER !== BROWSER_ENUM.SAFARI;
-  })
+    shadow = BROWSER !== BROWSER_ENUM.SAFARI;
+  });
 
   const trackMouse = (e: MouseEvent | TouchEvent) => {
     let x;
@@ -29,15 +29,15 @@
     active = true;
 
     // Get center of frontCard
-    const rect      = card.getBoundingClientRect();
-    const centerX   = rect.left + rect.width / 2;
-    const centerY   = rect.top + rect.height / 2;
+    const rect = card.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
     // Get distance from center
     const distanceX = x - centerX;
     const distanceY = y - centerY;
     // Get percentage of distance from center
-    let percentX    = distanceX / (rect.width / 2);
-    let percentY    = distanceY / (rect.height / 2);
+    let percentX = distanceX / (rect.width / 2);
+    let percentY = distanceY / (rect.height / 2);
 
     const maxPerspective = 2;
     // Clamp percents to maxPerspective
@@ -53,178 +53,174 @@
   };
 
   const resetCard = () => {
-    card.style.transform = "";
-    distance             = 50;
-    active               = false;
-  }
-
+    card.style.transform = '';
+    distance = 50;
+    active = false;
+  };
 </script>
 
-<div class="card-container"
-     on:mousemove={trackMouse}
-     on:touchmove={trackMouse}
-     on:mouseleave={resetCard}
-     on:blur={resetCard}
-     on:touchend={resetCard}>
-  <div class="card"
-       bind:this={card}
-       class:shadow
-       class:active>
+<div
+  class="card-container"
+  on:mousemove={trackMouse}
+  on:touchmove={trackMouse}
+  on:mouseleave={resetCard}
+  on:blur={resetCard}
+  on:touchend={resetCard}
+>
+  <div class="card" bind:this={card} class:shadow class:active>
     <div class="content" style:--distance="{distance}%">
       <div class="img-container">
-        <img src="/falls.jpg" alt="Falls">
+        <img src="/falls.jpg" alt="Falls" />
       </div>
-      <img src="/layer2.png" alt="Us" class="layer2">
+      <img src="/layer2.png" alt="Us" class="layer2" />
     </div>
   </div>
 </div>
 
 <style>
+  .card-container {
+    height: 100%;
+    width: fit-content;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+    position: relative;
+    perspective: 1000px;
+    padding: 0.5rem;
+
+    user-select: none;
+  }
+
+  .card {
+    --border-thickness: 2.5vmin;
+
+    max-width: 80%;
+    max-height: 90%;
+    position: relative;
+    flex: 0;
+
+    /*background-color: #ccc;*/
+    /*padding: 1.5rem;*/
+    /*padding-bottom: 5rem;*/
+    border-radius: 5px;
+
+    transition: transform 0.5s ease;
+    transform-style: preserve-3d;
+  }
+
+  @media screen and (min-width: 600px) {
     .card-container {
-        height: 100%;
-        width: fit-content;
-        margin: 0 auto;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transform-style: preserve-3d;
-        position: relative;
-        perspective: 1000px;
-        padding: 0.5rem;
-
-        user-select: none;
+      padding: 1rem 5rem;
     }
+  }
 
-
-
+  @media screen and (min-height: 400px) {
     .card {
-        --border-thickness: 2.5vmin;
-
-        max-width: 80%;
-        max-height: 90%;
-        position: relative;
-        flex: 0;
-
-        /*background-color: #ccc;*/
-        /*padding: 1.5rem;*/
-        /*padding-bottom: 5rem;*/
-        border-radius: 5px;
-
-        transition: transform 0.5s ease;
-        transform-style: preserve-3d;
+      max-width: unset;
+      max-height: unset;
     }
+  }
 
-    @media screen and (min-width: 600px) {
-        .card-container {
-            padding: 1rem 5rem;
-        }
-    }
+  .content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    @media screen and (min-height: 400px) {
-        .card {
-            max-width: unset;
-            max-height: unset;
-        }
-    }
+    border: var(--border-thickness) solid white;
+    border-bottom: calc(var(--border-thickness) * 3.3333) solid white;
+    border-radius: 5px;
+    box-shadow: inset 0 0 1rem black;
 
-    .content {
-        position: relative;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    transform-style: preserve-3d;
+  }
 
-        border: var(--border-thickness) solid white;
-        border-bottom: calc(var(--border-thickness) * 3.3333) solid white;
-        border-radius: 5px;
-        box-shadow: inset 0 0 1rem black;
+  .img-container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    transform: translateZ(-50px) scale(1.05);
+  }
 
-        transform-style: preserve-3d;
-    }
+  .card img {
+    display: block;
+    position: relative;
+  }
 
-    .img-container {
-        position: relative;
-        height: 100%;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1;
-        transform: translateZ(-50px) scale(1.05);
-    }
+  .card img.layer2 {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    left: 50%;
+    z-index: 2;
 
-    .card img {
-        display: block;
-        position: relative;
-    }
+    transform: translate3d(-50%, 0, 0px);
+  }
 
-    .card img.layer2 {
-        position: absolute;
-        inset: 0;
-        height: 100%;
-        left: 50%;
-        z-index: 2;
+  .card .img-container::before {
+    content: '';
+    inset: 0;
+    z-index: 1;
+    position: absolute;
+    box-shadow: inset 0 0 2rem black;
+  }
 
-        transform: translate3d(-50%, 0, 0px);
-    }
+  .card .img-container::after {
+    content: '';
+    height: 10%;
+    width: 400%;
+    z-index: 2;
+    bottom: 50%;
+    left: -100%;
+    position: absolute;
+    backdrop-filter: blur(1px);
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 1rem 3px rgba(255, 255, 255, 0.4);
+    transform: translateX(var(--distance)) rotate(45deg);
+    transition: transform 0.2s linear;
+  }
 
-    .card .img-container::before {
-        content: '';
-        inset: 0;
-        z-index: 1;
-        position: absolute;
-        box-shadow: inset 0 0 2rem black;
-    }
+  .active .img-container::after {
+    transition: none;
+  }
 
-    .card .img-container::after {
-        content: '';
-        height: 10%;
-        width: 400%;
-        z-index: 2;
-        bottom: 50%;
-        left: -100%;
-        position: absolute;
-        backdrop-filter: blur(1px);
-        background: rgba(255, 255, 255, 0.4);
-        box-shadow: 0 0 1rem 3px rgba(255, 255, 255, 0.4);
-        transform: translateX(var(--distance)) rotate(45deg);
-        transition: transform 0.2s linear;
-    }
+  .card img {
+    max-height: calc(90vh - var(--border-thickness) * 2 - calc(var(--border-thickness) * 3.3333));
+    max-width: calc(80vw - var(--border-thickness) * 2);
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 
-    .active .img-container::after {
-        transition: none;
-    }
+  .card.shadow::before {
+    content: '';
+    pointer-events: none;
 
-    .card img {
-        max-height: calc(90vh - var(--border-thickness) * 2 - calc(var(--border-thickness) * 3.3333));
-        max-width: calc(80vw - var(--border-thickness) * 2);
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
+    position: absolute;
+    z-index: -1;
+    inset: -6%;
 
-    .card.shadow::before {
-        content: "";
-        pointer-events: none;
+    transform: translateZ(-100px);
+    -webkit-transform: translateZ(-100px);
+    border-radius: 10px;
+    filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.5);
 
-        position: absolute;
-        z-index: -1;
-        inset: -6%;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
 
-        transform: translateZ(-100px);
-        -webkit-transform: translateZ(-100px);
-        border-radius: 10px;
-        filter: blur(10px);
-        background-color: rgba(0, 0, 0, 0.5);
-
-        opacity: 1;
-        transition: opacity 0.5s ease;
-    }
-
-    .card.active {
-        transition: none;
-    }
+  .card.active {
+    transition: none;
+  }
 </style>

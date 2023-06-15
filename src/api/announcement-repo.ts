@@ -1,5 +1,5 @@
-import { Announcement }        from "./mongo";
-import type { AttendanceInfo } from "./api";
+import { Announcement } from './mongo';
+import type { AttendanceInfo } from './api';
 
 class AnnouncementRepo {
   saveData = async (info: AttendanceInfo) => {
@@ -7,8 +7,8 @@ class AnnouncementRepo {
   };
 
   hasEmail = async (email: string) => {
-    return Announcement.exists({email: email});
-  }
+    return Announcement.exists({ email: email });
+  };
 }
 
 export const announcementRepo = new AnnouncementRepo();

@@ -7,7 +7,7 @@ export enum BROWSER_ENUM {
   SAMSUNG_BROWSER,
   CHROME,
   SAFARI,
-  UNKNOWN,
+  UNKNOWN
 }
 
 const testUserAgent = (regexp: RegExp): boolean => regexp.test(window.navigator.userAgent);
@@ -33,4 +33,4 @@ export const detectBrowser = (): BROWSER_ENUM => {
     default:
       return BROWSER_ENUM.UNKNOWN;
   }
-}
+};
