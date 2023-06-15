@@ -58,9 +58,9 @@
     background: var(--background, 'none');
     background-size: cover;
     background-position: center;
+    background-position-y: calc(50% + var(--offset, 0px));
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position-y: calc(var(--offset, 0px));
 
     box-shadow: var(--shadow, 'none');
 
