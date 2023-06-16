@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition';
   import type { UploadData } from '../../api/api';
+  import LazyImage from "$lib/ui/LazyImage.svelte";
 
   export let imageData: Array<UploadData> = [];
   let activeIndex = -1;
@@ -12,10 +13,9 @@
   <div class="gallery">
     {#each imageData as image, i}
       <div class="wrapper" class:featured={i % 3 == 0}>
-        <img
+        <LazyImage
           src={'/' + image?.location}
           alt={image?.author}
-          loading="lazy"
           on:click={() => (activeIndex = i)}
           on:keypress={(e) => {
             if (e.key === 'Enter') {
@@ -103,7 +103,7 @@
     overflow: hidden;
   }
 
-  .gallery img {
+  .gallery :global(img) {
     width: 100%;
     height: 100%;
     /*min-width: calc(34% - var(--gap));*/
@@ -117,7 +117,7 @@
     grid-column: span 2;
   }
 
-  .gallery img:hover {
+  .gallery :global(img:hover) {
     cursor: pointer;
     transform: scale(1.05);
     z-index: 5;
@@ -142,7 +142,7 @@
     padding: 1rem;
   }
 
-  .modal img {
+  .modal :global(img) {
     /*display: none;*/
     object-fit: contain;
     height: 100%;

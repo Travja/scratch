@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { scrollHeight } from '../../api/api';
-  import { onDestroy, onMount } from 'svelte';
-  import type { Unsubscriber } from 'svelte/store';
+  import { isSafari, scrollHeight } from "../../api/api";
+  import { onDestroy, onMount } from "svelte";
+  import type { Unsubscriber } from "svelte/store";
 
   export let background = "url('https://source.unsplash.com/featured/1920x1080')";
-  export let shadow = 'none';
+  export let shadow = "none";
 
   let entry: HTMLElement;
   let top = 0;
@@ -37,12 +37,14 @@
 
 <div
   class="block-entry"
+  class:safari={$isSafari}
   style:--background={background}
   style:--offset="{scroll}px"
   style:--shadow={shadow}
   style:z-index={shadow !== 'none' ? 5 : 0}
   bind:this={entry}
 >
+  <div class="background"></div>
   <span class="content">
     <slot />
   </span>
@@ -67,6 +69,11 @@
     overflow: hidden;
     height: 100dvh;
     padding-inline: 0.5rem;
+  }
+
+  .block-entry.safari {
+    background-attachment: scroll;
+    background-position-y: 0%;
   }
 
   /*.block-entry::before {*/

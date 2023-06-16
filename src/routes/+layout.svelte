@@ -1,18 +1,23 @@
 <script lang="ts">
-  import '../app.css';
-  import { page } from '$app/stores';
-  import Logo from '$lib/ui/Logo.svelte';
-  import { slide } from 'svelte/transition';
-  import { scrollHeight } from '../api/api';
+  import "../app.css";
+  import { page } from "$app/stores";
+  import Logo from "$lib/ui/Logo.svelte";
+  import { slide } from "svelte/transition";
+  import { isSafari, scrollHeight } from "../api/api";
+  import { onMount } from "svelte";
+
+  export let data: { isSafari: boolean };
 
   let menuOpen = false;
-  let pageName = 'Home';
+  let pageName = "Home";
   let windowWidth = 0;
 
-  $: if ($page.url.pathname === '/') {
-    pageName = 'Home';
-  } else if ($page.url.pathname === '/rsvp') {
-    pageName = 'RSVP';
+  onMount(() => isSafari.set(data.isSafari));
+
+  $: if ($page.url.pathname === "/") {
+    pageName = "Home";
+  } else if ($page.url.pathname === "/rsvp") {
+    pageName = "RSVP";
   } else {
     pageName =
       $page.url.pathname.slice(1, 2).toUpperCase() + $page.url.pathname.slice(2).toLowerCase();
@@ -50,7 +55,7 @@
   {#if menuOpen || windowWidth >= 750}
     <div transition:slide class:shown={menuOpen} id="menu-items">
       <a href="/" on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
-        >Home</a
+      >Home</a
       >
       <a
         href="/info"

@@ -40,3 +40,4 @@ export const amazonLink = 'https://www.amazon.com/wedding/share/travisanddorothy
 export const venmoUsername = 'Dotwags';
 
 export const scrollHeight: Writable<number> = writable(0);
+export const isSafari: Writable<boolean> = writable(false);
