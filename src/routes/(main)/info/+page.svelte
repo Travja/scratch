@@ -1,6 +1,6 @@
 <script>
   import CalendarEvent from '$lib/ui/CalendarEvent.svelte';
-  import { amazonLink, venmoUsername } from '../../api/api';
+  import { amazonLink, venmoUsername } from '../../../api/api';
 </script>
 
 <div id="content">

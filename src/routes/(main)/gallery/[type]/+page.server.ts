@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { uploadRepo } from '../../../api/upload-repo';
+import { uploadRepo } from '../../../../api/upload-repo';
 
 export const load = async ({
   params

@@ -16,6 +16,6 @@
 </script>
 
 {#if loaded}
-  <img in:fade={{duration: 1500, easing: quadIn}}
+  <img in:fade={{duration: 1000, easing: quadIn}}
        {src} {alt} on:click on:keypress loading="lazy" decoding="async" />
 {/if}

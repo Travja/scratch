@@ -1,6 +1,6 @@
 <script lang="ts">
   import Gallery from '$lib/ui/Gallery.svelte';
-  import type { UploadData } from '../../../api/api';
+  import type { UploadData } from '../../../../api/api';
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
 

@@ -4,7 +4,7 @@
   export let left = 'True';
   export let right = 'False';
   export let color = '#666';
-  export let toggleColor = '#103473';
+  export let toggleColor = '#ef626c';
   export let inline = true;
   export let name = 'toggle';
 

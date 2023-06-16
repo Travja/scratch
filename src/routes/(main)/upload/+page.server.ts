@@ -1,12 +1,12 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
-import type { UploadData } from '../../api/api';
+import type { UploadData } from '../../../api/api';
 import { MongoServerError } from 'mongodb';
-import { uploadRepo } from '../../api/upload-repo';
+import { uploadRepo } from '../../../api/upload-repo';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 
-/** @type {import('./$types').Actions} */
+/** @type {import('../../../../.svelte-kit/types/src/routes').Actions} */
 export const actions = {
   default: async (event: RequestEvent) => {
     const formData = await event.request.formData();

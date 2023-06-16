@@ -1,9 +1,9 @@
 <script lang="ts">
-  import "../app.css";
+  import "../../app.css";
   import { page } from "$app/stores";
   import Logo from "$lib/ui/Logo.svelte";
   import { slide } from "svelte/transition";
-  import { isSafari, scrollHeight } from "../api/api";
+  import { isSafari, scrollHeight } from "../../api/api";
   import { onMount } from "svelte";
 
   export let data: { isSafari: boolean };
@@ -54,7 +54,7 @@
   {/if}
   {#if menuOpen || windowWidth >= 750}
     <div transition:slide class:shown={menuOpen} id="menu-items">
-      <a href="/" on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
+      <a href="/static" on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
       >Home</a
       >
       <a

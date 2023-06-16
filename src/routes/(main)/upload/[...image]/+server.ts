@@ -2,7 +2,7 @@ import type { RequestEvent } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import * as fs from 'fs';
 
-/** @type {import('./$types').RequestHandler} */
+/** @type {import('../../../../../.svelte-kit/types/src/routes').RequestHandler} */
 export async function GET(event: RequestEvent) {
   let image = event.params.image;
 

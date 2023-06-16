@@ -1,11 +1,11 @@
 <script lang="ts">
   import { slide } from 'svelte/transition';
-  import type { AttendanceInfo } from '../../api/api';
+  import type { AttendanceInfo } from '../../../api/api';
   import debounce from 'lodash/debounce';
-  import Toggle from '../../lib/ui/Toggle.svelte';
-  import CalendarEvent from '../../lib/ui/CalendarEvent.svelte';
+  import Toggle from '$lib/ui/Toggle.svelte';
+  import CalendarEvent from '$lib/ui/CalendarEvent.svelte';
 
-  /** @type {import('./$types').ActionData} */
+  /** @type {import('../../../../.svelte-kit/types/src/routes').ActionData} */
   export let form: { success?: boolean; message?: string; firstName?: string };
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -27,6 +27,7 @@ export interface AttendanceInfo {
 }
 
 export interface UploadData {
+  id?: any;
   fileName: string;
   author?: string;
   message?: string;

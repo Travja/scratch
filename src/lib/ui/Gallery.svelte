@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { fade, fly } from 'svelte/transition';
-  import type { UploadData } from '../../api/api';
+  import { fade, fly } from "svelte/transition";
+  import type { UploadData } from "../../api/api";
   import LazyImage from "$lib/ui/LazyImage.svelte";
 
   export let imageData: Array<UploadData> = [];
@@ -53,7 +53,7 @@
         }
       }}
     >
-      <span class="material-symbols-outlined"> chevron_left </span>
+      <span class="material-symbols-outlined">chevron_left</span>
     </div>
     <div
       class="next"
@@ -64,7 +64,7 @@
         }
       }}
     >
-      <span class="material-symbols-outlined"> chevron_right </span>
+      <span class="material-symbols-outlined">chevron_right</span>
     </div>
 
     <div

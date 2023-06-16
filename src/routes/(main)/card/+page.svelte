@@ -1,7 +1,7 @@
 <!--suppress ALL -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { BROWSER_ENUM, detectBrowser } from '../../browser';
+  import { BROWSER_ENUM, detectBrowser } from '../../../browser';
 
   let frontCard: HTMLElement;
   let backCard: HTMLElement;

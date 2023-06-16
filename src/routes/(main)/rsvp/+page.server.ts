@@ -1,10 +1,10 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
-import { announcementRepo } from '../../api/announcement-repo';
+import { announcementRepo } from '../../../api/announcement-repo';
 import { MongoServerError } from 'mongodb';
-import type { AttendanceInfo } from '../../api/api';
+import type { AttendanceInfo } from '../../../api/api';
 
-/** @type {import('./$types').Actions} */
+/** @type {import('../../../../.svelte-kit/types/src/routes').Actions} */
 export const actions = {
   default: async (event: RequestEvent) => {
     const formData = await event.request.formData();

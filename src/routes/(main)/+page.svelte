@@ -1,5 +1,5 @@
 <script lang="ts">
-  import BlockEntry from '$lib/ui/BlockEntry.svelte';
+  import BlockEntry      from '$lib/ui/BlockEntry.svelte';
   import ScrollIndicator from '$lib/ui/ScrollIndicator.svelte';
 </script>
 

@@ -1,7 +1,7 @@
 <!--suppress ALL -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { BROWSER_ENUM, detectBrowser } from '../../browser';
+  import { BROWSER_ENUM, detectBrowser } from '../../../browser';
 
   let card: HTMLElement;
 
@@ -15,6 +15,7 @@
   });
 
   const trackMouse = (e: MouseEvent | TouchEvent) => {
+    active = true;
     let x;
     let y;
 
@@ -25,9 +26,6 @@
       x = e.touches[0].clientX;
       y = e.touches[0].clientY;
     }
-
-    active = true;
-
     // Get center of frontCard
     const rect = card.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -49,7 +47,7 @@
     distance = percentX * -80 + percentY * 50;
 
     // Rotate frontCard based on percentage of distance from center
-    card.style.transform = `rotateX(${-percentY * 20}deg) rotateY(${percentX * 20}deg)`;
+    card.style.transform = `rotateX(${-percentY * 10}deg) rotateY(${percentX * 10}deg)`;
   };
 
   const resetCard = () => {
@@ -61,15 +59,16 @@
 
 <div
   class="card-container"
+  style:--distance="{distance}%"
   on:mousemove={trackMouse}
   on:touchmove={trackMouse}
-  on:mouseleave={resetCard}
+  on:mouseout={resetCard}
   on:blur={resetCard}
   on:touchend={resetCard}
 >
-  <div class="card" bind:this={card} class:shadow class:active>
-    <div class="content" style:--distance="{distance}%">
-      <img src="/us.jpg" alt="Us" />
+  <div class="card" bind:this={card} class:active class:shadow>
+    <div class="content">
+      <img src="/us.jpg" alt="us" />
     </div>
   </div>
 </div>
@@ -77,59 +76,61 @@
 <style>
   .card-container {
     height: 100%;
-    width: 80%;
-    margin: 2rem auto;
+    width: fit-content;
+    margin: 0 auto;
 
-    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     transform-style: preserve-3d;
+    position: relative;
     perspective: 1000px;
-    padding: 1rem 5rem;
+    padding: 0.5rem;
 
     user-select: none;
   }
 
   .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    --border-thickness: 2.5vmin;
 
-    /*max-height: 90vh;*/
-    /*width: 10px;*/
+    max-width: 80%;
+    max-height: 90%;
+    width: fit-content;
+    position: relative;
+    flex: 0;
 
     background-color: #ccc;
-    padding: 1.5rem;
-    padding-bottom: 5rem;
-    border-radius: 3px;
+    padding: var(--border-thickness);
+    padding-bottom: calc(var(--border-thickness) * 3.3333);
+    border-radius: 5px;
 
     transition: transform 0.5s ease;
     transform-style: preserve-3d;
   }
 
+  @media screen and (min-width: 600px) {
+    .card-container {
+      padding: 1rem 5rem;
+    }
+  }
+
+  @media screen and (min-height: 400px) {
+    .card {
+      max-width: unset;
+      max-height: unset;
+    }
+  }
+
   .content {
     position: relative;
     height: 100%;
-    max-height: 100%;
-    max-width: 100%;
-    overflow: hidden;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    flex: 1;
-  }
+    align-content: center;
 
-  .card img {
-    display: block;
-    position: relative;
-    max-height: 80vh;
-    max-width: 80vw;
-    /*width: 90%;*/
+    overflow: hidden;
   }
 
   .card .content::before {
@@ -159,6 +160,14 @@
     transition: none;
   }
 
+  .card img {
+    max-height: calc(90vh - var(--border-thickness) * 2 - calc(var(--border-thickness) * 3.3333));
+    max-width: calc(80vw - var(--border-thickness) * 2);
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
   .card.shadow::before {
     content: '';
     pointer-events: none;
@@ -168,13 +177,11 @@
     inset: -6%;
 
     transform: translateZ(-100px);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
     border-radius: 10px;
     filter: blur(10px);
     background-color: rgba(0, 0, 0, 0.5);
 
-    opacity: 1;
+    opacity: 0;
     transition: opacity 0.5s ease;
   }
 
