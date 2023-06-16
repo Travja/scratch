@@ -44,7 +44,6 @@
   style:z-index={shadow !== 'none' ? 5 : 0}
   bind:this={entry}
 >
-  <div class="background"></div>
   <span class="content">
     <slot />
   </span>
