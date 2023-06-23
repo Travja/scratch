@@ -54,7 +54,7 @@
   {/if}
   {#if menuOpen || windowWidth >= 750}
     <div transition:slide class:shown={menuOpen} id="menu-items">
-      <a href="/static" on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
+      <a href="/" on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
       >Home</a
       >
       <a
