@@ -9,16 +9,16 @@ export const actions = {
   default: async (event: RequestEvent) => {
     const formData = await event.request.formData();
 
-    const firstName = formData.get('firstName') as string;
-    const lastName = formData.get('lastName') as string;
-    const email = formData.get('email') as string;
-    const address = formData.get('address') as string;
-    const city = formData.get('city') as string;
-    const state = formData.get('state') as string;
-    const zip = formData.get('zip') as string;
+    const firstName = (formData.get('firstName') as string).trim();
+    const lastName = (formData.get('lastName') as string).trim();
+    const email = (formData.get('email') as string).trim();
+    const address = (formData.get('address') as string).trim();
+    const city = (formData.get('city') as string).trim();
+    const state = (formData.get('state') as string).trim().toUpperCase();
+    const zip = (formData.get('zip') as string).trim();
     const announcement = formData.get('announcement') === 'on';
     const attending = formData.get('attending') === 'on';
-    const numGuests = parseInt((formData.get('guests') || '0') as string);
+    const numGuests = parseInt(((formData.get('guests') || '0') as string).trim());
 
     const info: AttendanceInfo = {
       firstName,
