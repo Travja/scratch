@@ -1,6 +1,7 @@
 <script>
   import CalendarEvent from '$lib/ui/CalendarEvent.svelte';
   import { amazonLink, venmoUsername } from '../../../api/api';
+  import OpenHouseEvent from "$lib/ui/OpenHouseEvent.svelte";
 </script>
 
 <div id="content">
@@ -44,7 +45,7 @@
   <div class="block">
     <h1 class="cursive">Ohio Open House</h1>
     <p>
-      We will be having an open house in Ohio on <strong>September 2nd</strong> at the
+      We will be having an open house in Ohio on <strong>September 2nd</strong> from <strong>6:30-8:30pm</strong> at the
       <a
         href="https://goo.gl/maps/cB3v9wY8yWF8DsDdA"
         target="_blank"
@@ -54,7 +55,9 @@
       </a>
       in Cincinnati.
     </p>
-    <p>Time is TBD. We look forward to seeing you there though!</p>
+    <p>We look forward to seeing you there though!</p>
+
+    <OpenHouseEvent centered />
   </div>
 
   <div class="block">
@@ -81,6 +84,7 @@
     border-radius: 1rem;
 
     background: linear-gradient(160deg, #103473 10%, #3d7ac2 70%, #ef626c 90%);
+    border: 1px solid #6e9aff;
   }
 
   #content {
