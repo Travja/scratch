@@ -9,6 +9,11 @@ class AnnouncementRepo {
   hasEmail = async (email: string) => {
     return Announcement.exists({ email: email });
   };
+
+  getData = async () => {
+    // Only include attending, announcement, and numGuests
+    return Announcement.find({}, { attending: 1, announcement: 1, numGuests: 1 });
+  };
 }
 
 export const announcementRepo = new AnnouncementRepo();
