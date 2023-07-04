@@ -40,7 +40,14 @@
     on:click={() => (activeIndex = -1)}
   >
     <div transition:fly={{ y: 100, duration: 300 }} class="modal-content">
-      <img src={'/' + imageData[activeIndex]?.location} alt={imageData[activeIndex]?.author} />
+      {#if imageData[activeIndex]?.fileName.endsWith('.mp4') || imageData[activeIndex]?.fileName.endsWith('.webm') || imageData[activeIndex]?.fileName.endsWith('.ogg') || imageData[activeIndex]?.fileName.endsWith('.mov')}
+        <video controls>
+          <source src={'/' + imageData[activeIndex]?.location} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      {:else}
+        <img src={'/' + imageData[activeIndex]?.location} alt={imageData[activeIndex]?.author} />
+      {/if}
     </div>
 
     <div
@@ -103,7 +110,7 @@
     overflow: hidden;
   }
 
-  .gallery :global(img) {
+  .gallery :global(img), .gallery :global(video) {
     width: 100%;
     height: 100%;
     /*min-width: calc(34% - var(--gap));*/
@@ -117,7 +124,7 @@
     grid-column: span 2;
   }
 
-  .gallery :global(img:hover) {
+  .gallery :global(img:hover), .gallery :global(video:hover) {
     cursor: pointer;
     transform: scale(1.05);
     z-index: 5;
@@ -157,6 +164,13 @@
     min-height: 100%;
     width: 100%;
     text-align: center;
+    display: grid;
+    place-items: center;
+  }
+
+  .modal-content video {
+    max-height: 100%;
+    max-width: 100%;
   }
 
   .modal .close-button {

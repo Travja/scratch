@@ -4,18 +4,18 @@ import * as fs from 'fs';
 
 /** @type {import('../../../../../.svelte-kit/types/src/routes').RequestHandler} */
 export async function GET(event: RequestEvent) {
-  let image = event.params.image;
+  let media = event.params.image;
 
-  if (!image) {
-    throw error(400, { message: 'Image is required' });
+  if (!media) {
+    throw error(400, { message: 'Media is required' });
   }
 
-  image = 'upload/' + image;
+  media = 'upload/' + media;
 
-  if (!fs.existsSync(image)) {
-    throw error(404, { message: 'Image not found' });
+  if (!fs.existsSync(media)) {
+    throw error(404, { message: 'Media not found' });
   }
 
-  const photo = fs.readFileSync(image);
-  return new Response(new Blob([photo]));
+  const localMedia = fs.readFileSync(media);
+  return new Response(new Blob([localMedia]));
 }

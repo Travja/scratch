@@ -19,9 +19,30 @@
   let totalUsableWidth = 0;
   let totalUsableHeight = 0;
 
+  let isVideo = false;
   let loaded = false;
 
   onMount(() => {
+    if (src.endsWith(".mp4") || src.endsWith(".webm") || src.endsWith(".ogg") || src.endsWith(".mov")) {
+      // It's a video
+      if (maxWidth > maxHeight) {
+        width = Math.min(maxWidth / 2, 400);
+        height = width * 0.75;
+      } else {
+        height = Math.min(maxHeight / 2, 400);
+        width = height * 0.75;
+      }
+
+      totalUsableWidth = maxWidth - (width / 2);
+      totalUsableHeight = maxHeight - (height / 2);
+      x = Math.random() * totalUsableWidth - width / 3;
+      y = Math.random() * totalUsableHeight - height / 3;
+      rotation = Math.random() * 90 - 45;
+      isVideo = true;
+      loaded = true;
+      return;
+    }
+
     const img = new Image();
     img.src = src;
     img.onload = () => {
@@ -57,7 +78,11 @@
   style:--height="{height}px"
   style:--width="{width}px"
 >
-  <img {src} {alt} />
+  {#if isVideo}
+    <video autoplay loop muted playsinline {src}></video>
+  {:else}
+    <img {src} {alt} />
+  {/if}
   <div class="caption">
     {caption || ''}
   </div>
@@ -101,9 +126,9 @@
     animation: fall 1s ease-in;
   }
 
-  img {
-    height: var(--height, auto);
-    width: var(--width, auto);
+  img, video {
+    max-height: var(--height, auto);
+    max-width: var(--width, auto);
   }
 
   .caption {
