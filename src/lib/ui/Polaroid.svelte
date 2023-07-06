@@ -78,13 +78,24 @@
   style:--height="{height}px"
   style:--width="{width}px"
 >
-  {#if isVideo}
-    <video autoplay loop muted playsinline {src}></video>
-  {:else}
-    <img {src} {alt} />
-  {/if}
-  <div class="caption">
-    {caption || ''}
+  <div class="wrapper">
+    {#if isVideo}
+      <video autoplay loop muted playsinline {src}></video>
+    {:else}
+      <img {src} {alt} />
+    {/if}
+    {#if author}
+      <div class="author">
+        {author}
+      </div>
+    {/if}
+  </div>
+  <div class="footer">
+    {#if caption}
+      <div class="caption">
+        {caption}
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -99,7 +110,7 @@
   }
 
   .polaroid {
-    --back-color: #e8e6e6;
+    --back-color: #eeeded;
 
     display: inline-flex;
     flex-direction: column;
@@ -131,17 +142,48 @@
     max-width: var(--width, auto);
   }
 
+  .wrapper {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0.75rem rgba(0, 0, 0, 0.8);
+  }
+
+  .footer {
+    min-height: 2.5rem;
+    padding-top: 0.5rem;
+  }
+
   .caption {
     position: relative;
     flex: 1;
-    min-height: 2.5rem;
     white-space: normal;
 
-    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  .author, .caption {
     font-family: 'Indie Flower', cursive;
     font-size: 1.5rem;
     font-weight: 400;
-    text-align: center;
-    padding: 0.5rem;
+  }
+
+  .author {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /*padding: 0.5rem;*/
+    padding-inline: 0.75rem;
+    background: rgba(0, 0, 0, 0.6);
+    font-size: 1.25rem;
+    color: white;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
   }
 </style>

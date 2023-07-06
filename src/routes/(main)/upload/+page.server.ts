@@ -43,7 +43,7 @@ export const actions = {
       } catch (e: unknown) {
         console.log(e);
         if (e instanceof MongoServerError) {
-          fail(400, { message: e.message });
+          fail(400, { success: false, message: e.message });
         }
       }
     }
