@@ -10,19 +10,22 @@ class UploadRepo {
     type: 'engagements' | 'bridals' | 'temple' | 'reception'
   ): Promise<UploadData[]> => {
     return Photo.find({ type }, { _id: 0, __v: 0 }).sort({
-      timestamp: -1
+      timestamp: 1,
+      fileName: 1
     }) as unknown as UploadData[];
   };
 
   getAllPhotos = async (): Promise<UploadData[]> => {
     return Photo.find({}, { _id: 0, __v: 0 }).sort({
-      timestamp: -1
+      timestamp: 1,
+      fileName: 1
     }) as unknown as UploadData[];
   };
 
   getAllExceptReception = async (): Promise<UploadData[]> => {
     return Photo.find({ type: { $ne: 'reception' } }, { _id: 0, __v: 0 }).sort({
-      timestamp: -1
+      timestamp: 1,
+      fileName: 1
     }) as unknown as UploadData[];
   };
 }
