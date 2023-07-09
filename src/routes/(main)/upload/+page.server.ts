@@ -30,7 +30,7 @@ export const actions = {
       writeFileSync(`${location}/${fileName}`, Buffer.from(await file.arrayBuffer()));
 
       const data: UploadData = {
-        fileName: files[0].name,
+        fileName: file.name,
         author,
         message,
         location: `${location}/${fileName}`,
