@@ -164,8 +164,6 @@
     min-height: 100%;
     width: 100%;
     text-align: center;
-    display: grid;
-    place-items: center;
   }
 
   .modal-content video {
