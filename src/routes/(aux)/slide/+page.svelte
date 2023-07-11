@@ -2,6 +2,7 @@
   import { onDestroy, onMount } from "svelte";
   import type { UploadData } from "../../../api/api";
   import Polaroid from "$lib/ui/Polaroid.svelte";
+  import { page } from "$app/stores";
 
   let main: HTMLElement;
   let photos: UploadData[] = [];
@@ -25,7 +26,12 @@
   onDestroy(() => clearTimeout(timeout));
 
   const loadPhoto = () => {
-    fetch("/api/images/randomData")
+    let url = "/api/images/randomData";
+    if ($page.url.searchParams.has("type")) {
+      url += `?type=${$page.url.searchParams.get("type")}`;
+    }
+
+    fetch(url)
       .then(raw => raw.json())
       .then(data => {
         data.id = {};
@@ -44,6 +50,7 @@
 </script>
 
 <svelte:window on:resize={setDimensions}></svelte:window>
+<svelte:head><title>StellarMelodies | Slides</title></svelte:head>
 
 <main>
   <div class="container" bind:this={main}>

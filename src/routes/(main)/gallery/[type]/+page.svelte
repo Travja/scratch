@@ -1,21 +1,19 @@
 <script lang="ts">
-  import Gallery from '$lib/ui/Gallery.svelte';
-  import type { UploadData } from '../../../../api/api';
-  import { page } from '$app/stores';
-  import { onMount } from 'svelte';
+  import Gallery from "$lib/ui/Gallery.svelte";
+  import type { UploadData } from "../../../../api/api";
 
-  export let data: { images: UploadData[] };
-  let title = '';
-
-  onMount(() => (title = $page.params.type.charAt(0).toUpperCase() + $page.params.type.slice(1)));
+  export let data: { images: UploadData[], title: string };
 </script>
 
 <svelte:head>
-  <title>Gallery | {title}</title>
+  <title>Gallery | {data.title}</title>
 </svelte:head>
 
 <content>
-  <h1 class="cursive">{title}</h1>
+  <h1 class="cursive">{data.title}</h1>
+  {#if data.title === 'Bridals'}
+    <p>A <strong>HUGE</strong> thanks goes out to <a href="https://kianabatesphoto.com">Kiana</a> for these photos!</p>
+  {/if}
   <Gallery imageData={data.images} />
 </content>
 

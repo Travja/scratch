@@ -2,10 +2,11 @@ import type { RequestEvent } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import { uploadRepo } from '../../../../../api/upload-repo';
 import * as fs from 'fs';
+import type { MediaType } from '../../../../../api/api';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET(event: RequestEvent) {
-  const type = event.params.type as 'engagements' | 'bridals' | 'temple' | 'reception';
+  const type = event.params.type as MediaType;
 
   if (!type) {
     throw error(400, { message: 'Type is required' });

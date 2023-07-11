@@ -31,7 +31,9 @@
 </script>
 
 <svelte:head>
-  <title>StellarMelodies - {pageName}</title>
+  {#if !$page.url.pathname.includes("gallery")}
+    <title>StellarMelodies | {pageName}</title>
+  {/if}
 </svelte:head>
 
 <svelte:window bind:innerWidth={windowWidth} on:scroll={scroll} />

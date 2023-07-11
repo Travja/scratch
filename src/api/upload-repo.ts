@@ -1,14 +1,13 @@
 import { Photo } from './mongo';
 import type { UploadData } from './api';
+import type { MediaType } from './api';
 
 class UploadRepo {
   saveData = async (info: UploadData) => {
     return new Photo(info).save();
   };
 
-  getPhotos = async (
-    type: 'engagements' | 'bridals' | 'temple' | 'reception'
-  ): Promise<UploadData[]> => {
+  getPhotos = async (type: MediaType): Promise<UploadData[]> => {
     return Photo.find({ type }, { _id: 0, __v: 0 }).sort({
       timestamp: 1,
       fileName: 1

@@ -1,21 +1,21 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
-import type { UploadData } from '../../../api/api';
+import type { MediaType, UploadData } from '../../../api/api';
 import { MongoServerError } from 'mongodb';
 import { uploadRepo } from '../../../api/upload-repo';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 
-/** @type {import('../../../../.svelte-kit/types/src/routes').Actions} */
+/** @type {import("../../../../.svelte-kit/types/src/routes").Actions} */
 export const actions = {
   default: async (event: RequestEvent) => {
     const formData = await event.request.formData();
 
     const author = formData.get('author') as string;
-    const message = formData.get('message') as string;
     const files = formData.getAll('photos') as File[];
     const uploadType = formData.get('uploadType') as string;
 
+    let index = 0;
     for (const file of files) {
       if (!existsSync('upload')) mkdirSync('upload');
 
@@ -32,10 +32,10 @@ export const actions = {
       const data: UploadData = {
         fileName: file.name,
         author,
-        message,
+        message: formData.get('comment-' + index++) as string,
         location: `${location}/${fileName}`,
         timestamp: new Date(),
-        type: uploadType as 'engagements' | 'bridals' | 'temple' | 'reception'
+        type: uploadType as MediaType
       };
 
       try {
@@ -51,3 +51,5 @@ export const actions = {
     return { success: true };
   }
 };
+
+export const load = async ({ url }: { url: URL }) => ({ type: url.searchParams.get('type') });

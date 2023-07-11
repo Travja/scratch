@@ -26,6 +26,14 @@ export interface AttendanceInfo {
   numGuests: number;
 }
 
+export enum MediaType {
+  BRIDALS = 'bridals',
+  ENGAGEMENTS = 'engagements',
+  TEMPLE = 'temple',
+  RECEPTION = 'reception',
+  CHILDHOOD = 'childhood'
+}
+
 export interface UploadData {
   id?: any;
   fileName: string;
@@ -33,7 +41,7 @@ export interface UploadData {
   message?: string;
   location: string;
   timestamp: Date;
-  type: 'engagements' | 'bridals' | 'temple' | 'reception';
+  type: MediaType;
 }
 
 export const api = new Api('http://localhost:8080');

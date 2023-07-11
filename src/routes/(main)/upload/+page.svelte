@@ -1,23 +1,28 @@
 <script lang="ts">
+  import { MediaType } from "../../../api/api";
+  import { fly } from "svelte/transition";
+
   /** @type {import("../../../../.svelte-kit/types/src/routes").ActionData} */
   export let form: { success?: boolean, message?: string };
+  export let data: { type?: MediaType };
 
-  let photoType = "bridals";
+  let photoType: MediaType = data?.type || MediaType.RECEPTION;
   let photos: FileList;
 
   let inputElm: HTMLInputElement;
   let previewPhotos: string[] = [];
   let photoForm: HTMLFormElement;
 
+  let submitting = false;
+
   $: if (photos && inputElm) {
     previewPhotos.forEach((file) => URL.revokeObjectURL(file));
 
     previewPhotos = [];
-    console.log(inputElm.files);
+    let index = 0;
     for (let photo of photos) {
       previewPhotos.push(URL.createObjectURL(photo));
     }
-    console.log(previewPhotos);
   }
 </script>
 
@@ -31,11 +36,12 @@
     <h1>Share your memories with us!</h1>
     <p>Upload your photos/videos to be displayed and saved in our memory book.</p>
     <div class="content">
-      <select id="uploadType" name="uploadType" bind:value={photoType}>
-        <option value="engagements">Engagements</option>
-        <option value="bridals">Bridals</option>
-        <option value="temple">Temple</option>
-        <option value="reception">Reception</option>
+      <select id="uploadType"
+              name="uploadType"
+              bind:value={photoType}>
+        {#each Object.values(MediaType) as type}
+          <option value={type}>{type}</option>
+        {/each}
       </select>
       <input
         id="files"
@@ -47,8 +53,7 @@
         bind:this={inputElm}
       />
       <input type="text" name="author" placeholder="Name (Optional)" />
-      <input type="text" name="message" placeholder="Leave us a message (Optional)" />
-      <div class="name">*These will be displayed with your media on the slideshow</div>
+      <div class="name">*This will be displayed with your media on the slideshow</div>
       <button type="button"
               id="select"
               on:click={() => inputElm.click()}
@@ -61,34 +66,58 @@
         Select Media
       </button>
     </div>
-  </form>
 
-  {#if photos}
-    <div class="preview-wrapper">
-      <h2>Preview</h2>
-      <div class="preview-images">
-        {#each previewPhotos as photo, i}
-          {#if photos[i].type.includes("video")}
-            <video
-              src={photo}
-              class="preview"
-              on:loadstart={() => URL.revokeObjectURL(photo)}
-              controls
-            />
-          {:else}
-            <img
-              src={photo}
-              class="preview"
-              on:load={() => URL.revokeObjectURL(photo)}
-              alt={photos[i].name}
-            />
-          {/if}
-        {/each}
+    {#if photos}
+      <div class="preview-wrapper">
+        <h2>Preview</h2>
+        <div class="preview-images">
+          {#each previewPhotos as photo, i}
+            <div class="item">
+              {#if photos[i].type.includes("video")}
+                <video
+                  src={photo}
+                  class="preview"
+                  on:loadstart={() => URL.revokeObjectURL(photo)}
+                  controls
+                />
+              {:else}
+                <img
+                  src={photo}
+                  class="preview"
+                  on:load={() => URL.revokeObjectURL(photo)}
+                  alt={photos[i].name}
+                />
+              {/if}
+              <input type="text" name="comment-{i}" placeholder="Caption (Optional)" />
+            </div>
+          {/each}
+        </div>
       </div>
-      <button type="button" id="upload" on:click={() => photoForm.submit()}>Upload</button>
-    </div>
-  {/if}
+      <button type="button"
+              id="upload"
+              disabled={submitting}
+              on:click={() => {
+                submitting = true;
+                photoForm.submit();
+              }}
+              on:keypress={(e) => {
+            if (e.key === 'Enter') {
+              submitting = true;
+              photoForm.submit();
+            }
+          }}
+              transition:fly={{ y: 100, duration: 500 }}
+      >Upload
+      </button>
+    {/if}
+  </form>
 </content>
+
+{#if submitting}
+  <div class="overlay">
+    <div class="spinner"></div>
+  </div>
+{/if}
 
 <style>
   content {
@@ -106,15 +135,30 @@
   .preview-images {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
     gap: 1rem;
-    overflow-x: auto;
 
     max-width: 100%;
     margin-block: 1rem;
     margin-inline: auto;
     padding: 0.5rem;
+  }
 
-    background: rgba(0,0,0, 0.5);
+  .preview {
+    display: block;
+    margin-bottom: 0.5rem;
+    max-height: 250px;
+    max-width: 100%;
+  }
+
+  .item {
+    display: grid;
+    place-items: center;
+  }
+
+  .item input {
+    width: 100%;
   }
 
   h1 {
@@ -135,10 +179,6 @@
     background: linear-gradient(160deg, #103473 10%, #3d7ac2 70%, #ef626c 90%);
   }
 
-  .preview {
-    max-height: 200px;
-  }
-
   #uploadType {
     display: none;
   }
@@ -147,11 +187,13 @@
     display: none;
   }
 
+  #select {
+    width: 70%;
+  }
+
   #select, #upload {
     display: block;
-    width: 70%;
     padding: 1rem;
-    margin-block: 1rem;
     margin-inline: auto;
     text-align: center;
     font-size: 1rem;
@@ -165,6 +207,12 @@
 
   #upload {
     background-color: #49a84f;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    margin: 0 auto;
+    max-width: fit-content;
   }
 
   content {
@@ -177,10 +225,41 @@
     border: 1px solid black;
     border-radius: 5px;
     padding: 0.5rem;
+    font-size: 1rem;
   }
 
   .name {
     font-size: 0.8rem;
     margin-block: 0.5rem;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: grid;
+    place-items: center;
+  }
+
+  .spinner {
+    border: 16px solid transparent;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
   }
 </style>
