@@ -64,6 +64,8 @@
   </div>
 </main>
 
+<img id="qr-code" src="/upload.png" alt="qr-code" />
+
 <style>
   main {
     background-image: url('/wood_back.jpg');
@@ -88,5 +90,15 @@
 
     transform-style: preserve-3d;
     perspective: 1000px;
+  }
+
+  #qr-code {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 7rem;
+    aspect-ratio: 1;
+    opacity: 0.8;
+    border-top-left-radius: 1rem;
   }
 </style>
