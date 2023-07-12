@@ -1,6 +1,6 @@
 import { Photo } from './mongo';
 import type { UploadData } from './api';
-import type { MediaType } from './api';
+import { MediaType } from './api';
 
 class UploadRepo {
   saveData = async (info: UploadData) => {
@@ -22,7 +22,10 @@ class UploadRepo {
   };
 
   getAllExceptReception = async (): Promise<UploadData[]> => {
-    return Photo.find({ type: { $ne: 'reception' } }, { _id: 0, __v: 0 }).sort({
+    return Photo.find(
+      { type: { $nin: [MediaType.RECEPTION, MediaType.CHILDHOOD] } },
+      { _id: 0, __v: 0 }
+    ).sort({
       timestamp: 1,
       fileName: 1
     }) as unknown as UploadData[];
