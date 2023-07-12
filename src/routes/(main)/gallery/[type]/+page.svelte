@@ -7,6 +7,7 @@
 
 <svelte:head>
   <title>Gallery | {data.title}</title>
+  <meta content="StellarMelodies - Gallery - {data.title}" property="og:title" />
 </svelte:head>
 
 <content>

@@ -31,9 +31,14 @@
 </script>
 
 <svelte:head>
-  {#if !$page.url.pathname.includes("gallery")}
+  {#if !$page.url.pathname.includes("gallery/")}
     <title>StellarMelodies | {pageName}</title>
+    <meta content="StellarMelodies - {pageName}" property="og:title" />
   {/if}
+  <meta content="Dorothy and Travis are getting married. Join us for the celebration!" name="og:description" />
+  <meta content="https://stellarmelodies.com" property="og:url" />
+  <meta content="https://stellarmelodies.com/upload/e4b74b2d-5c02-4b72-ace4-a3182eeb59da.jpg" property="og:image" />
+  <meta content="#F19985" data-react-helmet="true" name="theme-color" />
 </svelte:head>
 
 <svelte:window bind:innerWidth={windowWidth} on:scroll={scroll} />
