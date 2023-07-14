@@ -15,6 +15,7 @@ const compressImage = async (buffer: ArrayBuffer, out: string) => {
     while (curBuffer.byteLength > 500000 && quality > 10) {
       quality -= 10;
       await sharp(curBuffer)
+        .rotate()
         .resize({ width: 1500, height: 1500, fit: 'inside', withoutEnlargement: true })
         .toFormat('jpeg')
         .jpeg({ quality: 80 })
