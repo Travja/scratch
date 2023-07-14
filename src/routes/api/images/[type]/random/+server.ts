@@ -23,7 +23,7 @@ export async function GET(event: RequestEvent) {
   const location = randomPhoto.location;
 
   if (!fs.existsSync(location)) {
-    console.log(location);
+    console.log('Missing file: ' + location);
     throw error(500, { message: 'Image not found' });
   }
 

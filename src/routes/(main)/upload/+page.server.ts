@@ -5,6 +5,23 @@ import { MongoServerError } from 'mongodb';
 import { uploadRepo } from '../../../api/upload-repo';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+import sharp from 'sharp';
+
+const compressImage = async (buffer: ArrayBuffer, out: string) => {
+  let quality = 90;
+
+  while (buffer.byteLength > 500000 && quality > 10) {
+    quality -= 10;
+    await sharp(buffer)
+      .resize({ width: 1500, height: 1500, fit: 'inside', withoutEnlargement: true })
+      .toFormat('jpeg')
+      .jpeg({ quality: 80 })
+      .toFile(out);
+    buffer = await sharp(out).toBuffer();
+  }
+
+  console.log('Saved image with final size: ' + buffer.byteLength + ' with quality ' + quality);
+};
 
 /** @type {import("../../../../.svelte-kit/types/src/routes").Actions} */
 export const actions = {
@@ -19,21 +36,30 @@ export const actions = {
     for (const file of files) {
       if (!existsSync('upload')) mkdirSync('upload');
 
-      const location = 'upload';
+      const location = 'upload/' + uploadType;
+      const shouldCompress = file.type.startsWith('image') && !file.type.endsWith('gif');
 
-      let fileName = file.name;
       // Randomize the name using uuid
-      fileName = uuidv4() + fileName.slice(fileName.lastIndexOf('.'));
+      const fileExtension = file.name.slice(file.name.lastIndexOf('.'));
+      const fileName = uuidv4() + '-full' + fileExtension;
+      const buffer: ArrayBuffer = await file.arrayBuffer();
 
       // Save file to local storage
       mkdirSync(location, { recursive: true });
-      writeFileSync(`${location}/${fileName}`, Buffer.from(await file.arrayBuffer()));
+      writeFileSync(`${location}/${fileName}`, Buffer.from(buffer));
+
+      if (shouldCompress) {
+        compressImage(
+          buffer,
+          `${location}/${fileName.replace('-full', '').replace(fileExtension, '.jpg')}`
+        );
+      }
 
       const data: UploadData = {
         fileName: file.name,
         author,
         message: formData.get('comment-' + index++) as string,
-        location: `${location}/${fileName}`,
+        location: `${location}/${fileName.replace('-full', '')}`,
         timestamp: new Date(),
         type: uploadType as MediaType
       };
