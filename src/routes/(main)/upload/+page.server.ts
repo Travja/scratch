@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import sharp from 'sharp';
 
 const compressImage = async (buffer: ArrayBuffer, out: string) => {
-  let quality = 90;
+  let quality = 100;
 
   while (buffer.byteLength > 500000 && quality > 10) {
     quality -= 10;
@@ -37,12 +37,12 @@ export const actions = {
       if (!existsSync('upload')) mkdirSync('upload');
 
       const location = 'upload/' + uploadType;
-      const shouldCompress = file.type.startsWith('image') && !file.type.endsWith('gif');
-
       // Randomize the name using uuid
       const fileExtension = file.name.slice(file.name.lastIndexOf('.'));
       const fileName = uuidv4() + '-full' + fileExtension;
       const buffer: ArrayBuffer = await file.arrayBuffer();
+      const shouldCompress =
+        file.type.startsWith('image') && !file.type.endsWith('gif') && buffer.byteLength > 500000;
 
       // Save file to local storage
       mkdirSync(location, { recursive: true });
