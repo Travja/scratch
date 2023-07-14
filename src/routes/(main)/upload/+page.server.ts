@@ -10,20 +10,28 @@ import sharp from 'sharp';
 const compressImage = async (buffer: ArrayBuffer, out: string) => {
   let quality = 100;
 
-  while (buffer.byteLength > 500000 && quality > 10) {
-    quality -= 10;
-    await sharp(buffer)
-      .resize({ width: 1500, height: 1500, fit: 'inside', withoutEnlargement: true })
-      .toFormat('jpeg')
-      .jpeg({ quality: 80 })
-      .toFile(out);
-    buffer = await sharp(out).toBuffer();
+  try {
+    let curBuffer = buffer;
+    while (curBuffer.byteLength > 500000 && quality > 10) {
+      quality -= 10;
+      await sharp(curBuffer)
+        .resize({ width: 1500, height: 1500, fit: 'inside', withoutEnlargement: true })
+        .toFormat('jpeg')
+        .jpeg({ quality: 80 })
+        .toFile(out);
+      curBuffer = await sharp(out).toBuffer();
+    }
+    console.log(
+      'Saved image with final size: ' + curBuffer.byteLength + ' with quality ' + quality
+    );
+  } catch (e) {
+    console.error('Error while compressing image', e);
+    console.log('Saving image with original size: ' + buffer.byteLength);
+    writeFileSync(out, Buffer.from(buffer));
   }
-
-  console.log('Saved image with final size: ' + buffer.byteLength + ' with quality ' + quality);
 };
 
-/** @type {import("../../../../.svelte-kit/types/src/routes").Actions} */
+/** @type {import('../../../../.svelte-kit/types/src/routes').Actions} */
 export const actions = {
   default: async (event: RequestEvent) => {
     const formData = await event.request.formData();
@@ -38,10 +46,14 @@ export const actions = {
 
       const location = 'upload/' + uploadType;
       // Randomize the name using uuid
-      const fileExtension = file.name.slice(file.name.lastIndexOf('.'));
+      const fileExtension = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
       const buffer: ArrayBuffer = await file.arrayBuffer();
       const shouldCompress =
-        file.type.startsWith('image') && !file.type.endsWith('gif') && buffer.byteLength > 500000;
+        file.type.startsWith('image') &&
+        !file.type.endsWith('gif') &&
+        !file.type.endsWith('svg') &&
+        !file.type.endsWith('bmp') &&
+        buffer.byteLength > 500000;
       const fileName = uuidv4() + (shouldCompress ? '-full' : '') + fileExtension;
 
       // Save file to local storage
