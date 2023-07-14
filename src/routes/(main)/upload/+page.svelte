@@ -115,7 +115,10 @@
 
 {#if submitting}
   <div class="overlay">
-    <div class="spinner"></div>
+    <div class="modal-content">
+      <div class="spinner"></div>
+      <div class="upload-info">If you're uploading a lot of files, this may take a minute. Hold tight!</div>
+    </div>
   </div>
 {/if}
 
@@ -254,6 +257,12 @@
     place-items: center;
   }
 
+  .modal-content {
+    display: grid;
+    place-items: center;
+    gap: 1rem;
+  }
+
   .spinner {
     border: 16px solid transparent;
     border-top: 16px solid #3498db;
@@ -261,5 +270,12 @@
     width: 120px;
     height: 120px;
     animation: spin 2s linear infinite;
+  }
+
+  .upload-info {
+    background: rgba(52, 152, 219, 0.5);
+    color: white;
+    padding: 1rem;
+    border-radius: 100vw;
   }
 </style>
