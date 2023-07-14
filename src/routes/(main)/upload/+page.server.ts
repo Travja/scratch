@@ -39,10 +39,10 @@ export const actions = {
       const location = 'upload/' + uploadType;
       // Randomize the name using uuid
       const fileExtension = file.name.slice(file.name.lastIndexOf('.'));
-      const fileName = uuidv4() + '-full' + fileExtension;
       const buffer: ArrayBuffer = await file.arrayBuffer();
       const shouldCompress =
         file.type.startsWith('image') && !file.type.endsWith('gif') && buffer.byteLength > 500000;
+      const fileName = uuidv4() + (shouldCompress ? '-full' : '') + fileExtension;
 
       // Save file to local storage
       mkdirSync(location, { recursive: true });
