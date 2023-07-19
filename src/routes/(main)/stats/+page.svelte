@@ -1,7 +1,14 @@
 <!--suppress JSUnusedAssignment -->
-<script lang="ts">
+<script lang='ts'>
   export let data: {
-    responses: { firstName: string, lastName: string, attending: boolean, announcement: boolean, numGuests: number }[]
+    responses: {
+      firstName: string,
+      lastName: string,
+      attending: boolean,
+      announcement: boolean,
+      numGuests: number,
+      announcementSent: boolean
+    }[]
   };
 
   const responses: {
@@ -9,7 +16,8 @@
     lastName: string,
     attending: boolean,
     announcement: boolean,
-    numGuests: number
+    numGuests: number,
+    announcementSent: boolean
   }[] = data.responses;
   const total = responses?.length;
   const yes = responses?.filter(r => r?.attending === true)?.length;
@@ -25,7 +33,7 @@
   <ul>
     {#each responses as response}
       <!-- Only show a list of first/last names -->
-      <li>{response.firstName} {response.lastName}</li>
+      <li>{response.firstName} {response.lastName}{response.announcementSent ? ' ✅' : ''}</li>
     {/each}
   </ul>
 </div>

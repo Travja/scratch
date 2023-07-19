@@ -14,7 +14,14 @@ class AnnouncementRepo {
     // Only include attending, announcement, and numGuests
     return Announcement.find(
       {},
-      { firstName: 1, lastName: 1, attending: 1, announcement: 1, numGuests: 1 }
+      {
+        firstName: 1,
+        lastName: 1,
+        attending: 1,
+        announcement: 1,
+        numGuests: 1,
+        announcementSent: 1
+      }
     );
   };
 }
