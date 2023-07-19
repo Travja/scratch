@@ -95,7 +95,7 @@
 
     <div class="info">
       Though all the information is already on this website, if you'd like a direct announcement,
-      please fill out the form below.
+      please fill out the form below and we'll email you an announcement.
     </div>
 
     {#if !emailValid && warning}
@@ -180,47 +180,47 @@
       {/if}
     </div>
 
-    <h2 class="heading">How would you like your announcement?</h2>
-    <div class="announcement">
-      <Toggle left="Email" right="Snail Mail" name="announcement" bind:value={info.announcement} />
-    </div>
-    {#if info.announcement}
-      <div transition:slide class="address-info">
-        <h2 class="heading">Please provide your address below</h2>
-        <input
-          required
-          bind:value={info.address}
-          name="address"
-          type="text"
-          class="address"
-          placeholder="Street Address"
-        />
-        <input
-          required
-          bind:value={info.city}
-          name="city"
-          type="text"
-          class="city"
-          placeholder="City"
-        />
-        <input
-          required
-          bind:value={info.state}
-          name="state"
-          type="text"
-          class="state"
-          placeholder="State"
-        />
-        <input
-          required
-          bind:value={info.zip}
-          name="zip"
-          type="text"
-          class="zip"
-          placeholder="Zip"
-        />
-      </div>
-    {/if}
+<!--    <h2 class="heading">How would you like your announcement?</h2>-->
+<!--    <div class="announcement">-->
+<!--      <Toggle left="Email" right="Snail Mail" name="announcement" bind:value={info.announcement} />-->
+<!--    </div>-->
+<!--    {#if info.announcement}-->
+<!--      <div transition:slide class="address-info">-->
+<!--        <h2 class="heading">Please provide your address below</h2>-->
+<!--        <input-->
+<!--          required-->
+<!--          bind:value={info.address}-->
+<!--          name="address"-->
+<!--          type="text"-->
+<!--          class="address"-->
+<!--          placeholder="Street Address"-->
+<!--        />-->
+<!--        <input-->
+<!--          required-->
+<!--          bind:value={info.city}-->
+<!--          name="city"-->
+<!--          type="text"-->
+<!--          class="city"-->
+<!--          placeholder="City"-->
+<!--        />-->
+<!--        <input-->
+<!--          required-->
+<!--          bind:value={info.state}-->
+<!--          name="state"-->
+<!--          type="text"-->
+<!--          class="state"-->
+<!--          placeholder="State"-->
+<!--        />-->
+<!--        <input-->
+<!--          required-->
+<!--          bind:value={info.zip}-->
+<!--          name="zip"-->
+<!--          type="text"-->
+<!--          class="zip"-->
+<!--          placeholder="Zip"-->
+<!--        />-->
+<!--      </div>-->
+<!--    {/if}-->
 
     <button type="submit" disabled={checkingEmail || !emailValid}>Confirm</button>
   </form>
