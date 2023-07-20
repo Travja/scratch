@@ -14,7 +14,7 @@ connstr = os.getenv('DB_URL')
 client = pymongo.MongoClient(connstr)
 db = client.test
 col = db.announcements
-announcements = col.find({'announcement': False, 'announcementSent': False})
+announcements = col.find({'announcement': False, 'announcementSent': {'$ne': True}})
 
 # Set up smtp information
 smtp_server = os.getenv('SMTP_SERVER')
