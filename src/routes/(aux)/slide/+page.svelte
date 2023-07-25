@@ -79,10 +79,6 @@
     padding: 1rem;
   }
 
-  /*main:hover {*/
-  /*  cursor: none;*/
-  /*}*/
-
   .container {
     position: relative;
     height: 100%;
@@ -96,7 +92,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    height: 7rem;
+    height: 8rem;
     aspect-ratio: 1;
     opacity: 0.8;
     border-top-left-radius: 1rem;
