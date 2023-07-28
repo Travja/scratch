@@ -1,10 +1,11 @@
-<script lang="ts">
-  import { onDestroy, onMount } from "svelte";
-  import type { UploadData } from "../../../api/api";
-  import Polaroid from "$lib/ui/Polaroid.svelte";
-  import { page } from "$app/stores";
+<script lang='ts'>
+  import { onDestroy, onMount } from 'svelte';
+  import type { UploadData } from '../../../api/api';
+  import Polaroid from '$lib/ui/Polaroid.svelte';
+  import { page } from '$app/stores';
 
   let main: HTMLElement;
+  let photoPool: UploadData[] = [];
   let photos: UploadData[] = [];
 
   let height = 0;
@@ -20,29 +21,39 @@
   onMount(() => {
     setDimensions();
 
-    loadPhoto();
+    loadPhotos();
   });
 
   onDestroy(() => clearTimeout(timeout));
 
-  const loadPhoto = () => {
-    let url = "/api/images/randomData";
-    if ($page.url.searchParams.has("type")) {
-      url += `?type=${$page.url.searchParams.get("type")}`;
+  const loadPhotos = () => {
+    let url = '/api/images/getAll';
+    if ($page.url.searchParams.has('type')) {
+      url += `?type=${$page.url.searchParams.get('type')}`;
     }
 
     fetch(url)
       .then(raw => raw.json())
-      .then(data => {
-        data.id = {};
-        photos.push(data);
-        photos = photos.slice(Math.max(0, photos.length - 12));
-        photos = [...photos];
+      .then((data: UploadData[]) => {
+        photoPool = data;
+        runNewPhoto();
       });
+  };
+
+  const runNewPhoto = () => {
+    let randomPhoto = photoPool[Math.floor(Math.random() * photoPool.length)];
+    randomPhoto.id = {};
+    photoPool = photoPool.filter(photo => photo.id !== randomPhoto.id);
+
+    photos.push(randomPhoto);
+    photos = photos.slice(Math.max(0, photos.length - 12));
+    photos = [...photos];
+
+    clearTimeout(timeout);
     // Call recursively after random amount of time between 2 and 7 seconds
     timeout = setTimeout(() => {
       // if (iterations < 10) {
-      loadPhoto();
+      runNewPhoto();
       iterations++;
       // }
     }, Math.random() * 5000 + 2000) as unknown as number;
@@ -53,18 +64,18 @@
 <svelte:head><title>StellarMelodies | Slides</title></svelte:head>
 
 <main>
-  <div class="container" bind:this={main}>
+  <div class='container' bind:this={main}>
     {#each photos as photo (photo.id)}
-      <Polaroid src="{photo.location}"
-                maxWidth="{width}"
-                maxHeight="{height}"
-                caption="{photo.message}"
-                author="{photo.author}" />
+      <Polaroid src='{photo.location}'
+                maxWidth='{width}'
+                maxHeight='{height}'
+                caption='{photo.message}'
+                author='{photo.author}' />
     {/each}
   </div>
 </main>
 
-<img id="qr-code" src="/upload.png" alt="qr-code" />
+<img id='qr-code' src='/upload.png' alt='qr-code' />
 
 <style>
   main {
