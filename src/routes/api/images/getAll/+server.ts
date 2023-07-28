@@ -1,4 +1,3 @@
-import { error } from '@sveltejs/kit';
 import { uploadRepo } from '../../../../api/upload-repo';
 import type { MediaType } from '../../../../api/api';
 
