@@ -72,7 +72,9 @@ export const actions = {
         fileName: file.name,
         author,
         message: formData.get('comment-' + index++) as string,
-        location: `${location}/${fileName.replace('-full', '').replace(fileExtension, '.jpg')}`,
+        location: `${location}/${fileName
+          .replace('-full', '')
+          .replace(fileExtension, shouldCompress ? '.jpg' : fileExtension)}`,
         timestamp: new Date(),
         type: uploadType as MediaType
       };
