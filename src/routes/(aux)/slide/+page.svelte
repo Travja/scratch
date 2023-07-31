@@ -7,13 +7,16 @@
 
   let main: HTMLElement;
   let photoPool: { [key: string]: UploadData[] } = {};
+  let newPhotos: UploadData[] = [];
   let photoType: MediaType;
+  let photoNumber = 0;
   let activePhotos: UploadData[] = [];
 
   let height = 0;
   let width = 0;
   let looping = true;
   let givenType: MediaType | undefined;
+  let initializedReception = false;
 
   let lastUpdate: Date = new Date();
 
@@ -78,8 +81,12 @@
         let bridals = data.filter(photo => photo.type === MediaType.BRIDALS);
         let engagements = data.filter(photo => photo.type === MediaType.ENGAGEMENTS);
         let temple = data.filter(photo => photo.type === MediaType.TEMPLE);
-        let reception = data.filter(photo => photo.type === MediaType.RECEPTION);
         let childhood = data.filter(photo => photo.type === MediaType.CHILDHOOD);
+        let reception = data.filter(photo => {
+          let isReception = photo.type === MediaType.RECEPTION;
+          let isNew = newPhotos.find(newPhoto => newPhoto.fileName === photo.fileName);
+          return isReception && !isNew;
+        });
 
         if (bridals.length !== 0) {
           photoPool[MediaType.BRIDALS] = bridals;
@@ -98,6 +105,22 @@
   };
 
   const runNewPhoto = () => {
+    if(newPhotos.length > 0 && photoNumber++ % 2 == 0) {
+      let newPhoto = newPhotos.shift();
+      if (newPhoto) {
+        newPhoto.id = {};
+        activePhotos.push(newPhoto);
+        activePhotos = activePhotos.slice(Math.max(0, activePhotos.length - 12));
+        activePhotos = [...activePhotos];
+
+        if (!initializedReception) {
+          initializedReception = true;
+          loadPhotos(MediaType.RECEPTION);
+        }
+        return;
+      }
+    }
+
     let iterations = 0;
     do {
       photoType = getNextMediaType();
@@ -126,7 +149,7 @@
     fetch(`/api/images/getAll?type=reception&since=${lastUpdate}`)
       .then(raw => raw.json())
       .then((data: UploadData[]) => {
-        photoPool[MediaType.RECEPTION] = [...photoPool[MediaType.RECEPTION], ...data];
+        newPhotos.push(...data);
 
         lastUpdate = new Date();
       });
