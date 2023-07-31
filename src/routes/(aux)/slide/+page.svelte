@@ -15,6 +15,8 @@
   let looping = true;
   let givenType: MediaType | undefined;
 
+  let lastUpdate: Date = new Date();
+
   const setDimensions = () => {
     height = main?.getBoundingClientRect().height;
     width = main?.getBoundingClientRect().width;
@@ -24,16 +26,25 @@
     setDimensions();
 
     loadPhotos().then(async () => {
-      do {
+      while (looping) {
         await new Promise(resolve => setTimeout(resolve, Math.random() * 5000 + 2000));
         runNewPhoto();
-      } while (looping);
+      }
     });
+
+    startPolling();
   });
 
   onDestroy(() => {
     looping = false;
   });
+
+  const startPolling = async () => {
+    while (looping) {
+      await new Promise(resolve => setTimeout(resolve, 15000));
+      pollForNewPhotos();
+    }
+  };
 
   const getNextMediaType = (): MediaType => {
     if (givenType) return givenType;
@@ -47,7 +58,7 @@
     return types[nextType];
   };
 
-  const loadPhotos = (type?: MediaType): Promise<void> => {
+  const loadPhotos = async (type?: MediaType): Promise<void> => {
     let url = '/api/images/getAll';
     let loadType: string | undefined | null = type;
     if ($page.url.searchParams.has('type')) {
@@ -79,26 +90,21 @@
         if (temple.length !== 0) {
           photoPool[MediaType.TEMPLE] = temple;
         }
-        if (reception.length !== 0) {
-          photoPool[MediaType.RECEPTION] = reception;
-        }
         if (childhood.length !== 0) {
           photoPool[MediaType.CHILDHOOD] = childhood;
         }
-
-        console.log(photoPool);
+        photoPool[MediaType.RECEPTION] = reception;
       });
   };
 
   const runNewPhoto = () => {
-    let iters = 0;
+    let iterations = 0;
     do {
       photoType = getNextMediaType();
-      iters++;
-    } while ((!photoPool[photoType] || photoPool[photoType].length === 0) && iters < 10);
+      iterations++;
+    } while ((!photoPool[photoType] || photoPool[photoType].length === 0) && iterations < 10);
 
-    if (iters == 10) {
-      console.log('No photos found');
+    if (iterations == 10) {
       return;
     }
 
@@ -106,7 +112,6 @@
     let randomPhoto = pool[Math.floor(Math.random() * pool.length)];
     randomPhoto.id = {};
     photoPool[photoType] = pool.filter(photo => photo.id !== randomPhoto.id);
-    console.log(photoType + ' pool:', photoPool[photoType].length);
     if (photoPool[photoType].length === 0) {
       loadPhotos(photoType);
     }
@@ -114,6 +119,17 @@
     activePhotos.push(randomPhoto);
     activePhotos = activePhotos.slice(Math.max(0, activePhotos.length - 12));
     activePhotos = [...activePhotos];
+  };
+
+  const pollForNewPhotos = () => {
+    console.log('Polling new photos');
+    fetch(`/api/images/getAll?type=reception&since=${lastUpdate}`)
+      .then(raw => raw.json())
+      .then((data: UploadData[]) => {
+        photoPool[MediaType.RECEPTION] = [...photoPool[MediaType.RECEPTION], ...data];
+
+        lastUpdate = new Date();
+      });
   };
 </script>
 
@@ -132,7 +148,10 @@
   </div>
 </main>
 
-<img id='qr-code' src='/upload.png' alt='qr-code' />
+<div id='qr-code'>
+  <div class='info'>Add Your Pictures</div>
+  <img id='qr-img' src='/upload.png' alt='qr-code' />
+</div>
 
 <style>
   main {
@@ -158,11 +177,26 @@
 
   #qr-code {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     bottom: 0;
     right: 0;
-    height: 8rem;
-    aspect-ratio: 1;
     opacity: 0.8;
+    background: white;
+    color: black;
     border-top-left-radius: 1rem;
+  }
+
+  #qr-img {
+    width: 9rem;
+    aspect-ratio: 1;
+    border-top-left-radius: 1rem;
+  }
+
+  .info {
+    margin: 0.5rem;
+    margin-bottom: 0;
   }
 </style>

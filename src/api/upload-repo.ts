@@ -7,15 +7,25 @@ class UploadRepo {
     return new Photo(info).save();
   };
 
-  getPhotos = async (type: MediaType): Promise<UploadData[]> => {
-    return Photo.find({ type }, { _id: 0, __v: 0 }).sort({
+  getPhotos = async (type: MediaType, since?: Date): Promise<UploadData[]> => {
+    let params: any = { type };
+    if (since) {
+      params = { type, timestamp: { $gt: since.toISOString() } };
+    }
+
+    return Photo.find(params, { _id: 0, __v: 0 }).sort({
       timestamp: 1,
       fileName: 1
     }) as unknown as UploadData[];
   };
 
-  getAllPhotos = async (): Promise<UploadData[]> => {
-    return Photo.find({}, { _id: 0, __v: 0 }).sort({
+  getAllPhotos = async (since?: Date): Promise<UploadData[]> => {
+    let params: any = {};
+    if (since) {
+      params = { timestamp: { $gt: since.toISOString() } };
+    }
+
+    return Photo.find(params, { _id: 0, __v: 0 }).sort({
       timestamp: 1,
       fileName: 1
     }) as unknown as UploadData[];
