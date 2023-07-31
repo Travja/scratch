@@ -213,7 +213,7 @@
   }
 
   #qr-img {
-    width: 9rem;
+    width: 12rem;
     aspect-ratio: 1;
     border-top-left-radius: 1rem;
   }
