@@ -84,7 +84,7 @@
         let childhood = data.filter(photo => photo.type === MediaType.CHILDHOOD);
         let reception = data.filter(photo => {
           let isReception = photo.type === MediaType.RECEPTION;
-          let isNew = newPhotos.find(newPhoto => newPhoto.fileName === photo.fileName);
+          let isNew = !!newPhotos.find(newPhoto => newPhoto.location === photo.location);
           return isReception && !isNew;
         });
 
