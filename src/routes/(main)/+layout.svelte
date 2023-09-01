@@ -69,11 +69,11 @@
         on:click={() => (menuOpen = false)}
         class:active={$page.url.pathname === '/info'}>Info</a
       >
-      <a
-        href="/rsvp"
-        on:click={() => (menuOpen = false)}
-        class:active={$page.url.pathname === '/rsvp'}>RSVP</a
-      >
+<!--      <a-->
+<!--        href="/rsvp"-->
+<!--        on:click={() => (menuOpen = false)}-->
+<!--        class:active={$page.url.pathname === '/rsvp'}>RSVP</a-->
+<!--      >-->
       <a
         href="/gallery"
         on:click={() => (menuOpen = false)}
