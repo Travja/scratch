@@ -100,7 +100,9 @@
         if (childhood.length !== 0) {
           photoPool[MediaType.CHILDHOOD] = childhood;
         }
-        photoPool[MediaType.RECEPTION] = reception;
+        if (reception.length !== 0) {
+          photoPool[MediaType.RECEPTION] = reception;
+        }
       });
   };
 
