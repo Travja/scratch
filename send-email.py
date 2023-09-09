@@ -14,7 +14,7 @@ connstr = os.getenv('DB_URL')
 client = pymongo.MongoClient(connstr)
 db = client.test
 col = db.announcements
-announcements = col.find({'announcement': False, 'announcementSent': {'$ne': True}})
+announcements = col.find({})
 
 # Set up smtp information
 smtp_server = os.getenv('SMTP_SERVER')
@@ -25,18 +25,15 @@ smtp_password = os.getenv('SMTP_PASS')
 emailBody = """
 Dear {firstName} {lastName},
 
-We are so excited that you want to celebrate with us and we look forward to seeing you on our special day! Attached, you'll find a copy of our invitation. Please let us know if you have any questions.
+Thank you for being involved in whatever capacity you may have been for our wedding. Our wedding turned out to be a wonderful day and we are so happy to be married. We are so grateful for all of the love and support we have received from our family and friends. We are so blessed to have you in our lives.
 
-Thank you!
-Travis & Dorothy
+If you missed the event or would like to relive the day, pictures are available at https://stellarmelodies.com/gallery. Additionally, if you took pictures but didn't get a chance to upload them yourself, we would love to see them! Your experience of the day is unique and we would love to see it through your eyes. You can upload them at https://stellarmelodies.com/upload.
+
+Thanks again! We couldn't do it without you!
+
+Love,
+- The Eggetts
 """
-front = None
-back = None
-
-with open('Announcement Front.jpg', 'rb') as fp:
-    front = MIMEImage(fp.read())
-with open('Announcement Back.jpg', 'rb') as fp:
-    back = MIMEImage(fp.read())
 
 context = ssl.create_default_context()
 server = None
@@ -47,14 +44,11 @@ def sendEmail(email, body):
 
     # send the email
     message = MIMEMultipart()
-    message["Subject"] = "Travis & Dorothy's Wedding Invitation"
-    message["From"] = "Travis Eggett <" + smtp_username + ">"
+    message["Subject"] = "Thank You! - Travis and Dorothy Eggett"
+    message["From"] = "Eggetts <" + smtp_username + ">"
     message["To"] = email
     try:
         message.attach(MIMEText(body, "plain"))
-        # attach 'Announcement Front.jpg' and 'Announcement Back.jpg'
-        message.attach(front)
-        message.attach(back)
         server.sendmail(smtp_username, email, message.as_string())
     except Exception as e:
         print(e)
@@ -67,10 +61,11 @@ try:
     server.login(smtp_username, smtp_password)
 
     for announcement in announcements:
+        if (not 'email' in announcement or announcement['email'] == ''):
+            continue
         # send the email to the person
         sendEmail(announcement['email'], emailBody.format(firstName=announcement['firstName'], lastName=announcement['lastName']))
-
         # update the record to set announcementSent to True
-        col.update_one({'_id': announcement['_id']}, {'$set': {'announcementSent': True}})
+#         col.update_one({'_id': announcement['_id']}, {'$set': {'announcementSent': True}})
 finally:
     server.quit()
