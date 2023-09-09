@@ -64,11 +64,11 @@
       <a href="/" on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
       >Home</a
       >
-      <a
-        href="/info"
-        on:click={() => (menuOpen = false)}
-        class:active={$page.url.pathname === '/info'}>Info</a
-      >
+<!--      <a-->
+<!--        href="/info"-->
+<!--        on:click={() => (menuOpen = false)}-->
+<!--        class:active={$page.url.pathname === '/info'}>Info</a-->
+<!--      >-->
 <!--      <a-->
 <!--        href="/rsvp"-->
 <!--        on:click={() => (menuOpen = false)}-->
@@ -82,6 +82,7 @@
     </div>
   {/if}
 </nav>
+<div id='announce'>Thank you! to everyone that was able to attend! Please enjoy pictures of the event!</div>
 
 <main bind:this={main}>
   <slot />
@@ -188,5 +189,13 @@
 
   .menu-button:hover {
     cursor: pointer;
+  }
+
+  #announce {
+    text-align: center;
+    padding: 1rem 0.5rem;
+    background-color: #ef626c;
+    font-weight: bold;
+    text-shadow: 0 0 0.5rem #111;
   }
 </style>

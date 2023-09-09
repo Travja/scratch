@@ -1,7 +1,4 @@
 <script>
-  import CalendarEvent from '$lib/ui/CalendarEvent.svelte';
-  import { amazonLink, venmoUsername } from '../../../api/api';
-  import OpenHouseEvent from '$lib/ui/OpenHouseEvent.svelte';
 </script>
 
 <div id='content'>
@@ -20,7 +17,7 @@
   <div class='block'>
     <h1 class='cursive'>Reception</h1>
     <p>
-      Our reception was on <strong>August 5th from 6-8:30pm</strong> at the
+      Our reception was on <strong>August 5th</strong> at the
       <a href='https://goo.gl/maps/EqUCmGdbToYN73fi7' target='_blank' title='Granite Tabernacle'
       >Granite Tabernacle</a
       >
@@ -43,7 +40,7 @@
   <div class='block'>
     <h1 class='cursive'>Ohio Open House</h1>
     <p>
-      We will be having an open house in Ohio on <strong>September 2nd</strong> from <strong>6:30-8:30pm</strong> at the
+      We had an open house in Ohio on <strong>September 2nd</strong> at the
       <a
         href='https://goo.gl/maps/cB3v9wY8yWF8DsDdA'
         target='_blank'
@@ -53,22 +50,22 @@
       </a>
       in Cincinnati.
     </p>
-    <p>We look forward to seeing you there!</p>
+<!--    <p>We look forward to seeing you there!</p>-->
 
-    <OpenHouseEvent centered />
+<!--    <OpenHouseEvent centered />-->
   </div>
 
-  <div class='block'>
-    <h1 class='cursive'>Gifts</h1>
-    <p>
-      We are registered on <a href={amazonLink}>Amazon</a>.
-    </p>
-    <p>
-      You can also send us a gift through Venmo to <a href='https://venmo.com/{venmoUsername}'
-    >@{venmoUsername}</a
-    >.
-    </p>
-  </div>
+<!--  <div class='block'>-->
+<!--    <h1 class='cursive'>Gifts</h1>-->
+<!--    <p>-->
+<!--      We are registered on <a href={amazonLink}>Amazon</a>.-->
+<!--    </p>-->
+<!--    <p>-->
+<!--      You can also send us a gift through Venmo to <a href='https://venmo.com/{venmoUsername}'-->
+<!--    >@{venmoUsername}</a-->
+<!--    >.-->
+<!--    </p>-->
+<!--  </div>-->
 </div>
 
 <style>
