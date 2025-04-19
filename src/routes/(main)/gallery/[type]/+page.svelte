@@ -10,16 +10,16 @@
   <meta content="StellarMelodies - Gallery - {data.title}" property="og:title" />
 </svelte:head>
 
-<content>
+<div class='content'>
   <h1 class="cursive">{data.title}</h1>
   {#if data.title === 'Bridals'}
     <p>A <strong>HUGE</strong> thanks goes out to <a href="https://kianabatesphoto.com">Kiana</a> for these photos!</p>
   {/if}
   <Gallery imageData={data.images} />
-</content>
+</div>
 
 <style>
-  content {
+  .content {
     padding-inline: 1rem;
     padding-bottom: 1rem;
   }
