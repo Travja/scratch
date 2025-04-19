@@ -77,6 +77,7 @@
     return fetch(url)
       .then(raw => raw.json())
       .then(async (data: UploadData[]) => {
+        data.sort(() => Math.random() - 0.5); // Shuffle the array
         // Sort data by type
         let bridals = data.filter(photo => photo.type === MediaType.BRIDALS);
         let engagements = data.filter(photo => photo.type === MediaType.ENGAGEMENTS);
@@ -107,7 +108,7 @@
   };
 
   const runNewPhoto = () => {
-    if(newPhotos.length > 0 && photoNumber++ % 2 == 0) {
+    if (newPhotos.length > 0 && photoNumber++ % 2 == 0) {
       let newPhoto = newPhotos.shift();
       if (newPhoto) {
         newPhoto.id = {};
@@ -134,13 +135,14 @@
     }
 
     let pool = photoPool[photoType];
-    let randomPhoto = pool[Math.floor(Math.random() * pool.length)];
-    randomPhoto.id = {};
-    photoPool[photoType] = pool.filter(photo => photo.id !== randomPhoto.id);
-    if (photoPool[photoType].length === 0) {
+    let randomPhoto = pool.shift();
+    if (photoPool[photoType].length === 0 || !randomPhoto) {
       loadPhotos(photoType);
     }
 
+    if (!randomPhoto) return;
+
+    randomPhoto.id = {};
     activePhotos.push(randomPhoto);
     activePhotos = activePhotos.slice(Math.max(0, activePhotos.length - 12));
     activePhotos = [...activePhotos];
@@ -162,7 +164,7 @@
 <svelte:head><title>StellarMelodies | Slides</title></svelte:head>
 
 <main>
-  <div class='container' bind:this={main}>
+  <div bind:this={main} class='container'>
     {#each activePhotos as photo (photo.id)}
       <Polaroid src='{photo.location}'
                 maxWidth='{width}'
@@ -175,7 +177,7 @@
 
 <div id='qr-code'>
   <div class='info'>Add Your Pictures</div>
-  <img id='qr-img' src='/upload.png' alt='qr-code' />
+  <img alt='qr-code' id='qr-img' src='/upload.png' />
 </div>
 
 <style>
