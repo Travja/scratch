@@ -82,13 +82,13 @@
     </div>
   {/if}
 </nav>
-<div id='announce'>Thank you! to everyone that was able to attend! Please enjoy pictures of the event!</div>
+<!--<div id='announce'>Thank you! to everyone that was able to attend! Please enjoy pictures of the event!</div>-->
 
 <main bind:this={main}>
   <slot />
   <footer>
     &copy;
-    {new Date().getFullYear()} StellarMelodies
+    {new Date().getFullYear()} Travis Eggett
   </footer>
 </main>
 
@@ -191,11 +191,11 @@
     cursor: pointer;
   }
 
-  #announce {
-    text-align: center;
-    padding: 1rem 0.5rem;
-    background-color: #ef626c;
-    font-weight: bold;
-    text-shadow: 0 0 0.5rem #111;
-  }
+  /*#announce {*/
+  /*  text-align: center;*/
+  /*  padding: 1rem 0.5rem;*/
+  /*  background-color: #ef626c;*/
+  /*  font-weight: bold;*/
+  /*  text-shadow: 0 0 0.5rem #111;*/
+  /*}*/
 </style>

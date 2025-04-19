@@ -12,9 +12,9 @@
 
 <div class='content'>
   <h1 class="cursive">{data.title}</h1>
-  {#if data.title === 'Bridals'}
-    <p>A <strong>HUGE</strong> thanks goes out to <a href="https://kianabatesphoto.com">Kiana</a> for these photos!</p>
-  {/if}
+  <!--{#if data.title === 'Bridals'}-->
+  <!--  <p>A <strong>HUGE</strong> thanks goes out to <a href="https://kianabatesphoto.com">Kiana</a> for these photos!</p>-->
+  <!--{/if}-->
   <Gallery imageData={data.images} />
 </div>
 
