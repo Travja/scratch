@@ -177,7 +177,7 @@
 
 <div id='qr-code'>
   <div class='info'>Add Your Pictures</div>
-  <img alt='qr-code' id='qr-img' src='/upload.png' />
+  <img alt='qr-code' id='qr-img' src='/upload.svg' />
 </div>
 
 <style>
