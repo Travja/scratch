@@ -6,10 +6,6 @@ class RsvpRepo {
     return new Rsvp(info).save();
   };
 
-  hasEmail = async (email: string) => {
-    return Rsvp.exists({ email: email });
-  };
-
   getData = async () => {
     // Only include attending, announcement, and numGuests
     return Rsvp.find(
