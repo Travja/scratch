@@ -22,7 +22,7 @@
 <svelte:window on:scroll={scroll} />
 
 {#if shown}
-  <div class="container" transition:fade>
+  <div class="container" transition:fade|global>
     <div class="indicator">
       <span class="material-icons"> keyboard_double_arrow_down </span>
       Scroll

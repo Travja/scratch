@@ -109,7 +109,7 @@
           />
 
           {#if detailsShown[event.event]}
-            <div class='details' transition:slide>
+            <div class='details' transition:slide|global>
               <div class='info mb'>
                 { formatDateTime(event.ev?.date) }
                 <br />

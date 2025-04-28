@@ -53,7 +53,7 @@
   {#if shown}
     <div
       class="add-links"
-      transition:fly={{ y: -20, duration: 100 }}
+      transition:fly|global={{ y: -20, duration: 100 }}
       on:mouseout|stopPropagation={checkOut}
       on:blur={() => (shown = false)}
       on:click|stopPropagation

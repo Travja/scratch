@@ -24,10 +24,10 @@
 
 {#if loaded}
   {#if isVideo}
-    <video in:fade={{duration: 1000, easing: quadIn}}
+    <video in:fade|global={{duration: 1000, easing: quadIn}}
            {src} on:click on:keypress/>
   {:else}
-    <img in:fade={{duration: 1000, easing: quadIn}}
+    <img in:fade|global={{duration: 1000, easing: quadIn}}
          {src} {alt} on:click on:keypress loading="lazy" decoding="async" />
   {/if}
 {/if}

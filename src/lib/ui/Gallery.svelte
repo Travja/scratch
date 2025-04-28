@@ -31,7 +31,7 @@
 {#if activeIndex > -1}
   <div
     class="modal"
-    transition:fade={{ duration: 300 }}
+    transition:fade|global={{ duration: 300 }}
     on:keypress={(e) => {
       if (e.key === 'Escape') {
         activeIndex = -1;
@@ -39,7 +39,7 @@
     }}
     on:click={() => (activeIndex = -1)}
   >
-    <div transition:fly={{ y: 100, duration: 300 }} class="modal-content">
+    <div transition:fly|global={{ y: 100, duration: 300 }} class="modal-content">
       {#if imageData[activeIndex]?.fileName.endsWith('.mp4') || imageData[activeIndex]?.fileName.endsWith('.webm') || imageData[activeIndex]?.fileName.endsWith('.ogg') || imageData[activeIndex]?.fileName.endsWith('.mov')}
         <video controls>
           <source src={'/' + imageData[activeIndex]?.location} type="video/mp4" />

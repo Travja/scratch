@@ -69,7 +69,7 @@
 </script>
 
 <div
-  out:fly={{ y: 100, duration: 300 }}
+  out:fly|global={{ y: 100, duration: 300 }}
   class:loaded
   class="polaroid"
   style:--x="{x}px"

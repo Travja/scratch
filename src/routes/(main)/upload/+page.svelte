@@ -106,7 +106,7 @@
               photoForm.submit();
             }
           }}
-              transition:fly={{ y: 100, duration: 500 }}
+              transition:fly|global={{ y: 100, duration: 500 }}
       >Upload
       </button>
     {/if}

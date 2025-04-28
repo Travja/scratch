@@ -31,7 +31,7 @@
     </div>
   {/if}
   {#if menuOpen || windowWidth >= 750}
-    <div transition:slide class:shown={menuOpen} id="menu-items">
+    <div transition:slide|global class:shown={menuOpen} id="menu-items">
       <a href="/" on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
       >Home</a
       >
