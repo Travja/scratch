@@ -9,14 +9,14 @@ export async function GET() {
   const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
 
   if (!randomPhoto) {
-    throw error(404, { message: 'Image not found' });
+    error(404, { message: 'Image not found' });
   }
 
   const location = randomPhoto.location;
 
   if (!fs.existsSync(location)) {
     console.log('Missing file: ' + location);
-    throw error(500, { message: 'Image not found' });
+    error(500, { message: 'Image not found' });
   }
 
   const photo = fs.readFileSync(location);

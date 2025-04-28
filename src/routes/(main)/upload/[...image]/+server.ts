@@ -7,13 +7,13 @@ export async function GET(event: RequestEvent) {
   let media = event.params.image;
 
   if (!media) {
-    throw error(400, { message: 'Media is required' });
+    error(400, { message: 'Media is required' });
   }
 
   media = 'upload/' + media;
 
   if (!fs.existsSync(media)) {
-    throw error(404, { message: 'Media not found' });
+    error(404, { message: 'Media not found' });
   }
 
   const localMedia = fs.readFileSync(media);

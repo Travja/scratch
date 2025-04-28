@@ -12,5 +12,5 @@ export const load = async ({ params }: { params: { type: MediaType } }) => {
     };
   }
 
-  throw error(404, 'Not found');
+  error(404, 'Not found');
 };

@@ -9,7 +9,7 @@ export async function GET(event: RequestEvent) {
   const type = event.params.type as MediaType;
 
   if (!type) {
-    throw error(400, { message: 'Type is required' });
+    error(400, { message: 'Type is required' });
   }
 
   const photos = await uploadRepo.getPhotos(type);
@@ -17,14 +17,14 @@ export async function GET(event: RequestEvent) {
   const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
 
   if (!randomPhoto) {
-    throw error(404, { message: 'Image not found' });
+    error(404, { message: 'Image not found' });
   }
 
   const location = randomPhoto.location;
 
   if (!fs.existsSync(location)) {
     console.log('Missing file: ' + location);
-    throw error(500, { message: 'Image not found' });
+    error(500, { message: 'Image not found' });
   }
 
   const photo = fs.readFileSync(location);
