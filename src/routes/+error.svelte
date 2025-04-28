@@ -4,8 +4,8 @@
   import Logo from "$lib/ui/Logo.svelte";
   import { slide } from "svelte/transition";
 
-  let menuOpen = false;
-  let windowWidth = 0;
+  let menuOpen = $state(false);
+  let windowWidth = $state(0);
 </script>
 
 <svelte:head>
@@ -20,8 +20,8 @@
   {#if windowWidth < 750}
     <div
       class="menu-button"
-      on:click={() => (menuOpen = !menuOpen)}
-      on:keypress={(event) => {
+      onclick={() => (menuOpen = !menuOpen)}
+      onkeypress={(event) => {
         if (event.key === 'Enter') {
           menuOpen = !menuOpen;
         }
@@ -32,22 +32,22 @@
   {/if}
   {#if menuOpen || windowWidth >= 750}
     <div transition:slide|global class:shown={menuOpen} id="menu-items">
-      <a href="/" on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
+      <a href="/" onclick={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
       >Home</a
       >
       <a
         href="/info"
-        on:click={() => (menuOpen = false)}
+        onclick={() => (menuOpen = false)}
         class:active={$page.url.pathname === '/info'}>Info</a
       >
       <a
         href="/rsvp"
-        on:click={() => (menuOpen = false)}
+        onclick={() => (menuOpen = false)}
         class:active={$page.url.pathname === '/rsvp'}>RSVP</a
       >
       <a
         href="/gallery"
-        on:click={() => (menuOpen = false)}
+        onclick={() => (menuOpen = false)}
         class:active={$page.url.pathname === '/gallery'}>Gallery</a
       >
     </div>

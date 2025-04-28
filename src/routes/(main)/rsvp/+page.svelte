@@ -4,16 +4,21 @@
   import CalendarEvent from '$lib/ui/CalendarEvent.svelte';
   import { onMount } from 'svelte';
 
-  /** @type {import('../../../../.svelte-kit/types/src/routes').ActionData} */
-  export let form: { success?: boolean; message?: string; firstName?: string };
+  
+  interface Props {
+    /** @type {import('../../../../.svelte-kit/types/src/routes').ActionData} */
+    form: { success?: boolean; message?: string; firstName?: string };
+  }
 
-  let detailsShown: { [key: string]: boolean } = {};
+  let { form }: Props = $props();
 
-  let info: RsvpInfo = {
+  let detailsShown: { [key: string]: boolean } = $state({});
+
+  let info: RsvpInfo = $state({
     firstName: '',
     lastName: '',
     events: []
-  };
+  });
 
   onMount(() => {
     for (let event of events) {
@@ -96,8 +101,8 @@
                   tabindex='0'
                   aria-label='Toggle event details'
                   aria-expanded={detailsShown[event.event]}
-                  on:click={() => (detailsShown[event.event] = !!detailsShown[event.event])}
-                  on:keypress={() => (detailsShown[event.event] = !!detailsShown[event.event])}
+                  onclick={() => (detailsShown[event.event] = !!detailsShown[event.event])}
+                  onkeypress={() => (detailsShown[event.event] = !!detailsShown[event.event])}
             >info</span>
           </label>
           <input

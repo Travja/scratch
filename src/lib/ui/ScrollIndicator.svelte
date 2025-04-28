@@ -3,7 +3,7 @@
   import { fade } from 'svelte/transition';
 
   let scrolled = false;
-  let shown = false;
+  let shown = $state(false);
 
   onMount(() => {
     setTimeout(() => {
@@ -19,7 +19,7 @@
   };
 </script>
 
-<svelte:window on:scroll={scroll} />
+<svelte:window onscroll={scroll} />
 
 {#if shown}
   <div class="container" transition:fade|global>

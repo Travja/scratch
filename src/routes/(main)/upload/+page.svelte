@@ -1,29 +1,38 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { MediaType } from "../../../api/api";
   import { fly } from "svelte/transition";
 
-  /** @type {import("../../../../.svelte-kit/types/src/routes").ActionData} */
-  export let form: { success?: boolean, message?: string };
-  export let data: { type?: MediaType };
-
-  let photoType: MediaType = data?.type || MediaType.RECEPTION;
-  let photos: FileList;
-
-  let inputElm: HTMLInputElement;
-  let previewPhotos: string[] = [];
-  let photoForm: HTMLFormElement;
-
-  let submitting = false;
-
-  $: if (photos && inputElm) {
-    previewPhotos.forEach((file) => URL.revokeObjectURL(file));
-
-    previewPhotos = [];
-    let index = 0;
-    for (let photo of photos) {
-      previewPhotos.push(URL.createObjectURL(photo));
-    }
+  
+  interface Props {
+    /** @type {import("../../../../.svelte-kit/types/src/routes").ActionData} */
+    form: { success?: boolean, message?: string };
+    data: { type?: MediaType };
   }
+
+  let { form, data }: Props = $props();
+
+  let photoType: MediaType = $state(data?.type || MediaType.RECEPTION);
+  let photos: FileList = $state();
+
+  let inputElm: HTMLInputElement = $state();
+  let previewPhotos: string[] = $state([]);
+  let photoForm: HTMLFormElement = $state();
+
+  let submitting = $state(false);
+
+  run(() => {
+    if (photos && inputElm) {
+      previewPhotos.forEach((file) => URL.revokeObjectURL(file));
+
+      previewPhotos = [];
+      let index = 0;
+      for (let photo of photos) {
+        previewPhotos.push(URL.createObjectURL(photo));
+      }
+    }
+  });
 </script>
 
 <content>
@@ -56,8 +65,8 @@
       <div class="name">*This will be displayed with your media on the slideshow</div>
       <button type="button"
               id="select"
-              on:click={() => inputElm.click()}
-              on:keypress={(e) => {
+              onclick={() => inputElm.click()}
+              onkeypress={(e) => {
             if (e.key === 'Enter') {
               inputElm.click();
             }
@@ -77,14 +86,14 @@
                 <video
                   src={photo}
                   class="preview"
-                  on:loadstart={() => URL.revokeObjectURL(photo)}
+                  onloadstart={() => URL.revokeObjectURL(photo)}
                   controls
-                />
+></video>
               {:else}
                 <img
                   src={photo}
                   class="preview"
-                  on:load={() => URL.revokeObjectURL(photo)}
+                  onload={() => URL.revokeObjectURL(photo)}
                   alt={photos[i].name}
                 />
               {/if}
@@ -96,11 +105,11 @@
       <button type="button"
               id="upload"
               disabled={submitting}
-              on:click={() => {
+              onclick={() => {
                 submitting = true;
                 photoForm.submit();
               }}
-              on:keypress={(e) => {
+              onkeypress={(e) => {
             if (e.key === 'Enter') {
               submitting = true;
               photoForm.submit();

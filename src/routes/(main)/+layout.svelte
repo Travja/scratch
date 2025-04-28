@@ -1,4 +1,6 @@
 <script lang='ts'>
+  import { run } from 'svelte/legacy';
+
   import '../../app.css';
   import { page } from '$app/stores';
   import Logo from '$lib/ui/Logo.svelte';
@@ -6,24 +8,31 @@
   import { isSafari, scrollHeight } from '../../api/api';
   import { onMount } from 'svelte';
 
-  export let data: { isSafari: boolean };
+  interface Props {
+    data: { isSafari: boolean };
+    children?: import('svelte').Snippet;
+  }
 
-  let menuOpen = false;
-  let pageName = 'Home';
-  let windowWidth = 0;
+  let { data, children }: Props = $props();
+
+  let menuOpen = $state(false);
+  let pageName = $state('Home');
+  let windowWidth = $state(0);
 
   onMount(() => isSafari.set(data.isSafari));
 
-  $: if ($page.url.pathname === '/') {
-    pageName = 'Home';
-  } else if ($page.url.pathname === '/rsvp') {
-    pageName = 'RSVP';
-  } else {
-    pageName =
-      $page.url.pathname.slice(1, 2).toUpperCase() + $page.url.pathname.slice(2).toLowerCase();
-  }
+  run(() => {
+    if ($page.url.pathname === '/') {
+      pageName = 'Home';
+    } else if ($page.url.pathname === '/rsvp') {
+      pageName = 'RSVP';
+    } else {
+      pageName =
+        $page.url.pathname.slice(1, 2).toUpperCase() + $page.url.pathname.slice(2).toLowerCase();
+    }
+  });
 
-  let main: HTMLElement;
+  let main: HTMLElement = $state();
 
   let scroll = () => scrollHeight.set(window.scrollY - main.offsetTop);
 </script>
@@ -39,7 +48,7 @@
   <meta content='#F19985' data-react-helmet='true' name='theme-color' />
 </svelte:head>
 
-<svelte:window bind:innerWidth={windowWidth} on:scroll={scroll} />
+<svelte:window bind:innerWidth={windowWidth} onscroll={scroll} />
 
 <Logo height='2rem' phone />
 <nav>
@@ -47,8 +56,8 @@
   {#if windowWidth < 750}
     <div
       class='menu-button'
-      on:click={() => (menuOpen = !menuOpen)}
-      on:keypress={(event) => {
+      onclick={() => (menuOpen = !menuOpen)}
+      onkeypress={(event) => {
         if (event.key === 'Enter') {
           menuOpen = !menuOpen;
         }
@@ -59,17 +68,17 @@
   {/if}
   {#if menuOpen || windowWidth >= 750}
     <div transition:slide|global class:shown={menuOpen} id='menu-items'>
-      <a href='/' on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
+      <a href='/' onclick={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
       >Home</a
       >
       <a
         href='/rsvp'
-        on:click={() => (menuOpen = false)}
+        onclick={() => (menuOpen = false)}
         class:active={$page.url.pathname === '/rsvp'}>RSVP</a
       >
       <a
         href='/gallery'
-        on:click={() => (menuOpen = false)}
+        onclick={() => (menuOpen = false)}
         class:active={$page.url.pathname === '/gallery'}>Gallery</a
       >
     </div>
@@ -78,7 +87,7 @@
 <!--<div id='announce'>Thank you! to everyone that was able to attend! Please enjoy pictures of the event!</div>-->
 
 <main bind:this={main}>
-  <slot />
+  {@render children?.()}
   <footer>
     &copy;
     {new Date().getFullYear()} Travis Eggett

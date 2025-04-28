@@ -3,17 +3,17 @@
   import type { UploadData } from '../../../api/api';
   import { MediaType } from '../../../api/api';
   import Polaroid from '$lib/ui/Polaroid.svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
 
-  let main: HTMLElement;
+  let main: HTMLElement = $state();
   let photoPool: { [key: string]: UploadData[] } = {};
   let newPhotos: UploadData[] = [];
   let photoType: MediaType;
   let photoNumber = 0;
-  let activePhotos: UploadData[] = [];
+  let activePhotos: UploadData[] = $state([]);
 
-  let height = 0;
-  let width = 0;
+  let height = $state(0);
+  let width = $state(0);
   let looping = true;
   let givenType: MediaType | undefined;
   let initializedReception = false;
@@ -64,8 +64,8 @@
   const loadPhotos = async (type?: MediaType): Promise<void> => {
     let url = '/api/images/getAll';
     let loadType: string | undefined | null = type;
-    if ($page.url.searchParams.has('type')) {
-      loadType = $page.url.searchParams.get('type');
+    if (page.url.searchParams.has('type')) {
+      loadType = page.url.searchParams.get('type');
       photoType = loadType as MediaType;
       givenType = photoType;
     }
@@ -160,7 +160,7 @@
   };
 </script>
 
-<svelte:window on:resize={setDimensions}></svelte:window>
+<svelte:window onresize={setDimensions}></svelte:window>
 <svelte:head><title>StellarMelodies | Slides</title></svelte:head>
 
 <main>

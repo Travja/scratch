@@ -1,12 +1,24 @@
 <!--suppress CssUnresolvedCustomProperty -->
 <script lang="ts">
-  export let value: boolean;
-  export let left = 'True';
-  export let right = 'False';
-  export let color = '#666';
-  export let toggleColor = 'var(--color-secondary)';
-  export let inline = true;
-  export let name = 'toggle';
+  interface Props {
+    value: boolean;
+    left?: string;
+    right?: string;
+    color?: string;
+    toggleColor?: string;
+    inline?: boolean;
+    name?: string;
+  }
+
+  let {
+    value = $bindable(),
+    left = 'True',
+    right = 'False',
+    color = '#666',
+    toggleColor = 'var(--color-secondary)',
+    inline = true,
+    name = 'toggle'
+  }: Props = $props();
 
   let clickLeft = (e?: KeyboardEvent | MouseEvent) => {
     if (e && e instanceof KeyboardEvent && e.key !== 'Enter') return;
@@ -29,8 +41,8 @@
   style:--toggleColor={toggleColor}
   class:inline
 >
-  <div class="item" class:active={!value} on:keypress={clickLeft} on:click={clickLeft}>{left}</div>
-  <div class="item" class:active={value} on:keypress={clickRight} on:click={clickRight}>
+  <div class="item" class:active={!value} onkeypress={clickLeft} onclick={clickLeft}>{left}</div>
+  <div class="item" class:active={value} onkeypress={clickRight} onclick={clickRight}>
     {right}
   </div>
 </div>

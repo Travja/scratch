@@ -1,13 +1,20 @@
 <script lang="ts">
+  import { stopPropagation, createBubbler } from 'svelte/legacy';
+
+  const bubble = createBubbler();
   import { onDestroy } from 'svelte';
   import { makeIcsFile, makeOutlookInvite } from '../../api/calendar';
   import { fly } from 'svelte/transition';
   import { amazonLink, venmoUsername } from '../../api/api';
 
-  export let centered = false;
+  interface Props {
+    centered?: boolean;
+  }
 
-  let shown = false;
-  let addEvent: HTMLElement;
+  let { centered = false }: Props = $props();
+
+  let shown = $state(false);
+  let addEvent: HTMLElement = $state();
   const date = {
     start: new Date('2025/05/23 00:00:00 UTC'),
     end: new Date('2025/05/23 02:30:00 UTC')
@@ -42,10 +49,10 @@
 <div
   class="add-event"
   bind:this={addEvent}
-  on:click={() => (shown = true)}
-  on:keypress={() => (shown = true)}
-  on:mouseout={checkOut}
-  on:blur={() => (shown = false)}
+  onclick={() => (shown = true)}
+  onkeypress={() => (shown = true)}
+  onmouseout={checkOut}
+  onblur={() => (shown = false)}
   class:centered
 >
   <span class="material-symbols-outlined">calendar_add_on</span>
@@ -54,10 +61,10 @@
     <div
       class="add-links"
       transition:fly|global={{ y: -20, duration: 100 }}
-      on:mouseout|stopPropagation={checkOut}
-      on:blur={() => (shown = false)}
-      on:click|stopPropagation
-      on:keypress
+      onmouseout={stopPropagation(checkOut)}
+      onblur={() => (shown = false)}
+      onclick={stopPropagation(bubble('click'))}
+      onkeypress={bubble('keypress')}
     >
       <a
         href="https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NHB2MWkzNm8ybnVqbGdlamJ0a3BjdThvaDkgYjBjNGNkMzI4NjcxNzFkOTdhZjc5NzZhMzBhMTBhYWE2NDIxMTNmOWM4M2MyNmU5ZjBhMzM3YTU5NTEzM2UyOEBn&tmsrc=b0c4cd32867171d97af7976a30a10aaa642113f9c83c26e9f0a337a595133e28%40group.calendar.google.com"

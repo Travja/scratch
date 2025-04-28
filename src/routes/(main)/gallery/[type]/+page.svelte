@@ -2,7 +2,11 @@
   import Gallery from "$lib/ui/Gallery.svelte";
   import type { UploadData } from "../../../../api/api";
 
-  export let data: { images: UploadData[], title: string };
+  interface Props {
+    data: { images: UploadData[], title: string };
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <svelte:head>

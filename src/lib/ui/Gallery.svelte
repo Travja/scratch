@@ -1,10 +1,16 @@
 <script lang="ts">
+  import { stopPropagation } from 'svelte/legacy';
+
   import { fade, fly } from "svelte/transition";
   import type { UploadData } from "../../api/api";
   import LazyImage from "$lib/ui/LazyImage.svelte";
 
-  export let imageData: Array<UploadData> = [];
-  let activeIndex = -1;
+  interface Props {
+    imageData?: Array<UploadData>;
+  }
+
+  let { imageData = [] }: Props = $props();
+  let activeIndex = $state(-1);
 </script>
 
 {#if imageData.length === 0}
@@ -32,12 +38,12 @@
   <div
     class="modal"
     transition:fade|global={{ duration: 300 }}
-    on:keypress={(e) => {
+    onkeypress={(e) => {
       if (e.key === 'Escape') {
         activeIndex = -1;
       }
     }}
-    on:click={() => (activeIndex = -1)}
+    onclick={() => (activeIndex = -1)}
   >
     <div transition:fly|global={{ y: 100, duration: 300 }} class="modal-content">
       {#if imageData[activeIndex]?.fileName.endsWith('.mp4') || imageData[activeIndex]?.fileName.endsWith('.webm') || imageData[activeIndex]?.fileName.endsWith('.ogg') || imageData[activeIndex]?.fileName.endsWith('.mov')}
@@ -52,9 +58,9 @@
 
     <div
       class="previous"
-      on:click|stopPropagation={() =>
-        (activeIndex = (activeIndex - 1 + imageData.length) % imageData.length)}
-      on:keypress={(e) => {
+      onclick={stopPropagation(() =>
+        (activeIndex = (activeIndex - 1 + imageData.length) % imageData.length))}
+      onkeypress={(e) => {
         if (e.key === 'Enter') {
           activeIndex = (activeIndex - 1 + imageData.length) % imageData.length;
         }
@@ -64,8 +70,8 @@
     </div>
     <div
       class="next"
-      on:click|stopPropagation={() => (activeIndex = (activeIndex + 1) % imageData.length)}
-      on:keypress={(e) => {
+      onclick={stopPropagation(() => (activeIndex = (activeIndex + 1) % imageData.length))}
+      onkeypress={(e) => {
         if (e.key === 'Enter') {
           activeIndex = (activeIndex + 1) % imageData.length;
         }
@@ -76,8 +82,8 @@
 
     <div
       class="close-button"
-      on:click={() => (activeIndex = -1)}
-      on:keypress={(e) => {
+      onclick={() => (activeIndex = -1)}
+      onkeypress={(e) => {
         if (e.key === 'Enter') {
           activeIndex = -1;
         }

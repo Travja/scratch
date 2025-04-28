@@ -3,24 +3,35 @@
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
 
-  export let src: string;
-  export let alt = "";
-  export let caption = "";
-  export let author = "";
-  export let maxWidth = 200;
-  export let maxHeight = 200;
+  interface Props {
+    src: string;
+    alt?: string;
+    caption?: string;
+    author?: string;
+    maxWidth?: number;
+    maxHeight?: number;
+  }
 
-  let x: number;
-  let y: number;
-  let height: number;
-  let width: number;
-  let rotation: number;
+  let {
+    src,
+    alt = "",
+    caption = "",
+    author = "",
+    maxWidth = 200,
+    maxHeight = 200
+  }: Props = $props();
+
+  let x: number = $state();
+  let y: number = $state();
+  let height: number = $state();
+  let width: number = $state();
+  let rotation: number = $state();
 
   let totalUsableWidth = 0;
   let totalUsableHeight = 0;
 
-  let isVideo = false;
-  let loaded = false;
+  let isVideo = $state(false);
+  let loaded = $state(false);
 
   onMount(() => {
     if (src.endsWith(".mp4") || src.endsWith(".webm") || src.endsWith(".ogg") || src.endsWith(".mov")) {

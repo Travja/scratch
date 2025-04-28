@@ -1,8 +1,17 @@
 <script lang="ts">
-  export let height = 'auto';
-  export let width = '100%';
-  export let phone = false;
-  export let desktop = false;
+  interface Props {
+    height?: string;
+    width?: string;
+    phone?: boolean;
+    desktop?: boolean;
+  }
+
+  let {
+    height = 'auto',
+    width = '100%',
+    phone = false,
+    desktop = false
+  }: Props = $props();
 
   let id = Math.random() * 100000;
 </script>

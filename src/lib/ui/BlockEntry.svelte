@@ -3,13 +3,18 @@
   import { onDestroy, onMount } from "svelte";
   import type { Unsubscriber } from "svelte/store";
 
-  export let background = "url('https://source.unsplash.com/featured/1920x1080')";
-  export let shadow = "none";
+  interface Props {
+    background?: string;
+    shadow?: string;
+    children?: import('svelte').Snippet;
+  }
 
-  let entry: HTMLElement;
+  let { background = "url('https://source.unsplash.com/featured/1920x1080')", shadow = "none", children }: Props = $props();
+
+  let entry: HTMLElement = $state();
   let top = 0;
 
-  let scroll = 0;
+  let scroll = $state(0);
   let sub: Unsubscriber | undefined = undefined;
 
   onMount(() => {
@@ -33,7 +38,7 @@
   onMount(calcTop);
 </script>
 
-<svelte:window on:resize={calcTop} />
+<svelte:window onresize={calcTop} />
 
 <div
   class="block-entry"
@@ -45,7 +50,7 @@
   bind:this={entry}
 >
   <span class="content">
-    <slot />
+    {@render children?.()}
   </span>
 </div>
 
