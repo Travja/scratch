@@ -12,7 +12,7 @@
   let { form, data }: Props = $props();
 
   let photoType: MediaType = $state(data?.type || MediaType.RECEPTION);
-  let photos: FileList = $state(new FileList());
+  let photos: FileList | undefined = $state();
 
   let inputElm: HTMLInputElement | undefined = $state();
   let previewPhotos: string[] = $state([]);
@@ -25,7 +25,6 @@
       previewPhotos.forEach((file) => URL.revokeObjectURL(file));
 
       previewPhotos = [];
-      let index = 0;
       for (let photo of photos) {
         previewPhotos.push(URL.createObjectURL(photo));
       }
@@ -33,7 +32,7 @@
   });
 </script>
 
-<div class='content'>
+<div class='main-content'>
   <form bind:this={photoForm} enctype='multipart/form-data' id='photoForm' method='post'>
     {#if form?.success}
       <div>Thanks for sharing with us! Upload more media?</div>
@@ -74,13 +73,13 @@
       </button>
     </div>
 
-    {#if photos}
+    {#if photos?.length ?? 0 > 0}
       <div class='preview-wrapper'>
         <h2>Preview</h2>
         <div class='preview-images'>
           {#each previewPhotos as photo, i}
             <div class='item'>
-              {#if photos[i].type.includes("video")}
+              {#if photos?.[i].type.includes("video")}
                 <video
                   src={photo}
                   class='preview'
@@ -92,7 +91,7 @@
                   src={photo}
                   class='preview'
                   onload={() => URL.revokeObjectURL(photo)}
-                  alt={photos[i].name}
+                  alt={photos?.item(i)?.name ?? 'Image'}
                 />
               {/if}
               <input type='text' name='comment-{i}' placeholder='Caption (Optional)' />
@@ -130,13 +129,13 @@
 {/if}
 
 <style>
-  .content {
+  .main-content {
     display: block;
     padding: 1rem;
   }
 
   .preview-wrapper {
-    background: linear-gradient(160deg, #103473 10%, #3d7ac2 70%, #ef626c 90%);
+    background: linear-gradient(160deg, var(--color-primary) 10%, var(--color-tertiary) 70%, var(--color-secondary) 90%);
     padding: 1rem;
     border-radius: 0.5rem;
     border: 1px solid white;
@@ -178,6 +177,7 @@
   h2 {
     max-width: 90%;
     margin-inline: auto;
+    color: var(--color-p-text);
   }
 
   .content {
@@ -186,7 +186,8 @@
     max-width: 90%;
     margin: 1rem auto;
     border-radius: 0.5rem;
-    background: linear-gradient(160deg, #103473 10%, #3d7ac2 70%, #ef626c 90%);
+    color: var(--color-p-text);
+    background: linear-gradient(160deg, var(--color-primary) 10%, var(--color-tertiary) 70%, var(--color-secondary) 90%);
   }
 
   #uploadType {
@@ -225,7 +226,7 @@
     max-width: fit-content;
   }
 
-  .content {
+  .main-content {
     text-align: center;
   }
 
