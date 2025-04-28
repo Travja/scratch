@@ -1,23 +1,23 @@
-<script lang="ts">
-  import "../../app.css";
-  import { page } from "$app/stores";
-  import Logo from "$lib/ui/Logo.svelte";
-  import { slide } from "svelte/transition";
-  import { isSafari, scrollHeight } from "../../api/api";
-  import { onMount } from "svelte";
+<script lang='ts'>
+  import '../../app.css';
+  import { page } from '$app/stores';
+  import Logo from '$lib/ui/Logo.svelte';
+  import { slide } from 'svelte/transition';
+  import { isSafari, scrollHeight } from '../../api/api';
+  import { onMount } from 'svelte';
 
   export let data: { isSafari: boolean };
 
   let menuOpen = false;
-  let pageName = "Home";
+  let pageName = 'Home';
   let windowWidth = 0;
 
   onMount(() => isSafari.set(data.isSafari));
 
-  $: if ($page.url.pathname === "/") {
-    pageName = "Home";
-  } else if ($page.url.pathname === "/rsvp") {
-    pageName = "RSVP";
+  $: if ($page.url.pathname === '/') {
+    pageName = 'Home';
+  } else if ($page.url.pathname === '/rsvp') {
+    pageName = 'RSVP';
   } else {
     pageName =
       $page.url.pathname.slice(1, 2).toUpperCase() + $page.url.pathname.slice(2).toLowerCase();
@@ -25,30 +25,28 @@
 
   let main: HTMLElement;
 
-  let scroll = () => {
-    scrollHeight.set(window.scrollY - main.offsetTop);
-  };
+  let scroll = () => scrollHeight.set(window.scrollY - main.offsetTop);
 </script>
 
 <svelte:head>
   {#if !$page.url.pathname.includes("gallery/")}
     <title>StellarMelodies | {pageName}</title>
-    <meta content="StellarMelodies - {pageName}" property="og:title" />
+    <meta content='StellarMelodies - {pageName}' property='og:title' />
   {/if}
-  <meta content="Dorothy and Travis are getting married. Join us for the celebration!" name="og:description" />
-  <meta content="https://stellar.travja.dev" property="og:url" />
-  <meta content="https://stellar.travja.dev/embed-image.jpg" property="og:image" />
-  <meta content="#F19985" data-react-helmet="true" name="theme-color" />
+  <meta content='Dorothy and Travis are getting married. Join us for the celebration!' name='og:description' />
+  <meta content='https://stellar.travja.dev' property='og:url' />
+  <meta content='https://stellar.travja.dev/embed-image.jpg' property='og:image' />
+  <meta content='#F19985' data-react-helmet='true' name='theme-color' />
 </svelte:head>
 
 <svelte:window bind:innerWidth={windowWidth} on:scroll={scroll} />
 
-<Logo phone height="2rem" />
+<Logo height='2rem' phone />
 <nav>
-  <Logo desktop height="2rem" />
+  <Logo desktop height='2rem' />
   {#if windowWidth < 750}
     <div
-      class="menu-button"
+      class='menu-button'
       on:click={() => (menuOpen = !menuOpen)}
       on:keypress={(event) => {
         if (event.key === 'Enter') {
@@ -60,22 +58,17 @@
     </div>
   {/if}
   {#if menuOpen || windowWidth >= 750}
-    <div transition:slide class:shown={menuOpen} id="menu-items">
-      <a href="/" on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
+    <div transition:slide class:shown={menuOpen} id='menu-items'>
+      <a href='/' on:click={() => (menuOpen = false)} class:active={$page.url.pathname === '/'}
       >Home</a
       >
-<!--      <a-->
-<!--        href="/info"-->
-<!--        on:click={() => (menuOpen = false)}-->
-<!--        class:active={$page.url.pathname === '/info'}>Info</a-->
-<!--      >-->
-<!--      <a-->
-<!--        href="/rsvp"-->
-<!--        on:click={() => (menuOpen = false)}-->
-<!--        class:active={$page.url.pathname === '/rsvp'}>RSVP</a-->
-<!--      >-->
       <a
-        href="/gallery"
+        href='/rsvp'
+        on:click={() => (menuOpen = false)}
+        class:active={$page.url.pathname === '/rsvp'}>RSVP</a
+      >
+      <a
+        href='/gallery'
         on:click={() => (menuOpen = false)}
         class:active={$page.url.pathname === '/gallery'}>Gallery</a
       >
@@ -111,14 +104,14 @@
     text-decoration: none;
     padding: 1rem;
 
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   .menu-button {
     display: block;
     position: relative;
     z-index: 5;
-    background: #ef626c;
+    background: var(--color-secondary);
     box-shadow: 0 0 0.5rem #111;
   }
 
@@ -131,7 +124,9 @@
   }
 
   nav a.active {
-    background-color: #3d7ac2;
+    background-color: var(--color-primary);
+    color: var(--color-p-text);
+    text-shadow: none;
   }
 
   #menu-items {
@@ -194,7 +189,7 @@
   /*#announce {*/
   /*  text-align: center;*/
   /*  padding: 1rem 0.5rem;*/
-  /*  background-color: #ef626c;*/
+  /*  background-color: var(--color-secondary);*/
   /*  font-weight: bold;*/
   /*  text-shadow: 0 0 0.5rem #111;*/
   /*}*/

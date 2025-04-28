@@ -5,25 +5,25 @@
   <a
     class="card"
     href="/gallery/engagements"
-    style:background-image="url('/api/images/engagements/random'), linear-gradient(160deg, #103473 10%, #3d7ac2 70%, #ef626c 90%)">
+    style:background-image="url('/api/images/engagements/random'), linear-gradient(160deg, var(--color-primary) 10%, var(--color-tertiary) 70%, var(--color-secondary) 90%)">
     <h1 class="cursive">Engagements</h1>
   </a>
   <a
     class="card"
     href="/gallery/bridals"
-    style:background-image="url('/api/images/bridals/random'), linear-gradient(160deg, #103473 10%, #3d7ac2 70%, #ef626c 90%)">
+    style:background-image="url('/api/images/bridals/random'), linear-gradient(160deg, var(--color-primary) 10%, var(--color-tertiary) 70%, var(--color-secondary) 90%)">
     <h1 class="cursive">Bridals</h1>
   </a>
   <a
     class="card"
     href="/gallery/temple"
-    style:background-image="url('/api/images/temple/random'), linear-gradient(160deg, #103473 10%, #3d7ac2 70%, #ef626c 90%)">
+    style:background-image="url('/api/images/temple/random'), linear-gradient(160deg, var(--color-primary) 10%, var(--color-tertiary) 70%, var(--color-secondary) 90%)">
     <h1 class="cursive">Temple</h1>
   </a>
   <a
     class="card"
     href="/gallery/reception"
-    style:background-image="url('/api/images/reception/random'), linear-gradient(160deg, #103473 10%, #3d7ac2 70%, #ef626c 90%)">
+    style:background-image="url('/api/images/reception/random'), linear-gradient(160deg, var(--color-primary) 10%, var(--color-tertiary) 70%, var(--color-secondary) 90%)">
     <h1 class="cursive">Reception</h1>
   </a>
 </content>
