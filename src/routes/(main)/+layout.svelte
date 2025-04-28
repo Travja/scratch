@@ -42,10 +42,10 @@
     <title>SavAndWes | {pageName}</title>
     <meta content='SavAndWes - {pageName}' property='og:title' />
   {/if}
-  <meta content='Dorothy and Travis are getting married. Join us for the celebration!' name='og:description' />
-  <meta content='https://stellar.travja.dev' property='og:url' />
-  <meta content='https://stellar.travja.dev/embed-image.jpg' property='og:image' />
-  <meta content='#F19985' data-react-helmet='true' name='theme-color' />
+  <meta content='Savannah and Wesley are getting married. Join us for the celebration!' name='og:description' />
+  <meta content='https://savandwes.rsvp' property='og:url' />
+  <meta content='https://savandwes.rsvp/embed-image.jpg' property='og:image' />
+  <meta content='#A1FDE8' data-react-helmet='true' name='theme-color' />
 </svelte:head>
 
 <svelte:window bind:innerWidth={windowWidth} onscroll={scroll} />

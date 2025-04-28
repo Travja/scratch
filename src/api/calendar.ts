@@ -25,7 +25,7 @@ export const makeIcsFile = (
   const endDate = convertDate(date.end);
   let calendarData =
     'BEGIN:VCALENDAR' +
-    '\nPRODID:-//Stellar Melodies//EN' +
+    '\nPRODID:-//SavAndWes//EN' +
     '\nVERSION:2.0' +
     '\nX-MS-OLK-FORCEINSPECTOROPEN:TRUE' +
     '\nX-WR-TIMEZONE:America/Denver' +
@@ -84,7 +84,7 @@ export const makeIcsFileOhio = (
   const endDate = convertDate(date.end);
   let calendarData =
     'BEGIN:VCALENDAR' +
-    '\nPRODID:-//Stellar Melodies//EN' +
+    '\nPRODID:-//SavAndWes//EN' +
     '\nVERSION:2.0' +
     '\nX-MS-OLK-FORCEINSPECTOROPEN:TRUE' +
     '\nX-WR-TIMEZONE:America/Denver' +

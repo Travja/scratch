@@ -19,7 +19,7 @@
     end: new Date('2025/05/23 02:30:00 UTC')
   };
   const title = 'Savannah and Wesley\'s Wedding Reception';
-  const description = `Come celebrate with us!\n\nGift Info\nRegistered on Amazon: ${amazonLink}\nVenmo: @${venmoUsername}\nWebsite: https://stellarmelodies.com`;
+  const description = `Come celebrate with us!\n\nGift Info\nRegistered on Amazon: ${amazonLink}\nVenmo: @${venmoUsername}\nWebsite: https://savandwes.rsvp`;
   const address = 'XXX, Salt Lake City, UT, United States';
 
   let icsFile: string = makeIcsFile(

@@ -1,14 +1,15 @@
 <script lang='ts'>
   import { slide } from 'svelte/transition';
-  import { events, formatDateTime, type RsvpInfo } from '../../../api/api';
+  import { type EventInfo, formatDateTime, type RsvpInfo } from '../../../api/api';
   import CalendarEvent from '$lib/ui/CalendarEvent.svelte';
   import { onMount } from 'svelte';
 
   interface Props {
+    data: { events: EventInfo[] },
     form: { success?: boolean; message?: string; firstName?: string };
   }
 
-  let { form }: Props = $props();
+  let { data, form }: Props = $props();
 
   let detailsShown: { [key: string]: boolean } = $state({});
 
@@ -19,9 +20,9 @@
   });
 
   onMount(() => {
-    for (let event of events) {
-      if (event.id !== 'reception') continue;
+    console.log(data);
 
+    for (let event of data.events) {
       info.events.push({
         ev: event,
         event: event.id,
@@ -65,6 +66,15 @@
     return true;
   };
 </script>
+
+<svelte:head>
+  <title>SavAndWes | RSVP</title>
+  <meta content='SavAndWes - RSVP' property='og:title' />
+  <meta content='Savannah and Wesley are getting married. Join us for the celebration!' name='og:description' />
+  <meta content='https://savandwes.rsvp' property='og:url' />
+  <meta content='https://savandwes.rsvp/embed-image.jpg' property='og:image' />
+  <meta content='#A1FDE8' data-react-helmet='true' name='theme-color' />
+</svelte:head>
 
 {#if form}
   {#if form.success}
