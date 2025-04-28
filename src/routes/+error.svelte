@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <title>StellarMelodies | {$page.error?.message || 'Error'}</title>
+  <title>SavAndWes | {$page.error?.message || 'Error'}</title>
 </svelte:head>
 
 <svelte:window bind:innerWidth={windowWidth} />
@@ -66,7 +66,7 @@
   </div>
   <footer>
     &copy;
-    {new Date().getFullYear()} StellarMelodies
+    {new Date().getFullYear()} SavAndWes
   </footer>
 </main>
 

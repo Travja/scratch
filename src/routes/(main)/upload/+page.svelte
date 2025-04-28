@@ -1,12 +1,10 @@
-<script lang="ts">
+<script lang='ts'>
   import { run } from 'svelte/legacy';
 
-  import { MediaType } from "../../../api/api";
-  import { fly } from "svelte/transition";
+  import { MediaType } from '../../../api/api';
+  import { fly } from 'svelte/transition';
 
-  
   interface Props {
-    /** @type {import("../../../../.svelte-kit/types/src/routes").ActionData} */
     form: { success?: boolean, message?: string };
     data: { type?: MediaType };
   }
@@ -14,11 +12,11 @@
   let { form, data }: Props = $props();
 
   let photoType: MediaType = $state(data?.type || MediaType.RECEPTION);
-  let photos: FileList = $state();
+  let photos: FileList = $state(new FileList());
 
-  let inputElm: HTMLInputElement = $state();
+  let inputElm: HTMLInputElement | undefined = $state();
   let previewPhotos: string[] = $state([]);
-  let photoForm: HTMLFormElement = $state();
+  let photoForm: HTMLFormElement | undefined = $state();
 
   let submitting = $state(false);
 
@@ -35,8 +33,8 @@
   });
 </script>
 
-<content>
-  <form id="photoForm" enctype="multipart/form-data" method="post" bind:this={photoForm}>
+<div class='content'>
+  <form bind:this={photoForm} enctype='multipart/form-data' id='photoForm' method='post'>
     {#if form?.success}
       <div>Thanks for sharing with us! Upload more media?</div>
     {:else if form?.message}
@@ -44,95 +42,95 @@
     {/if}
     <h1>Share your memories with us!</h1>
     <p>Upload your photos/videos to be displayed and saved in our memory book.</p>
-    <div class="content">
-      <select id="uploadType"
-              name="uploadType"
-              bind:value={photoType}>
+    <div class='content'>
+      <select bind:value={photoType}
+              id='uploadType'
+              name='uploadType'>
         {#each Object.values(MediaType) as type}
           <option value={type}>{type}</option>
         {/each}
       </select>
       <input
-        id="files"
-        type="file"
-        name="photos"
-        multiple
-        accept="image/*,video/mp4,video/ogg,video/webm,video/mov"
+        accept='image/*,video/mp4,video/ogg,video/webm,video/mov'
         bind:files={photos}
         bind:this={inputElm}
+        id='files'
+        multiple
+        name='photos'
+        type='file'
       />
-      <input type="text" name="author" placeholder="Name (Optional)" />
-      <div class="name">*This will be displayed with your media on the slideshow</div>
-      <button type="button"
-              id="select"
-              onclick={() => inputElm.click()}
-              onkeypress={(e) => {
-            if (e.key === 'Enter') {
-              inputElm.click();
-            }
-          }}
+      <input name='author' placeholder='Name (Optional)' type='text' />
+      <div class='name'>*This will be displayed with your media on the slideshow</div>
+      <button id='select'
+              onclick={() => inputElm?.click()}
+              onkeydown={(e) => {
+                if (e.key === 'Enter') {
+                  inputElm?.click();
+                }
+              }}
+              type='button'
       >
         Select Media
       </button>
     </div>
 
     {#if photos}
-      <div class="preview-wrapper">
+      <div class='preview-wrapper'>
         <h2>Preview</h2>
-        <div class="preview-images">
+        <div class='preview-images'>
           {#each previewPhotos as photo, i}
-            <div class="item">
+            <div class='item'>
               {#if photos[i].type.includes("video")}
                 <video
                   src={photo}
-                  class="preview"
+                  class='preview'
                   onloadstart={() => URL.revokeObjectURL(photo)}
                   controls
-></video>
+                ></video>
               {:else}
                 <img
                   src={photo}
-                  class="preview"
+                  class='preview'
                   onload={() => URL.revokeObjectURL(photo)}
                   alt={photos[i].name}
                 />
               {/if}
-              <input type="text" name="comment-{i}" placeholder="Caption (Optional)" />
+              <input type='text' name='comment-{i}' placeholder='Caption (Optional)' />
             </div>
           {/each}
         </div>
       </div>
-      <button type="button"
-              id="upload"
+      <button type='button'
+              id='upload'
               disabled={submitting}
               onclick={() => {
                 submitting = true;
-                photoForm.submit();
+                photoForm?.submit();
               }}
-              onkeypress={(e) => {
-            if (e.key === 'Enter') {
-              submitting = true;
-              photoForm.submit();
-            }
-          }}
+              onkeydown={(e) => {
+                if (e.key === 'Enter') {
+                  submitting = true;
+                  photoForm?.submit();
+                }
+              }}
               transition:fly|global={{ y: 100, duration: 500 }}
       >Upload
       </button>
     {/if}
   </form>
-</content>
+</div>
 
 {#if submitting}
-  <div class="overlay">
-    <div class="modal-content">
-      <div class="spinner"></div>
-      <div class="upload-info">If you're uploading a lot of files, this may take a minute. Hold tight!</div>
+  <div class='overlay'>
+    <div class='modal-content'>
+      <div class='spinner'></div>
+      <div class='upload-info'>If you're uploading a lot of files, this may take a minute. Hold tight!</div>
     </div>
   </div>
 {/if}
 
 <style>
-  content {
+  .content {
     display: block;
     padding: 1rem;
   }
@@ -227,7 +225,7 @@
     max-width: fit-content;
   }
 
-  content {
+  .content {
     text-align: center;
   }
 

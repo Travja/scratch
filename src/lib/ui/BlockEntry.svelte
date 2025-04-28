@@ -11,7 +11,7 @@
 
   let { background = "url('https://source.unsplash.com/featured/1920x1080')", shadow = "none", children }: Props = $props();
 
-  let entry: HTMLElement = $state();
+  let entry: HTMLElement | undefined = $state();
   let top = 0;
 
   let scroll = $state(0);
@@ -61,14 +61,14 @@
     position: relative;
 
     box-sizing: border-box;
-    background: var(--background, 'none');
+    background: var(--background, inherit);
     background-size: cover;
     background-position: center;
     background-position-y: calc(50% + var(--offset, 0px));
     background-repeat: no-repeat;
     background-attachment: fixed;
 
-    box-shadow: var(--shadow, 'none');
+    box-shadow: var(--shadow, inherit);
 
     overflow: hidden;
     height: 100dvh;

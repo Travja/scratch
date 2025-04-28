@@ -32,15 +32,15 @@
     }
   });
 
-  let main: HTMLElement = $state();
+  let main: HTMLElement | undefined = $state();
 
-  let scroll = () => scrollHeight.set(window.scrollY - main.offsetTop);
+  let scroll = () => scrollHeight.set(window.scrollY - (main?.offsetTop ?? 0));
 </script>
 
 <svelte:head>
   {#if !$page.url.pathname.includes("gallery/")}
-    <title>StellarMelodies | {pageName}</title>
-    <meta content='StellarMelodies - {pageName}' property='og:title' />
+    <title>SavAndWes | {pageName}</title>
+    <meta content='SavAndWes - {pageName}' property='og:title' />
   {/if}
   <meta content='Dorothy and Travis are getting married. Join us for the celebration!' name='og:description' />
   <meta content='https://stellar.travja.dev' property='og:url' />
@@ -55,9 +55,11 @@
   <Logo desktop height='2rem' />
   {#if windowWidth < 750}
     <div
+      role='button'
+      tabindex='0'
       class='menu-button'
       onclick={() => (menuOpen = !menuOpen)}
-      onkeypress={(event) => {
+      onkeydown={(event) => {
         if (event.key === 'Enter') {
           menuOpen = !menuOpen;
         }

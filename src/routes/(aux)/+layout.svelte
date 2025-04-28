@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <title>StellarMelodies</title>
+  <title>SavAndWes</title>
 </svelte:head>
 
 {@render children?.()}

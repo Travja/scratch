@@ -20,6 +20,7 @@ export interface RsvpInfo {
 export interface EventRsvp {
   ev?: EventInfo;
   event: string;
+  attending: boolean;
   numGuests: number;
   outside?: boolean;
 }

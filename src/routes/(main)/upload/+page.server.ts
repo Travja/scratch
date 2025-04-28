@@ -20,6 +20,7 @@ const compressImage = async (buffer: ArrayBuffer, out: string) => {
         .toFormat('jpeg')
         .jpeg({ quality: 80 })
         .toFile(out);
+      // @ts-ignore
       curBuffer = await sharp(out).toBuffer();
     }
     console.log(
@@ -28,6 +29,7 @@ const compressImage = async (buffer: ArrayBuffer, out: string) => {
   } catch (e) {
     console.error('Error while compressing image', e);
     console.log('Saving image with original size: ' + buffer.byteLength);
+    // @ts-ignore
     writeFileSync(out, Buffer.from(buffer));
   }
 };
@@ -59,10 +61,11 @@ export const actions = {
 
       // Save file to local storage
       mkdirSync(location, { recursive: true });
+      // @ts-ignore
       writeFileSync(`${location}/${fileName}`, Buffer.from(buffer));
 
       if (shouldCompress) {
-        compressImage(
+        await compressImage(
           buffer,
           `${location}/${fileName.replace('-full', '').replace(fileExtension, '.jpg')}`
         );

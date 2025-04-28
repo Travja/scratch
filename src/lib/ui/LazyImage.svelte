@@ -1,7 +1,4 @@
 <script lang="ts">
-  import { createBubbler } from 'svelte/legacy';
-
-  const bubble = createBubbler();
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { quadIn } from "svelte/easing";
@@ -9,9 +6,11 @@
   interface Props {
     src: string;
     alt?: string;
+    onkeydown?: (e: KeyboardEvent) => void;
+    onclick?: (e: MouseEvent) => void;
   }
 
-  let { src, alt = "" }: Props = $props();
+  let { src, alt = "", onclick, onkeydown }: Props = $props();
 
   let isVideo = $state(false);
   let loaded = $state(false);
@@ -32,9 +31,9 @@
 {#if loaded}
   {#if isVideo}
     <video in:fade|global={{duration: 1000, easing: quadIn}}
-           {src} onclick={bubble('click')} onkeypress={bubble('keypress')}></video>
+           {src} onclick={onclick} onkeydown={onkeydown}></video>
   {:else}
     <img in:fade|global={{duration: 1000, easing: quadIn}}
-         {src} {alt} onclick={bubble('click')} onkeypress={bubble('keypress')} loading="lazy" decoding="async" />
+         {src} {alt} onclick={onclick} onkeydown={onkeydown} loading="lazy" decoding="async" />
   {/if}
 {/if}

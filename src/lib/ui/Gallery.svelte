@@ -18,12 +18,12 @@
 {:else}
   <div class="gallery">
     {#each imageData as image, i}
-      <div class="wrapper" class:featured={i % 3 == 0}>
+      <div class="wrapper" class:featured={i % 3 === 0}>
         <LazyImage
           src={'/' + image?.location}
           alt={image?.author}
-          on:click={() => (activeIndex = i)}
-          on:keypress={(e) => {
+          onclick={() => (activeIndex = i)}
+          onkeydown={(e) => {
             if (e.key === 'Enter') {
               activeIndex = i;
             }

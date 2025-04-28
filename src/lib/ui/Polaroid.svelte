@@ -21,11 +21,11 @@
     maxHeight = 200
   }: Props = $props();
 
-  let x: number = $state();
-  let y: number = $state();
-  let height: number = $state();
-  let width: number = $state();
-  let rotation: number = $state();
+  let x: number = $state(0);
+  let y: number = $state(0);
+  let height: number = $state(0);
+  let width: number = $state(0);
+  let rotation: number = $state(0);
 
   let totalUsableWidth = 0;
   let totalUsableHeight = 0;
@@ -149,8 +149,8 @@
   }
 
   img, video {
-    max-height: var(--height, auto);
-    max-width: var(--width, auto);
+    max-height: var(--height);
+    max-width: var(--width);
   }
 
   .wrapper {

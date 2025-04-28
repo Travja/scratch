@@ -11,7 +11,7 @@
 
 <svelte:head>
   <title>Gallery | {data.title}</title>
-  <meta content="StellarMelodies - Gallery - {data.title}" property="og:title" />
+  <meta content="SavAndWes - Gallery - {data.title}" property="og:title" />
 </svelte:head>
 
 <div class='content'>

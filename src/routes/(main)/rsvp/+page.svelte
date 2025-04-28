@@ -1,12 +1,10 @@
 <script lang='ts'>
   import { slide } from 'svelte/transition';
-  import { type EventInfo, type EventRsvp, events, formatDateTime, type RsvpInfo } from '../../../api/api';
+  import { events, formatDateTime, type RsvpInfo } from '../../../api/api';
   import CalendarEvent from '$lib/ui/CalendarEvent.svelte';
   import { onMount } from 'svelte';
 
-  
   interface Props {
-    /** @type {import('../../../../.svelte-kit/types/src/routes').ActionData} */
     form: { success?: boolean; message?: string; firstName?: string };
   }
 
@@ -25,6 +23,7 @@
       info.events.push({
         ev: event,
         event: event.id,
+        attending: false,
         numGuests: 0
       });
 
@@ -33,6 +32,36 @@
 
     info.events = [...info.events];
   });
+
+  const submit = (e: SubmitEvent) => {
+    e.preventDefault();
+
+    // Rather than use the form element to do the submission, we'll send it via fetch using a JSON object (the info object)
+    const requestData = { ...info };
+    // for each of the events, we need to remove the `ev` object
+    for (let event of requestData.events) {
+      delete event.ev;
+    }
+
+    // Send the request
+    fetch('rsvp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestData)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        form = data;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        form = { success: false, message: 'An error occurred. Please try again later.' };
+      });
+
+    return true;
+  };
 </script>
 
 {#if form}
@@ -56,12 +85,12 @@
 {/if}
 
 {#if !form || !form.success}
-  <form id='rsvp' method='post'>
+  <form id='rsvp' onsubmit={submit}>
     <h1 class='heading'>Planning on coming?</h1>
 
     <div class='info mb'>
       To get an accurate head-count, please indicate how many people from your party are planning
-      to attend each event. If you are not attending, please leave the number of guests as 0.
+      to attend each event.
     </div>
 
     <div class='info mb'>
@@ -102,7 +131,7 @@
                   aria-label='Toggle event details'
                   aria-expanded={detailsShown[event.event]}
                   onclick={() => (detailsShown[event.event] = !!detailsShown[event.event])}
-                  onkeypress={() => (detailsShown[event.event] = !!detailsShown[event.event])}
+                  onkeydown={() => (detailsShown[event.event] = !!detailsShown[event.event])}
             >info</span>
           </label>
           <input
@@ -115,7 +144,7 @@
 
           {#if detailsShown[event.event]}
             <div class='details' transition:slide|global>
-              <div class='info mb'>
+              <div class='info'>
                 { formatDateTime(event.ev?.date) }
                 <br />
                 {#if event.ev?.mapsLink}
@@ -128,11 +157,31 @@
               </div>
             </div>
           {/if}
-          <input required type='number' name='events-{event.event}' value={event.numGuests} />
 
-          {#if event.ev?.outside}
-            <div class='outside'>
-              <label class='no-bold block small'>
+          <label>
+            <input type='checkbox' id='attending-{event.event}' name='attending-{event.event}'
+                   onchange={() => {
+                     if (!event.attending) event.numGuests = 0;
+                     else {
+                       event.numGuests = 1;
+                       if (event.ev?.outside) event.outside = false;
+                     }
+                   }}
+                   bind:checked={event.attending} />
+            Attending?
+          </label>
+
+          {#if event.attending}
+            <label transition:slide>
+              Number of Guests
+              <input required type='number' name='events-{event.event}' bind:value={event.numGuests} min='1' max='20' />
+            </label>
+          {/if}
+
+          {#if event.ev?.outside && !event.attending}
+            <div class='small-caps' transition:slide>- OR -</div>
+            <div class='outside' transition:slide>
+              <label class='block'>
                 <input type='checkbox' id='outside-{event.event}' name='outside-{event.event}'
                        bind:checked={event.outside} />
                 I'll be waiting outside for pictures (~4:30PM)
@@ -168,7 +217,7 @@
       color: var(--color-p-text);
     }
 
-    & label:not(.no-bold) {
+    & label {
       font-size: 1.2rem;
       font-weight: bold;
 
@@ -309,6 +358,8 @@
     font-size: 1rem;
     padding: 0.5rem;
     text-align: left;
+
+    user-select: none;
   }
 
   .beside {
@@ -317,10 +368,11 @@
     justify-content: center;
   }
 
-
-  .small {
-    white-space: wrap;
-    max-width: 25ch;
+  .details {
+    border: 1px solid #9a9a9a;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 0 0.25rem #696969;
   }
 
   @keyframes rotate {

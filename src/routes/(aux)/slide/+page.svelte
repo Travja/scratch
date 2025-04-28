@@ -5,7 +5,7 @@
   import Polaroid from '$lib/ui/Polaroid.svelte';
   import { page } from '$app/state';
 
-  let main: HTMLElement = $state();
+  let main: HTMLElement | undefined = $state();
   let photoPool: { [key: string]: UploadData[] } = {};
   let newPhotos: UploadData[] = [];
   let photoType: MediaType;
@@ -21,8 +21,8 @@
   let lastUpdate: Date = new Date();
 
   const setDimensions = () => {
-    height = main?.getBoundingClientRect().height;
-    width = main?.getBoundingClientRect().width;
+    height = main?.getBoundingClientRect().height ?? 0;
+    width = main?.getBoundingClientRect().width ?? 0;
   };
 
   onMount(() => {
@@ -161,7 +161,7 @@
 </script>
 
 <svelte:window onresize={setDimensions}></svelte:window>
-<svelte:head><title>StellarMelodies | Slides</title></svelte:head>
+<svelte:head><title>SavAndWes | Slides</title></svelte:head>
 
 <main>
   <div bind:this={main} class='container'>

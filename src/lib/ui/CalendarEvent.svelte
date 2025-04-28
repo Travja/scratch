@@ -1,7 +1,4 @@
-<script lang="ts">
-  import { stopPropagation, createBubbler } from 'svelte/legacy';
-
-  const bubble = createBubbler();
+<script lang='ts'>
   import { onDestroy } from 'svelte';
   import { makeIcsFile, makeOutlookInvite } from '../../api/calendar';
   import { fly } from 'svelte/transition';
@@ -9,17 +6,19 @@
 
   interface Props {
     centered?: boolean;
+    onclick?: (e: MouseEvent) => void;
+    onkeydown?: (e: KeyboardEvent) => void;
   }
 
-  let { centered = false }: Props = $props();
+  let { centered = false, onclick, onkeydown }: Props = $props();
 
   let shown = $state(false);
-  let addEvent: HTMLElement = $state();
+  let addEvent: HTMLElement | undefined = $state();
   const date = {
     start: new Date('2025/05/23 00:00:00 UTC'),
     end: new Date('2025/05/23 02:30:00 UTC')
   };
-  const title = "Savannah and Wesley's Wedding Reception";
+  const title = 'Savannah and Wesley\'s Wedding Reception';
   const description = `Come celebrate with us!\n\nGift Info\nRegistered on Amazon: ${amazonLink}\nVenmo: @${venmoUsername}\nWebsite: https://stellarmelodies.com`;
   const address = 'XXX, Salt Lake City, UT, United States';
 
@@ -37,8 +36,9 @@
   });
 
   const checkOut = (e: MouseEvent) => {
+    e.stopPropagation();
     // Check if target is child of addLinks
-    if (e.relatedTarget == addEvent || addEvent.contains(e.relatedTarget as Node)) {
+    if (e.relatedTarget == addEvent || addEvent?.contains(e.relatedTarget as Node)) {
       return;
     }
 
@@ -47,42 +47,46 @@
 </script>
 
 <div
-  class="add-event"
+  role='button'
+  tabindex='0'
   bind:this={addEvent}
-  onclick={() => (shown = true)}
-  onkeypress={() => (shown = true)}
-  onmouseout={checkOut}
-  onblur={() => (shown = false)}
+  class='add-event'
   class:centered
+  onblur={() => (shown = false)}
+  onclick={() => (shown = true)}
+  onkeydown={() => (shown = true)}
+  onmouseout={checkOut}
 >
-  <span class="material-symbols-outlined">calendar_add_on</span>
+  <span class='material-symbols-outlined'>calendar_add_on</span>
   Add To Calendar
   {#if shown}
     <div
-      class="add-links"
+      class='add-links'
+      role='dialog'
+      tabindex='0'
       transition:fly|global={{ y: -20, duration: 100 }}
-      onmouseout={stopPropagation(checkOut)}
+      onmouseout={checkOut}
       onblur={() => (shown = false)}
-      onclick={stopPropagation(bubble('click'))}
-      onkeypress={bubble('keypress')}
+      {onclick}
+      {onkeydown}
     >
       <a
-        href="https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NHB2MWkzNm8ybnVqbGdlamJ0a3BjdThvaDkgYjBjNGNkMzI4NjcxNzFkOTdhZjc5NzZhMzBhMTBhYWE2NDIxMTNmOWM4M2MyNmU5ZjBhMzM3YTU5NTEzM2UyOEBn&tmsrc=b0c4cd32867171d97af7976a30a10aaa642113f9c83c26e9f0a337a595133e28%40group.calendar.google.com"
-        target="_blank"
-        class="invite"
+        href='https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NHB2MWkzNm8ybnVqbGdlamJ0a3BjdThvaDkgYjBjNGNkMzI4NjcxNzFkOTdhZjc5NzZhMzBhMTBhYWE2NDIxMTNmOWM4M2MyNmU5ZjBhMzM3YTU5NTEzM2UyOEBn&tmsrc=b0c4cd32867171d97af7976a30a10aaa642113f9c83c26e9f0a337a595133e28%40group.calendar.google.com'
+        target='_blank'
+        class='invite'
       >
-        <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt="Google" /> Google
+        <img src='https://www.svgrepo.com/show/303108/google-icon-logo.svg' alt='Google' /> Google
       </a>
-      <a href={icsFile} download="invite.ics" class="invite">
-        <img src="https://www.svgrepo.com/show/303110/apple-black-logo.svg" alt="Apple" /> Apple
+      <a href={icsFile} download='invite.ics' class='invite'>
+        <img src='https://www.svgrepo.com/show/303110/apple-black-logo.svg' alt='Apple' /> Apple
       </a>
-      <a href={outlookLink} target="_blank" class="invite">
-        <img src="https://www.svgrepo.com/show/373951/outlook.svg" alt="Outlook" /> Outlook
+      <a href={outlookLink} target='_blank' class='invite'>
+        <img src='https://www.svgrepo.com/show/373951/outlook.svg' alt='Outlook' /> Outlook
       </a>
-      <a href={officeLink} target="_blank" class="invite">
+      <a href={officeLink} target='_blank' class='invite'>
         <img
-          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiNlNjRhMTkiIGQ9Ik03IDEyTDI5IDQgNDEgNyA0MSA0MSAyOSA0NCA3IDM2IDI5IDM5IDI5IDEwIDE1IDEzIDE1IDMzIDcgMzZ6Ii8+PC9zdmc+"
-          alt="365"
+          src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiNlNjRhMTkiIGQ9Ik03IDEyTDI5IDQgNDEgNyA0MSA0MSAyOSA0NCA3IDM2IDI5IDM5IDI5IDEwIDE1IDEzIDE1IDMzIDcgMzZ6Ii8+PC9zdmc+'
+          alt='365'
         /> 365
       </a>
     </div>
