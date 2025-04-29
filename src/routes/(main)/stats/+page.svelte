@@ -30,6 +30,12 @@
 
             counts['temple-pictures'] += 1;
           }
+        } else if (event.event === 'temple' && event.outside) {
+          if (!counts['temple-pictures']) {
+            counts['temple-pictures'] = 0;
+          }
+
+          counts['temple-pictures'] += 1;
         }
       }
     }
