@@ -61,7 +61,7 @@
   };
 </script>
 
-<div>
+<div id='container'>
   <span>There are <strong>{totalRespondents}</strong> respondents.</span>
 
   <h1>Event Counts</h1>
@@ -79,18 +79,31 @@
         <span class='events'>
           ({translateResponse(response)})
         </span>
+        {#if response.comment}
+          <div class='comment'>
+            {response.comment}
+          </div>
+        {/if}
       </li>
     {/each}
   </ul>
 </div>
 
 <style>
-  div {
+  #container {
     margin: 1rem;
   }
 
   .events {
     font-size: 0.8rem;
     color: #666;
+  }
+
+  .comment {
+    font-size: 0.8rem;
+    color: #aaa;
+    border-left: 0.25rem solid var(--color-secondary);
+    margin-left: 1rem;
+    padding-left: 0.5rem;
   }
 </style>

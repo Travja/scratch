@@ -1,7 +1,6 @@
 <script lang='ts'>
   import { slide } from 'svelte/transition';
   import { type EventInfo, formatDateTime, type RsvpInfo } from '../../../api/api';
-  import CalendarEvent from '$lib/ui/CalendarEvent.svelte';
   import { onMount } from 'svelte';
 
   interface Props {
@@ -16,12 +15,11 @@
   let info: RsvpInfo = $state({
     firstName: '',
     lastName: '',
-    events: []
+    events: [],
+    comment: ''
   });
 
   onMount(() => {
-    console.log(data);
-
     for (let event of data.events) {
       info.events.push({
         ev: event,
@@ -65,6 +63,27 @@
 
     return true;
   };
+
+  const toggleAllOff = (e: Event) => {
+    if ((e.target as HTMLInputElement)?.checked) {
+      info.events.forEach(event => {
+        event.attending = false;
+        event.numGuests = 0;
+      });
+    }
+  };
+
+  const getRandomJoke = () => {
+    const jokes = [
+      'I can\'t wait to see you at the wedding! (No pressure)',
+      'Looking forward to celebrating your love — and subtly judging everyone’s outfits.',
+      'Thrilled to be part of your wedding! I promise to cry only a reasonable amount.',
+      'I’m honored to be invited. I assume this means I’m in the will?',
+      'Can’t wait to see you both! I’ve been practicing my polite-laugh-at-toast skills just for you.',
+      'Looking forward to seeing you tie the knot — I expect fireworks, a choreographed dance, and at least one dramatic gasp.'
+    ];
+    return jokes[Math.floor(Math.random() * jokes.length)];
+  };
 </script>
 
 <svelte:head>
@@ -79,18 +98,12 @@
 {#if form}
   {#if form.success}
     <div class='thank-you'>
-      Thank you, {form.firstName}! Your information has been recorded. We look forward to partying with you soon!
-      <br />
-      <br />
-      Remember to add the event to your calendar! <strong>May 23rd, 6-9pm</strong>
-      at the
-      <a href='https://goo.gl/maps/EqUCmGdbToYN73fi7' title='Granite Tabernacle'
-      >Granite Tabernacle</a
-      >
-      in Salt Lake City.
+      Awesome! Thanks for letting us know. We're doing a little happy dance over here! If you said you'll be there, get
+      ready for some serious fun on <strong>May 23rd</strong> at <strong>6-9pm</strong> at
+      <a href='https://maps.app.goo.gl/9dEDKF2RFjoDiLwu5'>2587 N Quail Dr, Lehi</a>
+      <br>
+      We can't wait to celebrate with you! If you can't make it, we'll miss you but appreciate your love from afar!
     </div>
-
-    <CalendarEvent />
   {:else}
     <div class='message'>{form.message}</div>
   {/if}
@@ -98,22 +111,28 @@
 
 {#if !form || !form.success}
   <form id='rsvp' onsubmit={submit}>
-    <h1 class='heading'>Planning on coming?</h1>
+    <h1 class='heading'>Will you be joining us?</h1>
 
     <div class='info mb'>
-      To get an accurate head-count, please indicate how many people from your party are planning
-      to attend each event.
+      From Bumble match to Bride, it's been quite a year,
+      <br>
+      Our wedding celebration is almost here.
+      <br>
+      We're ready to party, hope you'll join the fun,
+      <br>
+      Help us headcount so there's room for everyone!
     </div>
+
+    {#if info.events.length > 1}
+      <div class='info'>
+        Let us know what events you'll be attending
+      </div>
+    {/if}
 
     <div class='info mb'>
-      Remember, the reception is on <strong>May 23rd, 6-9pm</strong> at the
-      <a href='https://goo.gl/maps/EqUCmGdbToYN73fi7' title='Granite Tabernacle'>Granite Tabernacle</a>
-      in Salt Lake City.
+      Remember, the reception is on <strong>May 23rd</strong> at <strong>6-9pm</strong> at
+      <a href='https://maps.app.goo.gl/9dEDKF2RFjoDiLwu5'>2587 N Quail Dr, Lehi</a>
     </div>
-
-    <span class='mb flex'>
-      <CalendarEvent />
-    </span>
 
     <div class='beside'>
       <input
@@ -135,24 +154,17 @@
     <div id='events'>
       {#each info.events as event (event.event)}
         <div class='event'>
-          <label class='event-label' for='events-{event.event}'>
+          <h3 class='event-label'>
             <span>{event.ev?.name}</span>
             <span class='material-symbols-outlined info-btn'
                   role='button'
                   tabindex='0'
                   aria-label='Toggle event details'
                   aria-expanded={detailsShown[event.event]}
-                  onclick={() => (detailsShown[event.event] = !!detailsShown[event.event])}
-                  onkeydown={() => (detailsShown[event.event] = !!detailsShown[event.event])}
+                  onclick={() => (detailsShown[event.event] = !detailsShown[event.event])}
+                  onkeydown={() => (detailsShown[event.event] = !detailsShown[event.event])}
             >info</span>
-          </label>
-          <input
-            class='hidden'
-            type='checkbox'
-            id='events-{event.event}'
-            name='events-{event.event}'
-            bind:checked={detailsShown[event.event]}
-          />
+          </h3>
 
           {#if detailsShown[event.event]}
             <div class='details' transition:slide|global>
@@ -204,9 +216,36 @@
       {/each}
     </div>
 
-    <button type='submit' disabled={!info.firstName || !info.lastName}>Confirm</button>
+    <label class='block'>
+      <input
+        type='checkbox'
+        onchange={toggleAllOff}
+        checked={info.events.every(event => !event.attending) && !info.events.some(event => event.outside)} />
+      Wishing you all the best, but we can't make it.
+    </label>
+
+    <label class='block' for='comment'>
+      Drop your message for the newlyweds, inside jokes, or song requests here!
+    </label>
+    <textarea
+      name='comment'
+      bind:value={info.comment}
+      placeholder={getRandomJoke()}></textarea>
+
+    <button type='submit' disabled={!info.firstName || !info.lastName}>Save My Spot!</button>
   </form>
 {/if}
+
+<div class='socials'>
+  <a href='https://www.amazon.com/wedding/registry/1UQPDX7MA8T3Q' rel='noopener noreferrer' target='_blank'>
+    <img alt='Amazon' src='https://www.svgrepo.com/show/475634/amazon-color.svg' />
+    <span>Amazon</span>
+  </a>
+  <a href='https://venmo.com/u/Savannah-Eggett' rel='noopener noreferrer' target='_blank'>
+    <img alt='Venmo' src='https://www.svgrepo.com/show/349551/venmo.svg' />
+    <span>Venmo</span>
+  </a>
+</div>
 
 <style>
   #events {
@@ -229,15 +268,6 @@
       color: var(--color-p-text);
     }
 
-    & label {
-      font-size: 1.2rem;
-      font-weight: bold;
-
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
     & input {
       text-align: center;
     }
@@ -253,6 +283,15 @@
 
     color: white;
     text-shadow: 0 0 0.25rem #111;
+  }
+
+  label {
+    font-size: 1.2rem;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   #rsvp,
@@ -271,6 +310,11 @@
     text-align: center;
   }
 
+  .event-label {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
   .name {
     margin-bottom: 1rem;
   }
@@ -284,15 +328,10 @@
     margin-bottom: 0.5rem;
   }
 
-  .flex {
-    display: flex;
-    flex-direction: column;
-  }
-
   #rsvp, .event {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 0.5rem;
   }
 
@@ -320,6 +359,7 @@
   }
 
   input:not([type='checkbox']),
+  textarea,
   button {
     position: relative;
     min-width: 5rem;
@@ -331,6 +371,11 @@
     font-size: 1rem;
     background-color: #444;
     color: white;
+  }
+
+  textarea {
+    width: min(50ch, 80%);
+    height: 5rem;
   }
 
   input::placeholder {
@@ -380,11 +425,34 @@
     justify-content: center;
   }
 
-  .details {
-    border: 1px solid #9a9a9a;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    box-shadow: 0 0 0.25rem #696969;
+  .socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    & a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+
+      padding: 1rem;
+
+      text-decoration: none;
+      color: var(--color-p-text);
+      font-size: 1.5rem;
+
+      & img {
+        width: 4rem;
+        height: 4rem;
+      }
+
+      & img[alt='Venmo'] {
+        border-radius: 0.5rem;
+        box-shadow: 0 0 0.5rem #111;
+      }
+    }
   }
 
   @keyframes rotate {

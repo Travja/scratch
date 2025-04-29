@@ -14,7 +14,8 @@ const rsvpSchema = new mongoose.Schema({
       numGuests: Number,
       outside: Boolean
     }
-  ]
+  ],
+  comment: String
 });
 
 // Schema to store picture files on the database

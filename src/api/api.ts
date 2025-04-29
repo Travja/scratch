@@ -15,6 +15,7 @@ export interface RsvpInfo {
   firstName: string;
   lastName: string;
   events: EventRsvp[];
+  comment: string;
 }
 
 export interface EventRsvp {
@@ -85,14 +86,16 @@ export const events: EventInfo[] = [
     id: 'ring-ceremony',
     name: 'Ring Ceremony',
     date: new Date('2025-05-23T16:30:00'),
-    location: 'The Church of Jesus Christ of Latter-day Saints',
+    location: '2587 N Quail Dr, Lehi',
+    mapsLink: 'https://maps.app.goo.gl/9dEDKF2RFjoDiLwu5',
     description: 'Join us in an intimate ceremony as we exchange rings and vows.'
   },
   {
     id: 'reception',
     name: 'Reception',
     date: new Date('2025-05-23T18:00:00'),
-    location: 'The Grand America Hotel',
+    location: '2587 N Quail Dr, Lehi',
+    mapsLink: 'https://maps.app.goo.gl/9dEDKF2RFjoDiLwu5',
     description: 'Join us for a night of treats, dancing, and fun as we celebrate our marriage.'
   }
 ];

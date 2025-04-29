@@ -13,7 +13,8 @@ class RsvpRepo {
       {
         firstName: 1,
         lastName: 1,
-        events: 1
+        events: 1,
+        comment: 1
       }
     );
   };

@@ -2,7 +2,7 @@ import { rsvpRepo } from '../../../api/rsvp-repo';
 import { MongoServerError } from 'mongodb';
 import { json } from '@sveltejs/kit';
 
-export async function POST({ request, cookies }) {
+export async function POST({ request }) {
   const rsvp = await request.json();
 
   console.log(rsvp);
