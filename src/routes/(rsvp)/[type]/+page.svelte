@@ -105,7 +105,7 @@
   {#if form.success}
     <div class='thank-you'>
       Awesome! Thanks for letting us know. We're doing a little happy dance over here! If you said you'll be there, get
-      ready for some serious fun on <strong>May 23rd</strong> at <strong>6-9pm</strong> at
+      ready for some serious fun on <strong>May 23rd</strong> from <strong>6-9pm</strong> at
       <a href='https://maps.app.goo.gl/9dEDKF2RFjoDiLwu5'>2587 N Quail Dr, Lehi</a>
       <br>
       We can't wait to celebrate with you! If you can't make it, we'll miss you but appreciate your love from afar!
@@ -130,13 +130,13 @@
     </div>
 
     {#if info.events.length > 1}
-      <div class='info'>
-        Let us know what events you'll be attending
+      <div class='info let-us-know'>
+        Let us know what events you'll be attending.
       </div>
     {/if}
 
     <div class='info mb'>
-      Remember, the reception is on <strong>May 23rd</strong> at <strong>6-9pm</strong> at
+      Remember, the reception is on <strong>May 23rd</strong> from <strong>6-9pm</strong> at
       <a href='https://maps.app.goo.gl/9dEDKF2RFjoDiLwu5'>2587 N Quail Dr, Lehi</a>
     </div>
 
@@ -308,6 +308,13 @@
 
   .thank-you {
     text-align: center;
+  }
+
+  .let-us-know {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5rem;
   }
 
   .heading {
