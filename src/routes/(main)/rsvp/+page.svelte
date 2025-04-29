@@ -40,9 +40,15 @@
 
     // Rather than use the form element to do the submission, we'll send it via fetch using a JSON object (the info object)
     const requestData = { ...info };
+    requestData.events = [];
     // for each of the events, we need to remove the `ev` object
-    for (let event of requestData.events) {
-      delete event.ev;
+    for (let event of info.events) {
+      requestData.events.push({
+        event: event.event,
+        attending: event.attending,
+        numGuests: event.numGuests,
+        outside: event.outside
+      });
     }
 
     // Send the request

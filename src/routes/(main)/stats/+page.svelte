@@ -59,6 +59,10 @@
       .map(e => mapName(e.event) + (e.outside ? ' (Outside)' : ''))
       .join(', ');
   };
+
+  const getCommentLines = (comment: string) => {
+    return comment.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+  };
 </script>
 
 <div id='container'>
@@ -81,7 +85,9 @@
         </span>
         {#if response.comment}
           <div class='comment'>
-            {response.comment}
+            {#each getCommentLines(response.comment) as comment}
+              <div>{comment}</div>
+            {/each}
           </div>
         {/if}
       </li>
