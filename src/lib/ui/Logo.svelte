@@ -17,7 +17,7 @@
 </script>
 
 <a class='logo' class:desktop class:phone href='/'>
-  <img alt='Sav And Wes' src='logo.png' />
+  <img alt='Sav And Wes' src='/logo.png' />
 </a>
 
 <style>
