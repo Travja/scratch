@@ -16,6 +16,10 @@ export async function POST({ request }) {
       }
     );
   }
+
+  rsvp.firstName = firstName.trim();
+  rsvp.lastName = lastName.trim();
+
   // Check that the first+last name is not already in the database
   const existingRsvp = await rsvpRepo.getData();
   const existingRsvpNames = existingRsvp.map((r) => `${r.firstName} ${r.lastName}`);
